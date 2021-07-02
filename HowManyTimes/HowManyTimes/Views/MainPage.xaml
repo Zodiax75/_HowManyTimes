@@ -1,0 +1,780 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="HowManyTimes.Views.MainPage"
+             NavigationPage.HasNavigationBar="False">
+   
+    
+    <!--<NavigationPage.TitleView>
+        <RelativeLayout>
+            <Image Source="hash1"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   Rotation="80"/>
+            <Label Text="How many times?"
+                   VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand"
+                   FontAttributes="Bold"/>
+            <Image Source="hash1" WidthRequest="28" HeightRequest="28" />
+            <Frame BackgroundColor="#FF0000" OutlineColor="White"
+                        RelativeLayout.HeightConstraint="22"
+                        RelativeLayout.WidthConstraint="22"
+                        CornerRadius="11"
+                        HorizontalOptions="Center"
+                        Padding="0"
+                        IsClippedToBounds="True"
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=14}"
+                        RelativeLayout.YConstraint="-6">
+                <StackLayout WidthRequest="22">
+                    <Label Padding="2" Text="+5" RelativeLayout.WidthConstraint="22" TextColor="White" FontSize="12" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+                </StackLayout>
+            </Frame>
+        </RelativeLayout>
+    </NavigationPage.TitleView>-->
+
+    <ContentPage.Content >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <ScrollView Margin="0,0,0,0" Grid.Row="0">
+                <Grid BackgroundColor="{StaticResource  colorGrayF4}">
+
+                    <!--Main theme picture-->
+                    <PanCake:PancakeView TranslationX="150" TranslationY="10" VerticalOptions="Start">
+                        <Image x:Name="hashImage" Source="hash1" Rotation="80" Opacity="0.1" />
+                    </PanCake:PancakeView>
+                   
+                    <!--Main grid for content-->
+                    <Grid ColumnDefinitions="*, auto, auto" RowDefinitions="auto, auto, auto, 230, auto, 330, auto, 330">
+                        <!--<sh:Shadows CornerRadius="30" Shades="{sh:SingleShade Offset='0, 7',Opacity=0.4,Color=Gray}" Margin="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
+                            <Frame BackgroundColor="{StaticResource colorWhiteF3}" CornerRadius="0" Grid.RowSpan="1" Grid.ColumnSpan="3"></Frame>
+                        </sh:Shadows>-->
+
+                        <!--<Path Grid.Row="0" Grid.RowSpan="2" 
+                            Margin="{OnPlatform Android='0,0,0,0',
+                                                iOS='20,0,0,0'}"
+                            Data="M119 240C331.4 126.8 198.167 16.8333 105 -24L-179.5 -71L-261 436.5C-222.833 418.167 -93.4 353.2 119 240Z"
+                            Fill="Red" />-->
+
+                        
+
+                        <!--Main message of the day-->
+                        <!--<Label
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="Center"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Margin="20,10,0,-10">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontSize="{OnPlatform Android='23', iOS='25'}" Text="You have total of " />
+                                    <Span
+                                        FontFamily="FontPoppinsMedium"
+                                        TextColor="{StaticResource colorOrange}"
+                                        FontSize="{OnPlatform Android='43',
+                                                              iOS='45'}"
+                                        Text="37" />
+                                    <Span
+                                        FontFamily="FontPoppinsMedium"
+                                        FontSize="{OnPlatform Android='23',
+                                                              iOS='25'}"
+                                        Text=" counters" />
+
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>-->
+
+                        <!--Section of favourite counters-->
+                        <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="20,62,0,-15" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label
+                                Grid.Column="0"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="23"
+                                Text="Favorites" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="0,0,20,0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="16"
+                                Text="Show all"
+                                TextColor="{StaticResource colorOrange}"/>
+                        </Grid>
+
+                        <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Margin="20,0,0,0" Orientation="Horizontal">
+                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
+                                <PanCake:PancakeView
+                                            Margin="0,15,15,15"
+                                            Padding="0,0,0,25"
+                                            BackgroundColor="{StaticResource colorGreen}"
+                                            CornerRadius="40"
+                                            WidthRequest="85">
+                                    <Grid RowDefinitions="auto, auto, *">
+                                        <PanCake:PancakeView
+                                                    Grid.Row="0"
+                                                    Margin="12,12,12,0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource colorWhite}"
+                                                    Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
+                                                    CornerRadius="30"
+                                                    HeightRequest="60"
+                                                    HorizontalOptions="Center"
+                                                    IsClippedToBounds="True"
+                                                    WidthRequest="60">
+                                            <Image
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="30"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Source="avatar"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="30" />
+                                        </PanCake:PancakeView>
+
+                                        <Label
+                                                        Grid.Row="1"
+                                                        FontSize="12"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="My mum called me"
+                                                        TextColor="{StaticResource colorBlack20}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                        <Label
+                                                        Grid.Row="2"
+                                                        FontSize="20"
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="12"
+                                                        TextColor="{StaticResource colorWhite}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                    </Grid>
+                                </PanCake:PancakeView>
+                            </sh:Shadows>
+
+                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
+                                <PanCake:PancakeView
+                                            Margin="0,15,15,15"
+                                            Padding="0,0,0,25"
+                                            BackgroundColor="{StaticResource colorWhite}"
+                                            CornerRadius="40"
+                                            WidthRequest="85">
+                                    <Grid RowDefinitions="auto, auto, *">
+                                        <PanCake:PancakeView
+                                                    Grid.Row="0"
+                                                    Margin="12,12,12,0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource colorWhite}"
+                                                    Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
+                                                    CornerRadius="30"
+                                                    HeightRequest="60"
+                                                    HorizontalOptions="Center"
+                                                    IsClippedToBounds="True"
+                                                    WidthRequest="60">
+                                            <Image
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="30"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Source="avatar"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="30" />
+                                        </PanCake:PancakeView>
+
+                                        <Label
+                                                        Grid.Row="1"
+                                                        FontSize="12"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="Got nasty email"
+                                                        TextColor="{StaticResource colorBlack20}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                        <Label
+                                                        Grid.Row="2"
+                                                        FontSize="20"
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="16"
+                                                        TextColor="{StaticResource colorBlack20}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                    </Grid>
+                                </PanCake:PancakeView>
+                            </sh:Shadows>
+
+                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
+                                <PanCake:PancakeView
+                                            Margin="0,15,15,15"
+                                            Padding="0,0,0,25"
+                                            BackgroundColor="{StaticResource colorWhite}"
+                                            CornerRadius="40"
+                                            WidthRequest="85">
+                                    <Grid RowDefinitions="auto, auto, *">
+                                        <PanCake:PancakeView
+                                                    Grid.Row="0"
+                                                    Margin="12,12,12,0"
+                                                    Padding="0"
+                                                    BackgroundColor="{StaticResource colorWhite}"
+                                                    Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
+                                                    CornerRadius="30"
+                                                    HeightRequest="60"
+                                                    HorizontalOptions="Center"
+                                                    IsClippedToBounds="True"
+                                                    WidthRequest="60">
+                                            <Image
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="30"
+                                                        HorizontalOptions="CenterAndExpand"
+                                                        Source="avatar"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="30" />
+                                        </PanCake:PancakeView>
+
+                                        <Label
+                                                        Grid.Row="1"
+                                                        FontSize="12"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="Got nasty email"
+                                                        TextColor="{StaticResource colorBlack20}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                        <Label
+                                                        Grid.Row="2"
+                                                        FontSize="20"
+                                                        FontAttributes="Bold"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        HorizontalTextAlignment="Center"
+                                                        Text="16"
+                                                        TextColor="{StaticResource colorBlack20}"
+                                                        VerticalOptions="EndAndExpand" />
+
+                                    </Grid>
+                                </PanCake:PancakeView>
+                            </sh:Shadows>
+
+                        </StackLayout>
+
+                        <!--Section of categories-->
+                        <Grid Grid.Row="4" Grid.ColumnSpan="3" Margin="20,62,0,-15" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label
+                                Grid.Column="0"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="23"
+                                Text="Categories" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="0,0,20,0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="16"
+                                Text="Show all"
+                                TextColor="{StaticResource colorOrange}"/>
+                        </Grid>
+                        
+                        <StackLayout Grid.Row="5" Grid.ColumnSpan="3" Margin="20,30,0,0" Orientation="Horizontal">
+                            <PanCake:PancakeView
+                                        Margin="0,8,0,-10"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        Opacity="1"
+                                        WidthRequest="165">
+                                <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                    <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="language"
+                                                WidthRequest="16" />
+                                    <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="2564 Calories"
+                                                VerticalOptions="Center" />
+                                    <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="True"
+                                                WidthRequest="18" />
+                                    <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="hash1"
+                                                WidthRequest="136" />
+                                    <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,-10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Category name" />
+                                    <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="12"
+                                                LineBreakMode="TailTruncation"
+                                                Text="Category description which might be long" />
+                                    <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Counters: 14"
+                                                VerticalOptions="Center" />
+                                </Grid>
+
+                            </PanCake:PancakeView>
+
+                            <PanCake:PancakeView
+                                        Margin="0,8,0,-10"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        Opacity="1"
+                                        WidthRequest="165">
+                                <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                    <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="language"
+                                                WidthRequest="16" />
+                                    <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="2564 Calories"
+                                                VerticalOptions="Center" />
+                                    <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="True"
+                                                WidthRequest="18" />
+                                    <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="hash1"
+                                                WidthRequest="136" />
+                                    <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,-10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Category name" />
+                                    <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="12"
+                                                LineBreakMode="TailTruncation"
+                                                Text="Category description which might be long" />
+                                    <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Counters: 14"
+                                                VerticalOptions="Center" />
+                                </Grid>
+
+                            </PanCake:PancakeView>
+                        </StackLayout>
+
+
+                        <!--Last updated section-->
+                        <Grid Grid.Row="6" Grid.ColumnSpan="3" Margin="20,62,0,-15" RowDefinitions="Auto" ColumnDefinitions="Auto,*">
+                            <Label
+                                Grid.Column="0"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="23"
+                                Text="Last updated" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="0,0,20,0"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                FontFamily="FontPoppinsMedium"
+                                FontSize="16"
+                                Text="Show all"
+                                TextColor="{StaticResource colorOrange}"/>
+                        </Grid>
+                        
+                        <StackLayout Grid.Row="7" Grid.ColumnSpan="3" Margin="20,30,0,0" Orientation="Horizontal">
+                            <PanCake:PancakeView
+                                        Margin="0,8,0,-10"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        Opacity="1"
+                                        WidthRequest="165">
+                                <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                    <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="language"
+                                                WidthRequest="16" />
+                                    <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="2564 Calories"
+                                                VerticalOptions="Center" />
+                                    <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="True"
+                                                WidthRequest="18" />
+                                    <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="hash1"
+                                                WidthRequest="136" />
+                                    <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,-10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Category name" />
+                                    <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="12"
+                                                LineBreakMode="TailTruncation"
+                                                Text="Category description which might be long" />
+                                    <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Counters: 14"
+                                                VerticalOptions="Center" />
+                                </Grid>
+
+                            </PanCake:PancakeView>
+
+                            <PanCake:PancakeView
+                                        Margin="0,8,0,-10"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        Opacity="1"
+                                        WidthRequest="165">
+                                <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                    <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="language"
+                                                WidthRequest="16" />
+                                    <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="2564 Calories"
+                                                VerticalOptions="Center" />
+                                    <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="True"
+                                                WidthRequest="18" />
+                                    <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="hash1"
+                                                WidthRequest="136" />
+                                    <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,-10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Category name" />
+                                    <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="12"
+                                                LineBreakMode="TailTruncation"
+                                                Text="Category description which might be long" />
+                                    <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="Counters: 14"
+                                                VerticalOptions="Center" />
+                                </Grid>
+
+                            </PanCake:PancakeView>
+                        </StackLayout>
+                    </Grid>
+                    <!--
+                        <CollectionView
+                            x:Name="listItems"
+                            Grid.Row="3"
+                            Grid.ColumnSpan="3"
+                            Margin="20,30,0,0"
+                            HorizontalScrollBarVisibility="Never"
+                            ItemsSource="{Binding Items}"
+                            SelectionMode="Single">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="20" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <pancake:PancakeView
+                                        Margin="0,8"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        HasShadow="False"
+                                        WidthRequest="165">
+                                        <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="calories"
+                                                WidthRequest="16" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding calories, StringFormat='{0} Calories'}"
+                                                VerticalOptions="Center" />
+                                            <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="{Binding favorite}"
+                                                WidthRequest="18" />
+                                            <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding image}"
+                                                WidthRequest="136" />
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,-10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="{Binding description}" />
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="14"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding complement}" />
+                                            <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="22"
+                                                Text="{Binding price, StringFormat='${0}'}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                        <pancake:PancakeView.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Path=BindingContext.NavigateToDetailPageCommand, Source={x:Reference listItems}}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </pancake:PancakeView.GestureRecognizers>
+                                    </pancake:PancakeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Label
+                            Grid.Row="4"
+                            Grid.ColumnSpan="3"
+                            Margin="20,22,0,22"
+                            FontFamily="FontPoppinsMedium"
+                            FontSize="23"
+                            Text="Popular" />
+                        <CollectionView
+                            Grid.Row="5"
+                            Grid.ColumnSpan="3"
+                            Margin="20,0,0,20"
+                            HorizontalScrollBarVisibility="Never"
+                            ItemsSource="{Binding Items}"
+                            SelectionMode="Single">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout ItemSpacing="20" Orientation="Horizontal" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <pancake:PancakeView
+                                        Margin="0,8"
+                                        Padding="15"
+                                        BackgroundColor="{StaticResource colorWhiteF3}"
+                                        CornerRadius="18"
+                                        HasShadow="False"
+                                        WidthRequest="165">
+                                        <Grid
+                                            ColumnDefinitions="auto, *, auto"
+                                            RowDefinitions="auto, auto, auto, auto, auto"
+                                            RowSpacing="0">
+                                            <Image
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                HeightRequest="16"
+                                                HorizontalOptions="Start"
+                                                Source="calories"
+                                                WidthRequest="16" />
+                                            <Label
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                FontSize="Small"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding calories, StringFormat='{0} Calories'}"
+                                                VerticalOptions="Center" />
+                                            <Path
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="0,0,2,0"
+                                                Aspect="Uniform"
+                                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
+                                                Fill="{StaticResource colorGray6F}"
+                                                HeightRequest="18"
+                                                IsVisible="{Binding favorite}"
+                                                WidthRequest="18" />
+                                            <Image
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,20"
+                                                HeightRequest="136"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding image}"
+                                                WidthRequest="136" />
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="3"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="18"
+                                                Text="{Binding description}" />
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="3"
+                                                FontSize="14"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding complement}" />
+                                            <Label
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="3"
+                                                Margin="0,10,0,0"
+                                                FontFamily="FontPoppinsMedium"
+                                                FontSize="22"
+                                                Text="{Binding price, StringFormat='${0}'}"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </pancake:PancakeView>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </Grid>-->
+                </Grid>
+            </ScrollView>
+
+            <!--Search bar-->
+            <StackLayout Spacing="5" Grid.Row="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="Start" >
+                <sh:Shadows CornerRadius="20" Shades="{sh:SingleShade Offset='0, 7',Opacity=0.4,Color=Gray}" Margin="10">
+                    <Frame CornerRadius="30" Margin="0,0,0,0" Padding="0" OutlineColor="DarkGray" HorizontalOptions="FillAndExpand"  VerticalOptions="Center">
+                        <SearchBar x:Name="searchBar" Placeholder="Search" PlaceholderColor="LightGray" TextColor="#000000" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontSize="Medium" />
+                    </Frame>
+                </sh:Shadows>
+            </StackLayout>
+
+            <sh:Shadows Grid.Row="0" CornerRadius="35" Shades="{sh:SingleShade Offset='0, 10',Opacity=0.7,Color=Gray}" Margin="10">
+                <Button Grid.Row="0" FontSize="31" Text="+" BorderColor="{StaticResource colorDarkOrange}" BorderWidth="1" FontAttributes="Bold" BackgroundColor="{StaticResource colorOrange}" BorderRadius="35" TextColor="White" HorizontalOptions="End" WidthRequest="60" HeightRequest="60" Margin="0,0,20,22" VerticalOptions="End"
+                        Clicked="OnNewCounterClicked"/>
+            </sh:Shadows>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

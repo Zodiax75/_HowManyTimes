@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HowManyTimes.App">
+    <Application.Resources>
+        <!--Navigation bar colors-->
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="#7ed1b5"/>
+            <Setter Property="BarTextColor" Value="White" />
+        </Style>
+        
+
+        <!-- Colors -->
+        <Color x:Key="colorOrange">#FF8920</Color>
+        <Color x:Key="colorDarkOrange">#ed7307</Color>
+        <Color x:Key="colorGrayF4">#F4F4F4</Color>
+        <Color x:Key="colorGray6F">#6F6F6F</Color>
+        <Color x:Key="colorGrayE0">#E0E0E0</Color>
+        <Color x:Key="colorWhite">#FFFFFF</Color>
+        <Color x:Key="colorWhiteF3">#F3F8FC</Color>
+        <Color x:Key="colorBlack20">#202020</Color>
+        <Color x:Key="colorLightGreen">#c5fced</Color>
+        <Color x:Key="colorGreen">#7ed1b5</Color>
+                
+        <!--Fonts-->
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="FontPoppinsRegular" />
+            <Setter Property="TextColor" Value="#272727" />
+        </Style>
+    </Application.Resources>
+</Application>
