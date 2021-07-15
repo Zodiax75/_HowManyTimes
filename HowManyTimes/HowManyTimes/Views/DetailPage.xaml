@@ -50,6 +50,7 @@
                                         iOS='30,0,0,30'}"
                     ColumnDefinitions=".3*, .7*"
                     RowDefinitions="auto, auto, auto, auto, 80, auto, 140, *">
+                    <!--Back button-->
                     <Image
                         Grid.Row="0"
                         Grid.Column="0"
@@ -58,20 +59,8 @@
                         HorizontalOptions="StartAndExpand"
                         Source="arrow_left"
                         WidthRequest="22">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding PopDetailPageCommand}" NumberOfTapsRequired="1" />
-                        </Image.GestureRecognizers>
                     </Image>
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="{OnPlatform Android='5,0,0,0',
-                                            iOS='30'}"
-                        FontFamily="FontPoppinsMedium"
-                        FontSize="17"
-                        Text="{Binding Item.description}"
-                        TextColor="{StaticResource colorWhite}"
-                        VerticalTextAlignment="Center" />
+                    
                     <sh:Shadows
                         Grid.Row="1"
                         Grid.Column="0"
@@ -85,6 +74,7 @@
                                                      Opacity=0.15,
                                                      Color={StaticResource colorBlack20}}"
                         WidthRequest="48">
+                        <!--Favourite icon and text-->
                         <Grid>
                             <BoxView
                                 BackgroundColor="{StaticResource colorWhite}"
@@ -104,13 +94,67 @@
                             <Path
                                 Aspect="Uniform"
                                 Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
-                                Fill="{StaticResource colorGray6F}"
+                                Fill="gray"
                                 HeightRequest="18"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
                                 WidthRequest="18" />
                         </Grid>
                     </sh:Shadows>
+                    <!--Delete button-->
+                    <sh:Shadows
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Margin="0,30,0,0"
+                        CornerRadius="20"
+                        HorizontalOptions="Start"
+                        Shades="{sh:SingleShade BlurRadius=15,
+                                                     Offset='10,10',
+                                                     Opacity=0.15,
+                                                     Color={StaticResource colorBlack20}}">
+                        <PanCake:PancakeView
+                            Padding="5"
+                            BackgroundColor="{StaticResource colorWhite}"
+                            CornerRadius="20"
+                            HeightRequest="30"
+                            HorizontalOptions="Start"
+                            WidthRequest="100">
+                            <Grid ColumnDefinitions="*, auto,10">
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="0,0,5,0"
+                                    HeightRequest="14"
+                                    Source="trash"
+                                    VerticalOptions="Center"
+                                    WidthRequest="14" />
+                                <Label
+                                    Grid.Column="1"
+                                    Margin="0,2,0,0"
+                                    FontFamily="FontPoppinsSemiBold"
+                                    FontSize="14"
+                                    Text="Delete"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand"/>
+                                
+                            </Grid>
+                        </PanCake:PancakeView>
+                    </sh:Shadows>
+                    
+                    <!--Counter name and description-->
+                    <Label
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="0,50,0,15"
+                        FontFamily="FontPoppinsMedium"
+                        FontSize="20"
+                        Text="Got nasty email"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,20,0"
+                        FontSize="Small"
+                        Text="How many times I got a nasty email from someone which pissed me off." />
                 </Grid>
             </Grid>
         </ScrollView>
