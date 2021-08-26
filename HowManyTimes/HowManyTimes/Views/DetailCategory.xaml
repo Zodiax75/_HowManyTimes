@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
-             x:Class="HowManyTimes.Views.DetailPage"
+             x:Class="HowManyTimes.Views.DetailCategory"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <ScrollView>
@@ -42,9 +42,9 @@
                                                       iOS='380'}" />
                     </PanCake:PancakeView>
                 </sh:Shadows>
-                
-                
-                
+
+
+
                 <Grid
                     Margin="{OnPlatform Android='30,20,0,30',
                                         iOS='30,0,0,30'}"
@@ -75,7 +75,7 @@
                                                      Opacity=0.15,
                                                      Color={StaticResource colorBlack20}}"
                         WidthRequest="48">
-                        
+
                         <Grid>
                             <BoxView
                                 BackgroundColor="{StaticResource colorWhite}"
@@ -102,7 +102,7 @@
                                 WidthRequest="18" />
                         </Grid>
                     </sh:Shadows>
-                    
+
                     <!--Delete button-->
                     <sh:Shadows
                         Grid.Row="2"
@@ -186,10 +186,10 @@
                                         18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,
                                         21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,
                                         18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Fill="Black"
-                                  /> 
+                                  />
                         </Grid>
                     </sh:Shadows>
-                    
+
                     <!--Counter name and description-->
                     <Label
                         Grid.Row="3"
@@ -197,7 +197,7 @@
                         Margin="0,50,0,15"
                         FontFamily="FontPoppinsMedium"
                         FontSize="20"
-                        Text="{Binding Title}"
+                        Text="Got nasty email"
                         VerticalOptions="Center" />
                     <Label
                         Grid.Row="4"
@@ -205,44 +205,7 @@
                         Margin="0,0,20,0"
                         FontSize="Small"
                         Text="How many times I got a nasty email from someone which pissed me off." />
-                
-                    <!--Counter with button-->
-                    <Label
-                        Grid.Row="5"
-                        Grid.ColumnSpan="2"
-                        Margin="0,0,0,0"
-                        FontFamily="FontPoppinsMedium"
-                        FontSize="20"
-                        Text="Counter"
-                        VerticalOptions="Center" />
-                    <PanCake:PancakeView
-                                Grid.Row="6"
-                                Padding="5"
-                                BackgroundColor="{StaticResource colorWhiteF3}"
-                                CornerRadius="20"
-                                HeightRequest="50"
-                                HorizontalOptions="Start"
-                        >
-                        <Grid ColumnDefinitions="Auto">
-                            <Label
-                                Text="Ahoj bejby"
-                                Padding="10,30,10,30">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span
-                                            FontFamily="FontPoppinsMedium"
-                                            FontSize="{OnPlatform Android='33',
-                                                                  iOS='35'}"
-                                            Text="112" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding TapCommandSingle}" NumberOfTapsRequired="1"/>
-                                    <TapGestureRecognizer Command="{Binding TapCommand}" NumberOfTapsRequired="2"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </Grid>
-                    </PanCake:PancakeView>
+
                 </Grid>
             </Grid>
         </ScrollView>

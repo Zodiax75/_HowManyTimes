@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using HowManyTimes.ViewModels;
 
 namespace HowManyTimes.Views
 {
@@ -14,23 +15,11 @@ namespace HowManyTimes.Views
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = new MainPageViewModel();
         }
 
-        async void OnNewCounterClicked(object sender, EventArgs e)
+        public async void OnNewCounterClicked(object sender, EventArgs e)
         {
-            MainThread.InvokeOnMainThreadAsync(async () => await AnimateMe());
-        }
-
-        private async Task AnimateMe()
-        {
-            new Animation
-        {
-            { 0.5, 0.8, new Animation(v => hashImage.FadeTo(0)) },
-            { 0.99, 1, new Animation(v => hashImage.IsVisible = false) }
-        }.Commit(this, "leftArrowTransitionAnimation", 60, 350, Easing.Linear);
-
-            await Task.Delay(750);
-
             await Application.Current.MainPage.Navigation.PushAsync(new DetailPage(), false);
         }
     }

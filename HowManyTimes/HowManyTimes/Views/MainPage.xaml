@@ -48,7 +48,7 @@
 
                     <!--Main theme picture-->
                     <PanCake:PancakeView TranslationX="150" TranslationY="10" VerticalOptions="Start">
-                        <Image x:Name="hashImage" Source="hash1" Rotation="80" Opacity="0.1" />
+                        <Image x:Name="HashImage" Source="hash1" Rotation="80" Opacity="0.1" />
                     </PanCake:PancakeView>
                    
                     <!--Main grid for content-->
@@ -765,7 +765,7 @@
             <StackLayout Spacing="5" Grid.Row="0"  HorizontalOptions="CenterAndExpand" VerticalOptions="Start" >
                 <sh:Shadows CornerRadius="20" Shades="{sh:SingleShade Offset='0, 7',Opacity=0.4,Color=Gray}" Margin="10">
                     <Frame CornerRadius="30" Margin="0,0,0,0" Padding="0" OutlineColor="DarkGray" HorizontalOptions="FillAndExpand"  VerticalOptions="Center">
-                        <SearchBar x:Name="searchBar" Placeholder="Search" PlaceholderColor="LightGray" TextColor="#000000" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontSize="Medium" />
+                        <SearchBar x:Name="SearchBar" Placeholder="Search" PlaceholderColor="LightGray" TextColor="#000000" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontSize="Medium" />
                     </Frame>
                 </sh:Shadows>
             </StackLayout>
