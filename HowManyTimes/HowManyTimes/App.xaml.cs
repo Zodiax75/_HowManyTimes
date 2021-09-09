@@ -3,6 +3,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using HowManyTimes.Views;
 using HowManyTimes.Services;
+using HowManyTimes.Models;
+using System.Collections.Generic;
 
 namespace HowManyTimes
 {
@@ -18,9 +20,10 @@ namespace HowManyTimes
             MainPage = new NavigationPage(new MainPage());
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
-            _ = DBService.Database;
+            Category categories = await DBService.GetCategory(2);
+            string s = categories.ToString();
         }
 
         protected override void OnSleep()
