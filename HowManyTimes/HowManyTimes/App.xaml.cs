@@ -20,10 +20,8 @@ namespace HowManyTimes
             MainPage = new NavigationPage(new MainPage());
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
-            Category categories = await DBService.GetCategory(2);
-            string s = categories.ToString();
         }
 
         protected override void OnSleep()
