@@ -4,9 +4,15 @@
              xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:converter="clr-namespace:HowManyTimes.Services"
              x:Class="HowManyTimes.Views.MainPage"
              NavigationPage.HasNavigationBar="False">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content >
         <Grid>
@@ -244,19 +250,15 @@
                                             ColumnDefinitions="auto, *, auto"
                                             RowDefinitions="auto, auto, auto, auto, auto"
                                             RowSpacing="0">
-                                            <Image
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                HeightRequest="16"
-                                                HorizontalOptions="Start"
-                                                Source="language"
-                                                WidthRequest="16" />
+                                            <!--Favorite icon-->
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
-                                                FontSize="Small"
+                                                FontSize="21"
                                                 HorizontalOptions="StartAndExpand"
-                                                Text="2564 Calories"
+                                                Text="&#xf005;"
+                                                FontFamily="FontAwesome5Regular"
+                                                TextColor="{Binding Favorite, Converter={StaticResource favoriteIconConverter}}"
                                                 VerticalOptions="Center" />
                                             <Path
                                                 Grid.Row="0"
@@ -651,7 +653,11 @@
 
             <!--Add new counter button-->
             <sh:Shadows Grid.Row="0" CornerRadius="35" Shades="{sh:SingleShade Offset='0, 10',Opacity=0.7,Color=Gray}" Margin="10">
-                <Button Grid.Row="0" FontSize="31" Text="+" BorderColor="{StaticResource colorDarkOrange}" BorderWidth="1" FontAttributes="Bold" BackgroundColor="{StaticResource colorOrange}" BorderRadius="35" TextColor="White" HorizontalOptions="End" WidthRequest="60" HeightRequest="60" Margin="0,0,20,22" VerticalOptions="End"
+                <Button Grid.Row="0"
+                        FontSize="31"
+                        Text="&#xf067;"
+                        FontFamily="FontAwesome5Regular"
+                        BorderColor="{StaticResource colorDarkOrange}" BorderWidth="1" FontAttributes="Bold" BackgroundColor="{StaticResource colorOrange}" BorderRadius="35" TextColor="White" HorizontalOptions="End" WidthRequest="60" HeightRequest="60" Margin="0,0,20,22" VerticalOptions="End"
                         Clicked="OnNewCounterClicked"/>
             </sh:Shadows>
         </Grid>

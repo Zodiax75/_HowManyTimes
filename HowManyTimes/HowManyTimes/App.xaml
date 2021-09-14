@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HowManyTimes.App">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                x:Class="HowManyTimes.App">
     <Application.Resources>
         <!--Navigation bar colors-->
         <Style TargetType="NavigationPage">
             <Setter Property="BarBackgroundColor" Value="#7ed1b5"/>
             <Setter Property="BarTextColor" Value="White" />
         </Style>
-        
 
         <!-- Colors -->
         <Color x:Key="colorOrange">#FF8920</Color>
@@ -21,7 +20,7 @@
         <Color x:Key="colorBlack20">#202020</Color>
         <Color x:Key="colorLightGreen">#c5fced</Color>
         <Color x:Key="colorGreen">#7ed1b5</Color>
-                
+
         <!--Fonts-->
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="FontPoppinsRegular" />
