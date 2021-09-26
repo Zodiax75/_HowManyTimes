@@ -1,9 +1,7 @@
 ﻿using HowManyTimes.Models;
 using SQLite;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -11,7 +9,7 @@ namespace HowManyTimes.Services
 {
     public static class DBService
     {
-    #region Methods
+        #region Methods
         /// <summary>
         /// Inserts item into a database table
         /// </summary>
@@ -20,11 +18,6 @@ namespace HowManyTimes.Services
         /// <returns></returns>
         public static async Task InsertData<T>(T Item)
         {
-            // create tables if needed
-            // TODO: vyřešit založení tabulek při prvním spuštění!
-            // await Database.CreateTableAsync<BaseCounter>().ConfigureAwait(false);
-            // await Database.CreateTableAsync<Category>().ConfigureAwait(false);
-
             // insert into db
             _ = await Database.InsertAsync(Item).ConfigureAwait(false);
         }
@@ -99,10 +92,10 @@ namespace HowManyTimes.Services
         /// Returns local database handler
         /// </summary>
         public static SQLiteAsyncConnection Database
-    {
-        get
+        {
+            get
             {
-                if(db is null)
+                if (db is null)
                 {
                     var databasePath = Path.Combine(FileSystem.AppDataDirectory, "HMTData.db");
                     db = new SQLiteAsyncConnection(databasePath);

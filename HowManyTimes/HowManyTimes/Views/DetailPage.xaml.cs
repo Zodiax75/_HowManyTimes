@@ -1,6 +1,4 @@
 ﻿using HowManyTimes.ViewModels;
-using System;
-using System.Windows.Input;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

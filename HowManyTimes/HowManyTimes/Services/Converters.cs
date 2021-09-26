@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace HowManyTimes.Services
@@ -8,7 +6,7 @@ namespace HowManyTimes.Services
     /// <summary>
     /// Converter for favorite icon background
     /// </summary>
-    public class FavoriteIconConverter: IValueConverter
+    public class FavoriteIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

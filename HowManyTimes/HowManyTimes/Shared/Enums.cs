@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HowManyTimes.Shared
+﻿namespace HowManyTimes.Shared
 {
     /// <summary>
     /// Possible types of counters

@@ -1,7 +1,6 @@
 ﻿using HowManyTimes.Models;
 using HowManyTimes.Services;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 
 namespace HowManyTimes.ViewModels

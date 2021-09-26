@@ -1,9 +1,6 @@
-﻿using System;
-using HowManyTimes.Shared;
-using HowManyTimes.Models;
-using System.Collections.Generic;
-using System.Text;
+﻿using HowManyTimes.Shared;
 using SQLite;
+using System;
 
 namespace HowManyTimes.Models
 {
@@ -79,22 +76,22 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Is counter marked as favorite?
         /// </summary>
-        public bool Favorite {get; set; }
+        public bool Favorite { get; set; }
         /// <summary>
         /// Category of the counter
         /// </summary>
         [Indexed]
-        public Category CounterCategory { get; set;}
+        public Category CounterCategory { get; set; }
 
         /// <summary>
         /// Step by which counter will be increased
         /// </summary>
-        public uint Step { get; set;}
+        public uint Step { get; set; }
         /// <summary>
         /// Date and time counter was created
         /// </summary>
         public DateTime DateCreated
-        { get => dateCreated;}
+        { get => dateCreated; }
         /// <summary>
         /// Date and time counter was last modified
         /// </summary>
@@ -113,7 +110,7 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Type of the counter using CounterType
         /// </summary>
-        public CounterType Type { get; set;}
+        public CounterType Type { get; set; }
 
         /// <summary>
         /// Internal counter

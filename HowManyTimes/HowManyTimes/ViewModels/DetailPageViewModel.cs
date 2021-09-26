@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HowManyTimes.ViewModels
 {
     public class DetailPageViewModel : BaseViewModel
     {
-    // NOTE: No OnPropertyChanges calls for setters as FODY is implemented in background!
+        // NOTE: No OnPropertyChanges calls for setters as FODY is implemented in background!
 
         #region Constructor
         public DetailPageViewModel()

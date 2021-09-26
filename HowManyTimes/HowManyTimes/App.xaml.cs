@@ -1,10 +1,5 @@
-﻿using System;
+﻿using HowManyTimes.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using HowManyTimes.Views;
-using HowManyTimes.Services;
-using HowManyTimes.Models;
-using System.Collections.Generic;
 
 namespace HowManyTimes
 {

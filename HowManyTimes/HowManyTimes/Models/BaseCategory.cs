@@ -1,7 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HowManyTimes.Models
 {
@@ -26,12 +23,12 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Name of the category
         /// </summary>
-        public string Name { get; set;}
+        public string Name { get; set; }
 
         /// <summary>
         /// Description of the category
         /// </summary>
-        public string Description { get; set;}
+        public string Description { get; set; }
         #endregion
 
         #region Private properties

@@ -1,5 +1,15 @@
-using Xamarin.Forms.Xaml;
+//TODO: 1) zobrazeni poctu counteru v kategorii
+//TODO: 2) dlouhe podrzeni plus = otevri submenu (zaloz counter, zaloz kategorii)
+//TODO: 3) vyøešit založení tabulek pøi prvním spuštìní!
+//               await Database.CreateTableAsync<BaseCounter>().ConfigureAwait(false);
+//               await Database.CreateTableAsync<Category>().ConfigureAwait(false);
+
+
+
+
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
