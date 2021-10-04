@@ -1,5 +1,8 @@
-﻿using HowManyTimes.Views;
+﻿using HowManyTimes.Services;
+using HowManyTimes.Views;
+using System;
 using Xamarin.Forms;
+using HowManyTimes.Models;
 
 namespace HowManyTimes
 {
@@ -8,6 +11,9 @@ namespace HowManyTimes
         public App()
         {
             InitializeComponent();
+
+            // set log message repository
+            LogService.LogRepository = Shared.LogRepository.None;
 
             Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
             Device.SetFlags(new string[] { "Shapes_Experimental" });

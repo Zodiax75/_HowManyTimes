@@ -1,5 +1,8 @@
 ﻿using HowManyTimes.Models;
 using HowManyTimes.Services;
+using HowManyTimes.Shared;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 
@@ -18,8 +21,17 @@ namespace HowManyTimes.ViewModels
         #region Methods
         private async void GetCategories()
         {
+            List<Category> tmpList = new List<Category>();
+
             // Load 10 favorite categories
-            var tmpList = await DBService.GetCategory(true, 10);
+            try
+            {
+                tmpList = await DBService.GetCategory(true, 10);
+            }
+            catch (Exception ex)
+            {
+                LogService.Log(LogType.Error, ex.Message);
+            }
 
             // convert them into Observable collection before binding
             FavoriteCategories = new ObservableCollection<Category>(tmpList);

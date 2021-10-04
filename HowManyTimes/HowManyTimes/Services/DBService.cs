@@ -1,5 +1,7 @@
 ﻿using HowManyTimes.Models;
 using SQLite;
+using SQLiteNetExtensionsAsync.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -21,7 +23,6 @@ namespace HowManyTimes.Services
             // insert into db
             _ = await Database.InsertAsync(Item).ConfigureAwait(false);
         }
-
         /// <summary>
         /// Updates specific object in the database
         /// </summary>
@@ -72,8 +73,9 @@ namespace HowManyTimes.Services
         /// <returns>category object</returns>
         public static async Task<Category> GetCategory(int id)
         {
-            Category cat = await Database.Table<Category>().FirstOrDefaultAsync(c => c.Id == id).ConfigureAwait(false);
-            return cat;
+            //Category cat = await Database.Table<Category>().FirstOrDefaultAsync(c => c.Id == id).ConfigureAwait(false);
+            //return cat;
+            return (null);
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace HowManyTimes.Services
         /// <returns></returns>
         public static async Task DeleteCategory(int id)
         {
-            await Database.DeleteAsync<Category>(id);
+            //await Database.DeleteAsync<Category>(id);
         }
         #endregion
 
@@ -97,8 +99,19 @@ namespace HowManyTimes.Services
             {
                 if (db is null)
                 {
-                    var databasePath = Path.Combine(FileSystem.AppDataDirectory, "HMTData.db");
-                    db = new SQLiteAsyncConnection(databasePath);
+                    try
+                    {
+                        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "HMTData.db");
+                        db = new SQLiteAsyncConnection(databasePath);
+
+                        // Init tables if dont exist yet
+                        db.CreateTableAsync<Category>().Wait();
+                        db.CreateTableAsync<BaseCounter>().Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogService.Log(Shared.LogType.Error, ex.Message);
+                    }
                 }
                 return db;
             }

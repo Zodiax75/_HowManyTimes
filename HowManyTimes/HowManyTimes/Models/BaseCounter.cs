@@ -1,5 +1,6 @@
 ﻿using HowManyTimes.Shared;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 
 namespace HowManyTimes.Models
@@ -80,7 +81,7 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Category of the counter
         /// </summary>
-        [Indexed]
+        [OneToOne("CategoryCounterId")]
         public Category CounterCategory { get; set; }
 
         /// <summary>
