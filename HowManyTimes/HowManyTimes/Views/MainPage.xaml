@@ -296,9 +296,10 @@
                                                 Grid.ColumnSpan="3"
                                                 Margin="0,10,0,0"
                                                 FontFamily="FontPoppinsMedium"
-                                                FontSize="18"
-                                                Text="Counters: 14"
-                                                VerticalOptions="Center" />
+                                                FontSize="14"
+                                                VerticalOptions="Center"
+                                                Text="{Binding Counters, StringFormat='Counters: {0}'}"
+                                                />
                                         </Grid>
                                     </PanCake:PancakeView>
                                 </DataTemplate>

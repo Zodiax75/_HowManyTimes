@@ -40,7 +40,7 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Number of counters within this category
         /// </summary>
-        public int Counters {  get; set; }
+        public int Counters { get; set; }
         #endregion
 
         #region Private properties
