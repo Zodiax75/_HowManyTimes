@@ -250,7 +250,7 @@
                                             ColumnDefinitions="auto, *, auto"
                                             RowDefinitions="auto, auto, auto, auto, auto"
                                             RowSpacing="0">
-                                            <!--Favorite icon-->
+                                            <!--Favorite icon section -->
                                             <Label
                                                 Grid.Row="0"
                                                 Grid.Column="1"
