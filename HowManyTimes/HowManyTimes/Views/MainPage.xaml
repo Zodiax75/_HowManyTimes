@@ -233,10 +233,13 @@
                             Margin="20,30,0,0"
                             HorizontalScrollBarVisibility="Never"
                             ItemsSource="{Binding FavoriteCategories}"
-                            SelectionMode="None">
+                            SelectionMode="Single"
+                            SelectedItem="{Binding CategorySelected}">
+
                             <CollectionView.ItemsLayout>
                                 <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
                             </CollectionView.ItemsLayout>
+
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <PanCake:PancakeView
@@ -246,6 +249,18 @@
                                         CornerRadius="18"
                                         Opacity="1"
                                         WidthRequest="165">
+                                        <!--Set background color for selected items to the same color to pretend transparency-->
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup Name="CommonStates">
+                                                <VisualState Name="Normal" />
+                                                <VisualState Name="Selected">
+                                                    <VisualState.Setters>
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource colorWhiteF3}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+
                                         <Grid
                                             ColumnDefinitions="auto, *, auto"
                                             RowDefinitions="auto, auto, auto, auto, auto"

@@ -13,7 +13,7 @@ namespace HowManyTimes
             InitializeComponent();
 
             // set log message repository
-            LogService.LogRepository = Shared.LogRepository.None;
+            LogService.LogRepository = Shared.LogRepository.Console;
 
             Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
             Device.SetFlags(new string[] { "Shapes_Experimental" });

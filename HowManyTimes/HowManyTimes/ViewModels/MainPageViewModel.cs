@@ -1,10 +1,11 @@
 ﻿using HowManyTimes.Models;
 using HowManyTimes.Services;
 using HowManyTimes.Shared;
+using HowManyTimes.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using Xamarin.Forms;
 
 namespace HowManyTimes.ViewModels
 {
@@ -43,10 +44,28 @@ namespace HowManyTimes.ViewModels
         /// List of favourite categories (limited to 10)
         /// </summary>
         public ObservableCollection<Category> FavoriteCategories { get; set; }
+
+        /// <summary>
+        /// Selected category in the list
+        /// </summary>
+        public Category CategorySelected
+        {
+            get { return (categorySelected); }
+            set
+            {
+                categorySelected = value;
+
+                if (categorySelected != null)
+                {
+                    // redirect to detail page passing id of the category to show
+                    Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(categorySelected.Id), false);
+                }
+            }
+        }
         #endregion
 
         #region Private properties
-
+        private Category categorySelected = null;
         #endregion
     }
 }

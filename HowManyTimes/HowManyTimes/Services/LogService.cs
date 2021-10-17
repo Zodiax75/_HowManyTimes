@@ -1,4 +1,5 @@
 ﻿using HowManyTimes.Shared;
+using System.Diagnostics;
 
 namespace HowManyTimes.Services
 {
@@ -18,6 +19,11 @@ namespace HowManyTimes.Services
             {
                 // do nothing, no log
                 case LogRepository.None:
+                    return;
+                case LogRepository.Console:
+                    Debug.WriteLine(message);
+                    break;
+                default:
                     return;
             }
         }
