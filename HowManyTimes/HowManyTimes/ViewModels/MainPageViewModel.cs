@@ -27,6 +27,7 @@ namespace HowManyTimes.ViewModels
             // Load 10 favorite categories
             try
             {
+                LogService.Log(LogType.Info, "Loading favorite categories for main page");
                 tmpList = await DBService.GetCategory(true, 10);
             }
             catch (Exception ex)
@@ -58,7 +59,8 @@ namespace HowManyTimes.ViewModels
                 if (categorySelected != null)
                 {
                     // redirect to detail page passing id of the category to show
-                    Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(categorySelected.Id), false);
+                    LogService.Log(LogType.Info, $"Redirecting to category {categorySelected.Id}: {categorySelected.Name}");
+                    Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(categorySelected.Id), true);
                 }
             }
         }

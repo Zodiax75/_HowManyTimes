@@ -67,15 +67,17 @@ namespace HowManyTimes.Services
         }
 
         /// <summary>
-        /// Returns category specified by ID
+        /// Returns category based on id
         /// </summary>
-        /// <param name="id">ID of the category</param>
+        /// <param name="Id">Id of the category</param>
         /// <returns>category object</returns>
-        public static async Task<Category> GetCategory(int id)
+        public static async Task<Category> GetCategory(int Id)
         {
-            //Category cat = await Database.Table<Category>().FirstOrDefaultAsync(c => c.Id == id).ConfigureAwait(false);
-            //return cat;
-            return (null);
+            Category category = await Database.Table<Category>()
+                                    .Where(i => i.Id == Id)
+                                    .FirstOrDefaultAsync().ConfigureAwait(false);
+
+            return category;
         }
 
         /// <summary>

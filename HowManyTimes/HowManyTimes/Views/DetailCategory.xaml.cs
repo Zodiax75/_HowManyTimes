@@ -17,7 +17,7 @@ namespace HowManyTimes.Views
             if (categoryId == null)
                 BindingContext = new DetailCategoryViewModel();
             else
-                BindingContext = new DetailCategoryViewModel(int.Parse(categoryId.ToString()));
+                BindingContext = new DetailCategoryViewModel(categoryId.Value);
         }
         #endregion
 

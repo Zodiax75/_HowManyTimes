@@ -24,7 +24,7 @@ namespace HowManyTimes.Views
         public async void OnNewCounterClicked(object sender, EventArgs e)
         {
             // TODO: rework to use Command and bind it to ViewModel
-            await Application.Current.MainPage.Navigation.PushAsync(new DetailPage(), false);
+            await Application.Current.MainPage.Navigation.PushAsync(new DetailPage(), true);
         }
     }
 }
