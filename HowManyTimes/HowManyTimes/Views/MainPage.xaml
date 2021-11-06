@@ -187,7 +187,7 @@
                                                         FontSize="12"
                                                         HorizontalOptions="FillAndExpand"
                                                         HorizontalTextAlignment="Center"
-                                                        Text="Got nasty email"
+                                                        Text="Had a homeoffice"
                                                         TextColor="{StaticResource colorBlack20}"
                                                         VerticalOptions="EndAndExpand" />
 
@@ -197,7 +197,7 @@
                                                         FontAttributes="Bold"
                                                         HorizontalOptions="FillAndExpand"
                                                         HorizontalTextAlignment="Center"
-                                                        Text="16"
+                                                        Text="6"
                                                         TextColor="{StaticResource colorBlack20}"
                                                         VerticalOptions="EndAndExpand" />
 
