@@ -4,7 +4,15 @@
              xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
              x:Class="HowManyTimes.Views.DetailCategory"
+             xmlns:converter="clr-namespace:HowManyTimes.Services"
              NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <ScrollView>
             <Grid BackgroundColor="{StaticResource colorWhite}">
@@ -92,14 +100,13 @@
                                 HorizontalOptions="Start"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="44" />
-                            <Path
-                                Aspect="Uniform"
-                                Data="M14.7307 1.37008C13.9025 0.486588 12.766 0 11.5304 0C10.6068 0 9.76099 0.287175 9.01636 0.85348C8.64062 1.13933 8.30017 1.48906 8 1.89725C7.69995 1.48918 7.35938 1.13933 6.98352 0.85348C6.23901 0.287175 5.39319 0 4.4696 0C3.23401 0 2.09741 0.486588 1.26917 1.37008C0.450806 2.24325 0 3.43613 0 4.72914C0 6.05996 0.504272 7.27817 1.58691 8.56301C2.55542 9.71231 3.94739 10.879 5.55933 12.23C6.10974 12.6914 6.73364 13.2144 7.38147 13.7714C7.55261 13.9188 7.77222 14 8 14C8.22766 14 8.44739 13.9188 8.61829 13.7717C9.26611 13.2145 9.89038 12.6913 10.441 12.2297C12.0527 10.8789 13.4447 9.71231 14.4132 8.56289C15.4958 7.27817 16 6.05996 16 4.72902C16 3.43613 15.5492 2.24325 14.7307 1.37008Z"
-                                Fill="gray"
-                                HeightRequest="18"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                WidthRequest="18" />
+                            <Label
+                                                FontSize="21"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Text="&#xf005;"
+                                                FontFamily="FontAwesome5Regular"
+                                                TextColor="{Binding SelectedCategory.Favorite, Converter={StaticResource favoriteIconConverter}}"
+                                                VerticalOptions="Center" />
                         </Grid>
                     </sh:Shadows>
 
@@ -134,9 +141,13 @@
                                 HorizontalOptions="Start"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="44" />
-                            <Image Source="trash"
-                                   HeightRequest="14"
-                                   WidthRequest="14"></Image>
+                            <Label
+                                                FontSize="21"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Text="&#xf2ed;"
+                                                FontFamily="FontAwesome5Regular"
+                                                TextColor="{StaticResource colorOrange}"
+                                                VerticalOptions="Center" />
                         </Grid>
                     </sh:Shadows>
 
@@ -171,22 +182,13 @@
                                 HorizontalOptions="Start"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="44" />
-                            <Path
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                WidthRequest="18"
-                                HeightRequest="18"
-                                Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,
-                                        8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,
-                                        11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,
-                                        4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,
-                                        2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,
-                                        5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,
-                                        12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,
-                                        18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,
-                                        21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,
-                                        18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" Fill="Black"
-                                  />
+                            <Label
+                                                FontSize="21"
+                                                HorizontalOptions="CenterAndExpand"
+                                                Text="&#xf044;"
+                                                FontFamily="FontAwesome5Regular"
+                                                TextColor="{StaticResource colorOrange}"
+                                                VerticalOptions="Center" />
                         </Grid>
                     </sh:Shadows>
 
@@ -197,14 +199,14 @@
                         Margin="0,50,0,15"
                         FontFamily="FontPoppinsMedium"
                         FontSize="20"
-                        Text="Angličtina"
+                        Text="{Binding SelectedCategory.Name}"
                         VerticalOptions="Center" />
                     <Label
                         Grid.Row="4"
                         Grid.ColumnSpan="2"
                         Margin="0,0,20,0"
                         FontSize="Small"
-                        Text="Kategorie týkající se angličtiny." />
+                        Text="{Binding SelectedCategory.Description}" />
 
                 </Grid>
             </Grid>
