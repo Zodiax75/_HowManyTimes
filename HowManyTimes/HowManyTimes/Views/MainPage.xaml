@@ -482,7 +482,7 @@
                             x:Name="newCategory"
                             IsVisible="False"
                             FontSize="31"
-                            Text="New Folder;"
+                            Text="&#xf65e;"
                             FontFamily="FontAwesome5Regular"
                             BorderColor="{StaticResource colorWhite}" BorderWidth="2" FontAttributes="Bold" BackgroundColor="{StaticResource colorBlack20}" BorderRadius="35" TextColor="White" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" Margin="0,0,0,0" VerticalOptions="End"
                             Clicked="OnNewCounterClicked">
@@ -492,7 +492,7 @@
                             x:Name="newCounter"
                             IsVisible="False"
                             FontSize="31"
-                            Text="New Counter"
+                            Text="&#xf0fe;"
                             FontFamily="FontAwesome5Regular"
                             BorderColor="{StaticResource colorWhite}" BorderWidth="2" FontAttributes="Bold" BackgroundColor="{StaticResource colorGreen}" BorderRadius="35" TextColor="White" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" Margin="0,0,0,0" VerticalOptions="End"
                             Clicked="OnNewCounterClicked">

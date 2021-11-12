@@ -11,12 +11,16 @@ namespace HowManyTimes.Views
 {
     public partial class MainPage : ContentPage
     {
+        private double _scale;
+
         public MainPage()
         {
             InitializeComponent();
             BindingContext = new MainPageViewModel();
 
             mainHeader.BackgroundColor = Color.Transparent;
+
+            _scale = newCounter.Scale;
         }
 
         /// <summary>
@@ -26,15 +30,25 @@ namespace HowManyTimes.Views
         /// <param name="e"></param>
         public async void OnNewCounterClicked(object sender, EventArgs e)
         {
+            // sub-buttons (new counter and new category) animation
             if (newCounter.IsVisible)
             {
-                newCounter.FadeTo(0, 1500);
+                await newCategory.FadeTo(0, 250);
+                newCategory.IsVisible = false;
+                await newCounter.FadeTo(0, 250);
                 newCounter.IsVisible = false;
             }
             else
             {
                 newCounter.IsVisible = true;
-                newCounter.FadeTo(1, 1500);
+                await newCounter.FadeTo(1, 100);
+                await newCounter.ScaleTo(_scale * 1.5, 250);
+                await newCounter.ScaleTo(_scale, 250);
+
+                newCategory.IsVisible = true;
+                await newCategory.FadeTo(1, 100);
+                await newCategory.ScaleTo(_scale * 1.5, 250);
+                await newCategory.ScaleTo(_scale, 250);
             }
         }
 
