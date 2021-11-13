@@ -5,6 +5,7 @@ using HowManyTimes.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace HowManyTimes.ViewModels
@@ -14,6 +15,10 @@ namespace HowManyTimes.ViewModels
         #region Constructor
         public MainPageViewModel()
         {
+            // Bind commands
+            NewCategoryCommand = new Command(OnNewCategoryCommandClicked);
+            NewCounterCommand = new Command(OnNewCounterCommandClicked);
+
             // Laod categiries at the beginning
             GetCategories();
         }
@@ -38,6 +43,22 @@ namespace HowManyTimes.ViewModels
             // convert them into Observable collection before binding
             FavoriteCategories = new ObservableCollection<Category>(tmpList);
         }
+
+        /// <summary>
+        /// On New counter click function 
+        /// </summary>
+        private void OnNewCounterCommandClicked()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// On New category click function
+        /// </summary>
+        private void OnNewCategoryCommandClicked()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
+        }
         #endregion
 
         #region Properties
@@ -45,6 +66,16 @@ namespace HowManyTimes.ViewModels
         /// List of favourite categories (limited to 10)
         /// </summary>
         public ObservableCollection<Category> FavoriteCategories { get; set; }
+
+        /// <summary>
+        /// Command to hand New counter click
+        /// </summary>
+        public ICommand NewCounterCommand { get; set; }
+
+        /// <summary>
+        /// Command to hand New category click
+        /// </summary>
+        public ICommand NewCategoryCommand { get; set; }
 
         /// <summary>
         /// Selected category in the list

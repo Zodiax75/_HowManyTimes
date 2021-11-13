@@ -11,7 +11,7 @@ namespace HowManyTimes.Views
 {
     public partial class MainPage : ContentPage
     {
-        private double _scale;
+        private readonly double _scale; // save original scale of the button (applies for both, there are the same size)
 
         public MainPage()
         {
