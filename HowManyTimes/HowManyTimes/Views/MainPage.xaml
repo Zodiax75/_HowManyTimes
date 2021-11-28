@@ -330,7 +330,7 @@
                                                 Grid.Column="1"
                                                 FontSize="21"
                                                 HorizontalOptions="StartAndExpand"
-                                                Text="&#xf005;"
+                                                Text="&#xf004;"
                                                 FontFamily="FontAwesome5Regular"
                                                 TextColor="{Binding Favorite, Converter={StaticResource favoriteIconConverter}}"
                                                 VerticalOptions="Center" />
@@ -386,7 +386,8 @@
             <!--Search bar-->
             <StackLayout Spacing="5" Grid.Row="0" VerticalOptions="Start">
                 <Frame x:Name="searchFrame"
-                    CornerRadius="0,0,30,30" Margin="0,0,0,0" Padding="0" OutlineColor="DarkGray" HorizontalOptions="FillAndExpand"  VerticalOptions="Center"
+                    CornerRadius="0,0,30,30"
+                    Margin="0,0,0,0" Padding="0" OutlineColor="DarkGray" HorizontalOptions="FillAndExpand"  VerticalOptions="Center"
                     HeightRequest="550"
                     IsVisible="false">
                     <Label

@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             xmlns:sh="clr-namespace:Sharpnado.Shades;assembly=Sharpnado.Shadows"
              x:Class="HowManyTimes.Views.DetailCategory"
              xmlns:converter="clr-namespace:HowManyTimes.Services"
              NavigationPage.HasNavigationBar="False">
@@ -10,6 +9,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
+            <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -19,12 +19,27 @@
             <Grid RowDefinitions="auto, auto,Auto, Auto">
                 <!--Main category picture-->
                 <PanCake:PancakeView
-                        x:Name="categoryPicture"
+                        x:Name="categoryPictureBox"
                         Padding="0,0,0,0"
                         BackgroundGradientEndPoint="0,1"
                         CornerRadius="0,0,20,20"
-                        BackgroundColor="blue">
+                        BackgroundColor="blue"
+                        IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
 
+                    <Image
+                        x:Name="categoryPicture"
+                        Source="folders_default"
+                        Aspect="AspectFill"
+                        HeightRequest="250">
+                    </Image>
+                </PanCake:PancakeView>
+                <PanCake:PancakeView
+                        x:Name="categoryPictureEditBox"
+                        Padding="0,0,0,0"
+                        BackgroundGradientEndPoint="0,1"
+                        CornerRadius="0,0,20,20"
+                        BackgroundColor="blue"
+                        IsVisible="{Binding EditMode}">
                     <!--Gradient definition-->
                     <PanCake:PancakeView.BackgroundGradientStops>
                         <PanCake:GradientStopCollection>
@@ -34,12 +49,13 @@
                     </PanCake:PancakeView.BackgroundGradientStops>
 
                     <Image
-                        Source="folders_default"
-                        Aspect="AspectFill"
+                        Source="upload_file_default"
+                        IsVisible="True"
+                        Aspect="AspectFit"
                         HeightRequest="250">
                     </Image>
                 </PanCake:PancakeView>
-
+                
                 <!--Main category information-->
                 <PanCake:PancakeView
                                 x:Name="categoryDetails"
@@ -59,22 +75,49 @@
 
                         <!--Category title-->
                         <Label 
+                            x:Name="labelCategoryName"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
                             Grid.Row="0"
                             VerticalTextAlignment="Start"
                             FontFamily="FontPoppinsSemiBold"
                             FontSize="Title"
-                            Text="How I met my mother">
+                            Text="{Binding CategoryName}">
                         </Label>
+
+                        <Entry
+                            x:Name="editCategoryName"
+                            IsVisible="{Binding EditMode}"
+                            Grid.Row="0"
+                            Placeholder="Please fill in category name"
+                            PlaceholderColor="{StaticResource colorGray6F}"
+                            IsTextPredictionEnabled="False"
+                            Text="{Binding CategoryName}" 
+                            Margin="10,10,10,10"
+                            MaxLength="40" />
 
                         <!--Category description-->
                         <Label 
+                            x:Name="labelCategoryDesc"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
                             Grid.Row="1"
                             VerticalTextAlignment="Start"
                             FontFamily="FontPoppinsRegular"
                             TextColor="{StaticResource colorGray6F}"
                             FontSize="Body"
-                            Text="Velvet i then or and some me at hesitating of door fowl both my that a dream sign this ebony merely">
+                            Text="{Binding CategoryDesc}">
                         </Label>
+
+                        <Editor 
+                            x:Name="editCategoryDesc"
+                            IsVisible="{Binding EditMode}"
+                            Grid.Row="1"
+                            Placeholder="Please fill in category description"
+                            PlaceholderColor="{StaticResource colorGray6F}"
+                            IsTextPredictionEnabled="False"
+                            Text="{Binding CategoryDesc}" 
+                            Margin="10,10,10,10"
+                            MaxLength="100"
+                            HeightRequest="100" />
 
                         <Grid Grid.Row="2"
                               ColumnDefinitions="Auto, *"
@@ -87,14 +130,22 @@
                                 FontFamily="FontPoppinsSemiBold"
                                 FontSize="16"
                                 FontAttributes="Bold"
-                                Text="123 counter(s)">
+                                Text="123 counter(s)"
+                                IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
                             </Label>
                             <Label 
                                 Grid.Column="1"
                                 HorizontalTextAlignment="End"
                                 Text="&#xf004;"
                                 FontSize="23"
-                                FontFamily="FontAwesome5Regular">
+                                FontFamily="FontAwesome5Regular"
+                                TextColor="{Binding CategoryFavorite, Converter={StaticResource favoriteIconConverter}}">
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding FavoriteButtonCommand}" />
+                                </Label.GestureRecognizers>
                             </Label>
 
                         </Grid>
@@ -110,11 +161,7 @@
                                 Margin="10,20,10,0"
                                 Padding="0,0,0,0"
                                 CornerRadius="20,20,20,20"
-                                IsVisible="True">
-                    <!--<PanCake:PancakeView.Shadow>
-                        <PanCake:DropShadow Color="{StaticResource colorBlack20}" Offset="100,200" />
-                    </PanCake:PancakeView.Shadow>-->
-
+                                IsVisible="{Binding EditMode}">
 
                     <Grid Grid.Row="3"
                               ColumnDefinitions="*, *"
@@ -135,7 +182,7 @@
                             CornerRadius="45"
                             HeightRequest="45"
                             WidthRequest="45"
-                            >
+                            Command="{Binding SaveButtonCommand}">
                         </Button>
 
                         <Button 
@@ -152,7 +199,7 @@
                             CornerRadius="45"
                             HeightRequest="45"
                             WidthRequest="45"
-                            >
+                            Command="{Binding CancelButtonCommand}">
                         </Button>
 
                     </Grid>
@@ -167,14 +214,10 @@
                                 Margin="10,20,10,0"
                                 Padding="0,0,0,0"
                                 CornerRadius="20,20,20,20"
-                                IsVisible="False">
-                    <!--<PanCake:PancakeView.Shadow>
-                        <PanCake:DropShadow Color="{StaticResource colorBlack20}" Offset="100,200" />
-                    </PanCake:PancakeView.Shadow>-->
-
+                                IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
 
                     <Grid Grid.Row="3"
-                              ColumnDefinitions="*, *, *"
+                              ColumnDefinitions="*, *, *, *"
                               RowDefinitions="Auto"
                               Margin="25,25,25,25">
 
@@ -192,7 +235,7 @@
                             CornerRadius="45"
                             HeightRequest="45"
                             WidthRequest="45"
-                            >
+                            Command="{Binding EditButtonCommand}">
                         </Button>
 
                         <Button 
@@ -209,14 +252,31 @@
                             CornerRadius="45"
                             HeightRequest="45"
                             WidthRequest="45"
-                            >
+                            Command="{Binding DeleteButtonCommand}">
                         </Button>
 
                         <Button 
                             Grid.Column="2"
-                            x:Name="btnFavorite"
+                            x:Name="btnLoad"
                             FontSize="21"
-                            Text="&#xf004;"
+                            Text="&#xf019;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorDarkOrange}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            >
+                        </Button>
+
+                        <Button 
+                            Grid.Column="3"
+                            x:Name="btnShare"
+                            FontSize="21"
+                            Text="&#xf14d;"
                             FontFamily="FontAwesome5Regular"
                             FontAttributes="Bold" 
                             BackgroundColor="{StaticResource colorDarkOrange}" 
@@ -232,21 +292,6 @@
                     </Grid>
                 </PanCake:PancakeView>
 
-                <Editor 
-                    Grid.Row="4"
-                    Text="Editor is used for collecting text that is expected to take more than one line." 
-                    Margin="10,10,10,10"
-                    MaxLength="100"
-                    HeightRequest="100" />
-
-                <Entry
-                    Grid.Row="5"
-                    Placeholder="Please fill in category name"
-                    PlaceholderColor="{StaticResource colorGray6F}"
-                    IsTextPredictionEnabled="False"
-                    Text="" 
-                    Margin="10,10,10,10"
-                    MaxLength="40" />
             </Grid>
 
         </ScrollView>

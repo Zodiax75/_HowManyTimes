@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using HowManyTimes.ViewModels;
+using System;
 
 namespace HowManyTimes.Views
 {
@@ -15,13 +16,16 @@ namespace HowManyTimes.Views
 
             // null = new category, id = edit category
             if (categoryId == null)
-                BindingContext = new DetailCategoryViewModel();
+                BindingContext = new DetailCategoryViewModel(null);
             else
                 BindingContext = new DetailCategoryViewModel(categoryId.Value);
         }
         #endregion
 
         #region Methods
+        public void OnEditClicked(object sender, EventArgs e)
+        {
+        }
 
         #endregion
 

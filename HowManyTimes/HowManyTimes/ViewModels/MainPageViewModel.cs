@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace HowManyTimes.ViewModels
 {
@@ -21,6 +22,36 @@ namespace HowManyTimes.ViewModels
 
             // Laod categiries at the beginning
             GetCategories();
+
+            // subscribe to Category collection changes
+            MessagingCenter.Subscribe<Category>(this, "AddNew", (category) =>
+            {
+                // add only if the category is favorite (main page shows only favorite categories ;)
+                if (category.Favorite)
+                    FavoriteCategories.Add(category);
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "Update", (category) =>
+            {
+                // lookup the category and update it
+                Category c = FavoriteCategories.Where(x => x.Id == category.Id).FirstOrDefault();
+                if (c != null)
+                {
+                    FavoriteCategories[FavoriteCategories.IndexOf(c)] = category;
+                }
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "Delete", (category) =>
+            {
+                Category c = FavoriteCategories.Where(i => i.Id == category.Id).FirstOrDefault();
+                var a = FavoriteCategories.Remove(c);
+            });
+        }
+
+        ~MainPageViewModel()
+        {
+            // unsubscribe event handlers
+            MessagingCenter.Unsubscribe<Category>(this, "AddNew");
         }
         #endregion
 

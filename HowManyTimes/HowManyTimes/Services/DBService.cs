@@ -85,9 +85,9 @@ namespace HowManyTimes.Services
         /// </summary>
         /// <param name="id">ID of the category to be deleted</param>
         /// <returns></returns>
-        public static async Task DeleteCategory(int id)
+        public static async Task DeleteData<T>(T Item)
         {
-            //await Database.DeleteAsync<Category>(id);
+            _ = await Database.DeleteAsync(Item).ConfigureAwait(false);
         }
         #endregion
 

@@ -16,13 +16,38 @@ namespace HowManyTimes.Services
                 switch (s)
                 {
                     case true:
-                        return "#D4AF37";
+                        //return "#D4AF37";
+                        return "Red";
                     default:
                         return "#6F6F6F";
                 }
             }
 
             return "#6F6F6F";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+
+    /// <summary>
+    /// Converter for returning oposite value of boolean
+    /// </summary>
+    public class BoolValueXORConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is bool && value != null)
+            {
+                bool s = (bool)value;
+                s = !s; // change the value
+                return s;
+            }
+
+            return true;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
