@@ -52,6 +52,8 @@ namespace HowManyTimes.ViewModels
         {
             // unsubscribe event handlers
             MessagingCenter.Unsubscribe<Category>(this, "AddNew");
+            MessagingCenter.Unsubscribe<Category>(this, "Update");
+            MessagingCenter.Unsubscribe<Category>(this, "Delete");
         }
         #endregion
 

@@ -5,6 +5,7 @@ using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Acr.UserDialogs;
+using Xamarin.Essentials;
 
 namespace HowManyTimes.ViewModels
 {
@@ -21,6 +22,7 @@ namespace HowManyTimes.ViewModels
             EditButtonCommand = new Command(OnEditButtonCommandClicked);
             DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
             FavoriteButtonCommand = new Command(OnFavoriteButtonCommandClicked);
+            UploadPhotoCommand = new Command(OnUploadPhotoCommandClicked);
         }
 
         /// <summary>
@@ -66,11 +68,33 @@ namespace HowManyTimes.ViewModels
             }
 
             // store original Favorite for cancel
-            favOriginal = CategoryFavorite;            
+            favOriginal = CategoryFavorite;
         }
         #endregion
 
-         #region Methods
+        #region Methods
+        /// <summary>
+        /// Handles click when upload image button is clicked
+        /// </summary>
+        public async void OnUploadPhotoCommandClicked()
+        {
+            //TODO: sipka zpet a dva buttony na Udelat fotku a Zvolit obrazek
+
+            var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+                { Title = "Please select a photo"}
+            );
+
+            try
+            {
+                var stream = await result.OpenReadAsync();
+                CategoryImage = ImageSource.FromStream(() => stream);
+            }
+            catch (Exception e)
+            {
+                LogService.Log(LogType.Error, e.Message);
+            }
+        }
+
         /// <summary>
         /// Called when Save button is clicked
         /// </summary>
@@ -88,7 +112,7 @@ namespace HowManyTimes.ViewModels
             };
             SelectedCategory = c;
 
-            try 
+            try
             {
                 // insert or update decision
                 if (SelectedCategory.Id == 0)
@@ -131,7 +155,7 @@ namespace HowManyTimes.ViewModels
         {
             // check if there are some counters connected
             if(SelectedCategory.Counters > 0)
-            { 
+            {
                 await UserDialogs.Instance.AlertAsync("To delete a category, you must not have any counters active.","Active counters!", "Ok");
                 return;
             }
@@ -147,7 +171,6 @@ namespace HowManyTimes.ViewModels
             try
             {
                 await DBService.DeleteData(SelectedCategory);
-
 
                 // notify mainpage that catogory has been deleted
                 MessagingCenter.Send<Category>(SelectedCategory, "Delete");
@@ -192,6 +215,9 @@ namespace HowManyTimes.ViewModels
         /// </summary>
         public void OnCancelButtonCommandClicked()
         {
+            if(String.IsNullOrEmpty(SelectedCategory.Name))
+                Application.Current.MainPage.Navigation.PopAsync(true); // nothing is filled and task is cancelled, go to previous page
+
             // edit was cancelled, restore original data to bindings
             CategoryName = SelectedCategory.Name;
             CategoryDesc = SelectedCategory.Description;
@@ -202,6 +228,11 @@ namespace HowManyTimes.ViewModels
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Stream of the category image
+        /// </summary>
+        public ImageSource CategoryImage { get; set; }
+
         /// <summary>
         /// Selected category
         /// </summary>
@@ -226,6 +257,7 @@ namespace HowManyTimes.ViewModels
         public ICommand EditButtonCommand { get; set; }
         public ICommand FavoriteButtonCommand { get; set; }
         public ICommand DeleteButtonCommand { get; set; }
+        public ICommand UploadPhotoCommand { get; set; }
 
         /// <summary>
         /// Return true if we are in edit mode (new or existing) and not view mode

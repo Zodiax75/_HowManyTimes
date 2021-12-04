@@ -314,7 +314,7 @@
                                                 <VisualState Name="Normal" />
                                                 <VisualState Name="Selected">
                                                     <VisualState.Setters>
-                                                        <Setter Property="BackgroundColor" Value="{StaticResource colorWhiteF3}" />
+                                                        <Setter Property="BackgroundColor" Value="{StaticResource colorDarkOrange}" />
                                                     </VisualState.Setters>
                                                 </VisualState>
                                             </VisualStateGroup>

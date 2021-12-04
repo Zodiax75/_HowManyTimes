@@ -10,35 +10,62 @@
         <ResourceDictionary>
             <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
             <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
+            <converter:CategoryDefaultEditImageConverter x:Key="categoryDefaultEditImageConverter" />
+            <converter:CategoryDefaultImageConverter x:Key="categoryDefaultImageConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <ScrollView Margin="0,0,0,0">
             <!--Main grid for content-->
-            <Grid RowDefinitions="auto, auto,Auto, Auto">
+            <Grid RowDefinitions="auto, auto,Auto, Auto,20">
                 <!--Main category picture-->
                 <PanCake:PancakeView
                         x:Name="categoryPictureBox"
                         Padding="0,0,0,0"
                         BackgroundGradientEndPoint="0,1"
-                        CornerRadius="0,0,20,20"
-                        BackgroundColor="blue"
-                        IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
-
-                    <Image
-                        x:Name="categoryPicture"
-                        Source="folders_default"
-                        Aspect="AspectFill"
+                        CornerRadius="0,0,5,5"
+                        IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
                         HeightRequest="250">
-                    </Image>
+                    <Grid 
+                        ColumnDefinitions="60,*,*,60"
+                        RowDefinitions="60,*,*,60">
+                            <Image
+                                x:Name="categoryPicture"
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Source="{Binding CategoryImage, Converter={StaticResource categoryDefaultImageConverter}}"
+                                Aspect="AspectFill"
+                                HeightRequest="250">
+                            </Image>
+                        <!-- Arrow back -->
+                        <Button 
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            x:Name="backButton"
+                            FontSize="21"
+                            Text="&#xf104;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="End" 
+                            VerticalOptions="Center"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1">
+                        </Button>
+                    </Grid>
                 </PanCake:PancakeView>
                 <PanCake:PancakeView
                         x:Name="categoryPictureEditBox"
                         Padding="0,0,0,0"
                         BackgroundGradientEndPoint="0,1"
-                        CornerRadius="0,0,20,20"
-                        BackgroundColor="blue"
+                        CornerRadius="0,0,5,5"
                         IsVisible="{Binding EditMode}">
                     <!--Gradient definition-->
                     <PanCake:PancakeView.BackgroundGradientStops>
@@ -47,13 +74,63 @@
                             <PanCake:GradientStop Color="{StaticResource colorGray6F}" Offset="1"/>
                         </PanCake:GradientStopCollection>
                     </PanCake:PancakeView.BackgroundGradientStops>
-
-                    <Image
-                        Source="upload_file_default"
-                        IsVisible="True"
-                        Aspect="AspectFit"
-                        HeightRequest="250">
-                    </Image>
+                   
+                    <Grid 
+                        ColumnDefinitions="60,*,*,60"
+                        RowDefinitions="60,*,*,60">
+                        <!--Source="upload_file_default"-->
+                        <Image
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2"
+                                Source="{Binding CategoryImage, Converter={StaticResource categoryDefaultEditImageConverter}}"
+                                IsVisible="True"
+                                Aspect="AspectFill"
+                                HeightRequest="250">
+                        </Image>
+                        <!-- image selection -->
+                        <Button 
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="2"
+                            x:Name="galleryButton"
+                            FontSize="21"
+                            Text="&#xf03e;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1"
+                            Command="{Binding UploadPhotoCommand}">
+                        </Button>
+                        <!-- image camera -->
+                        <Button 
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="2"
+                            x:Name="cameraButton"
+                            FontSize="21"
+                            Text="&#xf030;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1">
+                        </Button>
+                    </Grid>
                 </PanCake:PancakeView>
                 
                 <!--Main category information-->
