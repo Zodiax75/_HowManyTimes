@@ -41,6 +41,11 @@ namespace HowManyTimes.Models
         /// Number of counters within this category
         /// </summary>
         public int Counters { get; set; }
+
+        /// <summary>
+        /// Path to the category image
+        /// </summary>
+        public string ImageUrl { get; set; }
         #endregion
 
         #region Private properties

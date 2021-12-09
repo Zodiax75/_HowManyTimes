@@ -53,48 +53,4 @@ namespace HowManyTimes.Services
             throw new NotImplementedException();
         }
     }
-
-    /// <summary>
-    /// Converter for returning default image for category add new
-    /// </summary>
-    public class CategoryDefaultEditImageConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value is null)
-            {
-                // if incoming image source for category is empty, use default one
-                return "upload_file_default";
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    /// <summary>
-    /// Converter for returning default image for category add new
-    /// </summary>
-    public class CategoryDefaultImageConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value is null)
-            {
-                // if incoming image source for category is empty, use default one
-                return "folders_default";
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

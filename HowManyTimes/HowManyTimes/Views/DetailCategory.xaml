@@ -10,8 +10,6 @@
         <ResourceDictionary>
             <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
             <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
-            <converter:CategoryDefaultEditImageConverter x:Key="categoryDefaultEditImageConverter" />
-            <converter:CategoryDefaultImageConverter x:Key="categoryDefaultImageConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -36,7 +34,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
-                                Source="{Binding CategoryImage, Converter={StaticResource categoryDefaultImageConverter}}"
+                                Source="{Binding CategoryImage, TargetNullValue='folders_default'}"
                                 Aspect="AspectFill"
                                 HeightRequest="250">
                             </Image>
@@ -84,7 +82,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="2"
-                                Source="{Binding CategoryImage, Converter={StaticResource categoryDefaultEditImageConverter}}"
+                                Source="{Binding CategoryImage, TargetNullValue='upload_file_default'}"
                                 IsVisible="True"
                                 Aspect="AspectFill"
                                 HeightRequest="250">

@@ -350,7 +350,7 @@
                                                 Margin="0,10,0,20"
                                                 HeightRequest="136"
                                                 HorizontalOptions="Center"
-                                                Source="hash1"
+                                                Source="{Binding ImageUrl, TargetNullValue='folders_default'}"
                                                 WidthRequest="136" />
                                             <Label
                                                 Grid.Row="2"
@@ -417,7 +417,7 @@
                           RowDefinitions="Auto"
                           ColumnDefinitions="*,*,100,*,*">
                         <!-- Search icon -->
-                        <Label
+                        <Label  
                                     x:Name="searchIcon"
                                     Grid.Row="0"
                                     Grid.Column="0"
