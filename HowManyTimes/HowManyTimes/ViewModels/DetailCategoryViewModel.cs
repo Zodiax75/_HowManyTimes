@@ -23,6 +23,8 @@ namespace HowManyTimes.ViewModels
             DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
             FavoriteButtonCommand = new Command(OnFavoriteButtonCommandClicked);
             UploadPhotoCommand = new Command(OnUploadPhotoCommandClicked);
+            CameraPhotoCommand = new Command(OnCameraPhotoCommandClicked);
+            BackButtonCommand = new Command(OnBackButtonCommandClicked);
         }
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace HowManyTimes.ViewModels
                     CategoryName = SelectedCategory.Name;
                     CategoryDesc = SelectedCategory.Description;
                     CategoryFavorite = SelectedCategory.Favorite;
+                    CategoryImage = SelectedCategory.ImageUrl;
 
                     EditMode = false;
                 }
@@ -63,6 +66,7 @@ namespace HowManyTimes.ViewModels
                 CategoryName = "";
                 CategoryDesc = "";
                 CategoryFavorite = false;
+                CategoryImage = null;
 
                 EditMode = true;
             }
@@ -76,22 +80,72 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Handles click when upload image button is clicked
         /// </summary>
+        public async void OnBackButtonCommandClicked()
+        {
+            NavigateBack();
+        }
+        /// <summary>
+        /// Handles click when upload image button is clicked
+        /// </summary>
         public async void OnUploadPhotoCommandClicked()
         {
-            //TODO: sipka zpet a dva buttony na Udelat fotku a Zvolit obrazek
-
             var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
                 { Title = "Please select a photo"}
             );
-
-            try
+         
+            if (result is null)
             {
-                var stream = await result.OpenReadAsync();
-                CategoryImage = ImageSource.FromStream(() => stream);
+                // no photo selected
+                CategoryImage = null;
+                LogService.Log(LogType.Info, "No photo selected");
+                UserDialogs.Instance.Toast("No photo selected for this category");
             }
-            catch (Exception e)
+            else
             {
-                LogService.Log(LogType.Error, e.Message);
+                try
+                {
+                    CategoryImage = result.FullPath;
+                }
+                catch (Exception e)
+                {
+                    LogService.Log(LogType.Error, e.Message);
+                    CategoryImage = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles click when open camera button is clicked
+        /// </summary>
+        public async void OnCameraPhotoCommandClicked()
+        {
+            if(!MediaPicker.IsCaptureSupported)
+            {
+                // photo capturing not supported
+                CategoryImage = null;
+                LogService.Log(LogType.Error, "No camera available");
+                UserDialogs.Instance.Toast("No camera available!");
+            }
+
+            var result = await MediaPicker.CapturePhotoAsync();
+
+            if (result is null)
+            {
+                // no photo selected
+                CategoryImage = null;
+                LogService.Log(LogType.Info, "No photo selected");
+                UserDialogs.Instance.Toast("No photo selected for this category");
+            }
+            else
+            {
+                try
+                {
+                    CategoryImage = result.FullPath;
+                }
+                catch (Exception e)
+                {
+                    LogService.Log(LogType.Error, e.Message);
+                }
             }
         }
 
@@ -108,7 +162,8 @@ namespace HowManyTimes.ViewModels
                 Id = tempId,
                 Name = CategoryName,
                 Description = CategoryDesc,
-                Favorite = CategoryFavorite
+                Favorite = CategoryFavorite,
+                ImageUrl = CategoryImage
             };
             SelectedCategory = c;
 
@@ -178,7 +233,7 @@ namespace HowManyTimes.ViewModels
                 UserDialogs.Instance.Toast($"Category {SelectedCategory.Name} successfully deleted.");
 
                 // return to previous page
-                Application.Current.MainPage.Navigation.PopAsync(true);
+                NavigateBack();
             }
             catch (Exception e)
             {
@@ -216,14 +271,23 @@ namespace HowManyTimes.ViewModels
         public void OnCancelButtonCommandClicked()
         {
             if(String.IsNullOrEmpty(SelectedCategory.Name))
-                Application.Current.MainPage.Navigation.PopAsync(true); // nothing is filled and task is cancelled, go to previous page
+                NavigateBack(); // nothing is filled and task is cancelled, go to previous page
 
             // edit was cancelled, restore original data to bindings
             CategoryName = SelectedCategory.Name;
             CategoryDesc = SelectedCategory.Description;
             CategoryFavorite = favOriginal;
+            CategoryImage = SelectedCategory.ImageUrl;
 
             EditMode = false;
+        }
+
+        /// <summary>
+        /// Navigates back in the flow
+        /// </summary>
+        private async void NavigateBack()
+        {
+            await Application.Current.MainPage.Navigation.PopAsync(true);
         }
         #endregion
 
@@ -231,7 +295,7 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Stream of the category image
         /// </summary>
-        public ImageSource CategoryImage { get; set; }
+        public string CategoryImage { get; set; }
 
         /// <summary>
         /// Selected category
@@ -258,6 +322,8 @@ namespace HowManyTimes.ViewModels
         public ICommand FavoriteButtonCommand { get; set; }
         public ICommand DeleteButtonCommand { get; set; }
         public ICommand UploadPhotoCommand { get; set; }
+        public ICommand CameraPhotoCommand { get; set; }
+        public ICommand BackButtonCommand { get; set; }
 
         /// <summary>
         /// Return true if we are in edit mode (new or existing) and not view mode
@@ -270,4 +336,3 @@ namespace HowManyTimes.ViewModels
         #endregion
     }
 }
-

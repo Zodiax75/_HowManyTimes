@@ -90,6 +90,7 @@ namespace HowManyTimes.ViewModels
         /// </summary>
         private void OnNewCategoryCommandClicked()
         {
+
             Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
         }
         #endregion
@@ -122,9 +123,15 @@ namespace HowManyTimes.ViewModels
 
                 if (categorySelected != null)
                 {
+                    int cId = categorySelected.Id;
+                    
                     // redirect to detail page passing id of the category to show
                     LogService.Log(LogType.Info, $"Redirecting to category {categorySelected.Id}: {categorySelected.Name}");
-                    Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(categorySelected.Id), true);
+
+                    // null selected category to let it be selected again (due to single selection mode for collection view)
+                    categorySelected = null;
+
+                    Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(cId), true);
                 }
             }
         }

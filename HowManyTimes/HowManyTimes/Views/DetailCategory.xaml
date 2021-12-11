@@ -34,7 +34,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
-                                Source="{Binding CategoryImage, TargetNullValue='folders_default'}"
+                                Source="{Binding CategoryImage,TargetNullValue='folders_default'}"
                                 Aspect="AspectFill"
                                 HeightRequest="250">
                             </Image>
@@ -54,6 +54,7 @@
                             CornerRadius="10"
                             HeightRequest="45"
                             WidthRequest="45"
+                            Command="{Binding BackButtonCommand}"
                             BorderColor="{StaticResource colorGrayF4}"
                             BorderWidth="1">
                         </Button>
@@ -64,7 +65,8 @@
                         Padding="0,0,0,0"
                         BackgroundGradientEndPoint="0,1"
                         CornerRadius="0,0,5,5"
-                        IsVisible="{Binding EditMode}">
+                        IsVisible="{Binding EditMode}"
+                        HeightRequest="250">
                     <!--Gradient definition-->
                     <PanCake:PancakeView.BackgroundGradientStops>
                         <PanCake:GradientStopCollection>
@@ -80,8 +82,8 @@
                         <Image
                                 Grid.Row="0"
                                 Grid.RowSpan="4"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
                                 Source="{Binding CategoryImage, TargetNullValue='upload_file_default'}"
                                 IsVisible="True"
                                 Aspect="AspectFill"
@@ -126,7 +128,8 @@
                             HeightRequest="45"
                             WidthRequest="45"
                             BorderColor="{StaticResource colorGrayF4}"
-                            BorderWidth="1">
+                            BorderWidth="1"
+                            Command="{Binding CameraPhotoCommand}">
                         </Button>
                     </Grid>
                 </PanCake:PancakeView>
@@ -205,7 +208,7 @@
                                 FontFamily="FontPoppinsSemiBold"
                                 FontSize="16"
                                 FontAttributes="Bold"
-                                Text="123 counter(s)"
+                                Text="{Binding SelectedCategory.Counters, StringFormat='Counters: {0}'}"
                                 IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
                             </Label>
                             <Label 
