@@ -6,6 +6,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Acr.UserDialogs;
 using Xamarin.Essentials;
+using FluentValidation;
+using HowManyTimes.Validators;
 
 namespace HowManyTimes.ViewModels
 {
@@ -25,6 +27,9 @@ namespace HowManyTimes.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhotoCommandClicked);
             CameraPhotoCommand = new Command(OnCameraPhotoCommandClicked);
             BackButtonCommand = new Command(OnBackButtonCommandClicked);
+
+            // initialize validators
+            categoryValidator = new CategoryDetailValidator();
         }
 
         /// <summary>
@@ -165,6 +170,18 @@ namespace HowManyTimes.ViewModels
                 Favorite = CategoryFavorite,
                 ImageUrl = CategoryImage
             };
+
+            var validationResults = categoryValidator.Validate(c);
+            if (validationResults.IsValid)
+            {
+                App.Current.MainPage.DisplayAlert("FluentValidation", "Validation Success..!!", "Ok");
+            }
+            else
+            {
+                App.Current.MainPage.DisplayAlert("FluentValidation", validationResults.Errors[0].ErrorMessage, "Ok");
+            }
+            return;
+
             SelectedCategory = c;
 
             try
@@ -333,6 +350,7 @@ namespace HowManyTimes.ViewModels
 
         #region Private properties
         private bool favOriginal;
+        private readonly CategoryDetailValidator categoryValidator;
         #endregion
     }
 }

@@ -9,6 +9,12 @@
             <Setter Property="BarTextColor" Value="White" />
         </Style>
 
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+            <Setter Property="BackgroundColor" Value="#f7d7d7" />
+            <Setter Property="PlaceholderColor" Value="Red" />
+        </Style>
+        
         <!-- Colors -->
         <Color x:Key="colorOrange">#FF8920</Color>
         <Color x:Key="colorDarkOrange">#ed7307</Color>

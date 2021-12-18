@@ -13,5 +13,7 @@ namespace HowManyTimes.Views
             InitializeComponent();
             BindingContext = new DetailPageViewModel();
         }
+
+
     }
 }

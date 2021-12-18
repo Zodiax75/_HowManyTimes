@@ -4,6 +4,7 @@
              xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="HowManyTimes.Views.DetailCategory"
              xmlns:converter="clr-namespace:HowManyTimes.Services"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
@@ -148,7 +149,7 @@
                     </PanCake:PancakeView.Shadow>
 
                     <Grid 
-                        RowDefinitions="Auto,Auto, Auto" 
+                        RowDefinitions="Auto,Auto, Auto,Auto" 
                         Padding="40,40,40,40">
 
                         <!--Category title-->
@@ -170,14 +171,24 @@
                             PlaceholderColor="{StaticResource colorGray6F}"
                             IsTextPredictionEnabled="False"
                             Text="{Binding CategoryName}" 
-                            Margin="10,10,10,10"
-                            MaxLength="40" />
-
+                            MaxLength="40"
+                            Margin="10,10,10,10">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior 
+                                    RegexPattern="^(?!\s*$).+" 
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    Flags="ValidateOnUnfocusing"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                        <Label 
+                            Grid.Row="1"
+                            Text="Not valid" 
+                            TextColor="Red"/>
                         <!--Category description-->
                         <Label 
                             x:Name="labelCategoryDesc"
                             IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
-                            Grid.Row="1"
+                            Grid.Row="2"
                             VerticalTextAlignment="Start"
                             FontFamily="FontPoppinsRegular"
                             TextColor="{StaticResource colorGray6F}"
@@ -188,7 +199,7 @@
                         <Editor 
                             x:Name="editCategoryDesc"
                             IsVisible="{Binding EditMode}"
-                            Grid.Row="1"
+                            Grid.Row="2"
                             Placeholder="Please fill in category description"
                             PlaceholderColor="{StaticResource colorGray6F}"
                             IsTextPredictionEnabled="False"
@@ -197,7 +208,7 @@
                             MaxLength="100"
                             HeightRequest="100" />
 
-                        <Grid Grid.Row="2"
+                        <Grid Grid.Row="3"
                               ColumnDefinitions="Auto, *"
                               RowDefinitions="Auto"
                               Margin="0,20,0,0">

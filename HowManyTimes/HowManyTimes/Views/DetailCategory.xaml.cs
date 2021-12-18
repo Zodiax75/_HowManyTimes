@@ -26,7 +26,6 @@ namespace HowManyTimes.Views
         public void OnEditClicked(object sender, EventArgs e)
         {
         }
-
         #endregion
 
         #region Properties
@@ -36,5 +35,7 @@ namespace HowManyTimes.Views
         #region Private properties
 
         #endregion
+
+
     }
 }
