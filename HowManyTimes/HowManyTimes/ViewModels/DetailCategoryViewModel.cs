@@ -171,16 +171,13 @@ namespace HowManyTimes.ViewModels
                 ImageUrl = CategoryImage
             };
 
+            // validate the input
             var validationResults = categoryValidator.Validate(c);
-            if (validationResults.IsValid)
+            if (!validationResults.IsValid)
             {
-                App.Current.MainPage.DisplayAlert("FluentValidation", "Validation Success..!!", "Ok");
+                await UserDialogs.Instance.AlertAsync(validationResults.Errors[0].ErrorMessage, "Entry errors!", "Ok");
+                return;
             }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("FluentValidation", validationResults.Errors[0].ErrorMessage, "Ok");
-            }
-            return;
 
             SelectedCategory = c;
 

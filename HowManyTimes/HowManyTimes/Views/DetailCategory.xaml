@@ -165,6 +165,7 @@
 
                         <Entry
                             x:Name="editCategoryName"
+                            Visual="Material"
                             IsVisible="{Binding EditMode}"
                             Grid.Row="0"
                             Placeholder="Please fill in category name"
@@ -180,10 +181,7 @@
                                     Flags="ValidateOnUnfocusing"/>
                             </Entry.Behaviors>
                         </Entry>
-                        <Label 
-                            Grid.Row="1"
-                            Text="Not valid" 
-                            TextColor="Red"/>
+                        
                         <!--Category description-->
                         <Label 
                             x:Name="labelCategoryDesc"
@@ -198,6 +196,7 @@
 
                         <Editor 
                             x:Name="editCategoryDesc"
+                            Visual="Material"
                             IsVisible="{Binding EditMode}"
                             Grid.Row="2"
                             Placeholder="Please fill in category description"

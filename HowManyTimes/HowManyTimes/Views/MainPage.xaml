@@ -105,7 +105,7 @@
                                 Text="Show all"
                                 TextColor="{StaticResource colorOrange}">
                                 <Label.GestureRecognizers>
-                                    <SwipeGestureRecognizer Swiped="OnSwipped" Direction="Left"></SwipeGestureRecognizer>
+                                    <TapGestureRecognizer Command="{Binding ShowAllCommand}" CommandParameter="Counter" NumberOfTapsRequired="1"></TapGestureRecognizer>
                                 </Label.GestureRecognizers>
                             </Label>
                         </Grid>
@@ -282,7 +282,11 @@
                                 FontFamily="FontPoppinsMedium"
                                 FontSize="16"
                                 Text="Show all"
-                                TextColor="{StaticResource colorOrange}"/>
+                                TextColor="{StaticResource colorOrange}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowAllCommand}" CommandParameter="Category" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                </Label.GestureRecognizers>
+                            </Label>
                         </Grid>
 
                         <CollectionView
@@ -334,7 +338,7 @@
                                                 FontFamily="FontAwesome5Regular"
                                                 TextColor="{Binding Favorite, Converter={StaticResource favoriteIconConverter}}"
                                                 VerticalOptions="Center" />
-                                            <Path
+                                            <!--<Path
                                                 Grid.Row="0"
                                                 Grid.Column="2"
                                                 Margin="0,0,2,0"
@@ -343,7 +347,7 @@
                                                 Fill="{StaticResource colorGray6F}"
                                                 HeightRequest="18"
                                                 IsVisible="True"
-                                                WidthRequest="18" />
+                                                WidthRequest="18" />-->
                                             <Image
                                                     Grid.Row="1"
                                                     Grid.ColumnSpan="3"

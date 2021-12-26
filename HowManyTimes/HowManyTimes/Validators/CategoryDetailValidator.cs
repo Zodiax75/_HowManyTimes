@@ -7,7 +7,7 @@ namespace HowManyTimes.Validators
     {
         public CategoryDetailValidator()
         {
-            RuleFor(x => x.Name).NotNull().MinimumLength(1).WithMessage("Category name must be entered!");
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Category name must be entered");
         }
     }
 }

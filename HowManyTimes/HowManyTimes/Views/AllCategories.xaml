@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="HowManyTimes.Views.AllCategories"
+             xmlns:converter="clr-namespace:HowManyTimes.Services"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             NavigationPage.HasNavigationBar="False">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
+            <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView Margin="0,0,0,0">
+            <!--Main grid for content-->
+            <Grid
+                RowDefinitions="Auto, Auto"
+                ColumnDefinitions="Auto, Auto">
+                <Label Text="Test">
+                    
+                </Label>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Linq;
+using Acr.UserDialogs;
 
 namespace HowManyTimes.ViewModels
 {
@@ -19,6 +20,7 @@ namespace HowManyTimes.ViewModels
             // Bind commands
             NewCategoryCommand = new Command(OnNewCategoryCommandClicked);
             NewCounterCommand = new Command(OnNewCounterCommandClicked);
+            ShowAllCommand = new Command(OnShowAllCommandClicked);
 
             // Laod categiries at the beginning
             GetCategories();
@@ -86,6 +88,24 @@ namespace HowManyTimes.ViewModels
         }
 
         /// <summary>
+        /// On Show all categories label click
+        /// </summary>
+        private void OnShowAllCommandClicked(object s)
+        {
+            switch(s.ToString())
+            {
+                case "Category":
+                    Application.Current.MainPage.Navigation.PushAsync(new AllCategories(), true);
+                    break;
+                case "Counter":
+                    throw new NotImplementedException();
+                default:
+                    LogService.Log(LogType.Error, "Show all pointing to unknown direction (neither category nor counter!");
+                    break;
+            }
+        }
+
+        /// <summary>
         /// On New category click function
         /// </summary>
         private void OnNewCategoryCommandClicked()
@@ -102,7 +122,11 @@ namespace HowManyTimes.ViewModels
         public ObservableCollection<Category> FavoriteCategories { get; set; }
 
         /// <summary>
-        /// Command to hand New counter click
+        /// Command to handle Show all categories click
+        /// </summary>
+        public ICommand ShowAllCommand { get; set; }
+        /// <summary>
+        /// Command to handle New counter click
         /// </summary>
         public ICommand NewCounterCommand { get; set; }
 
