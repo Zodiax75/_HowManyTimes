@@ -68,7 +68,7 @@ namespace HowManyTimes.ViewModels
             try
             {
                 LogService.Log(LogType.Info, "Loading favorite categories for main page");
-                tmpList = await DBService.GetCategory(true, 10);
+                tmpList = await DBService.GetCategory(true, 10).ConfigureAwait(true);
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace HowManyTimes.ViewModels
         }
 
         /// <summary>
-        /// On New counter click function 
+        /// On New counter click function
         /// </summary>
         private void OnNewCounterCommandClicked()
         {
@@ -110,7 +110,6 @@ namespace HowManyTimes.ViewModels
         /// </summary>
         private void OnNewCategoryCommandClicked()
         {
-
             Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
         }
         #endregion
@@ -140,7 +139,7 @@ namespace HowManyTimes.ViewModels
         /// </summary>
         public Category CategorySelected
         {
-            get { return (categorySelected); }
+            get { return categorySelected; }
             set
             {
                 categorySelected = value;
@@ -148,7 +147,7 @@ namespace HowManyTimes.ViewModels
                 if (categorySelected != null)
                 {
                     int cId = categorySelected.Id;
-                    
+
                     // redirect to detail page passing id of the category to show
                     LogService.Log(LogType.Info, $"Redirecting to category {categorySelected.Id}: {categorySelected.Name}");
 

@@ -40,7 +40,7 @@ namespace HowManyTimes.Services
         /// <param name="FavoritesOnly">True if only favorite categories will be returned</param>
         /// <param name="Batchsize">Number of items to return</param>
         /// <returns>List of categories (all or limited sub)</returns>
-        public static async Task<List<Category>> GetCategory(bool FavoritesOnly, int? Batchsize)
+        public static async Task<List<Category>> GetCategory(bool FavoritesOnly, int? Batchsize = null)
         {
             List<Category> categories;
 

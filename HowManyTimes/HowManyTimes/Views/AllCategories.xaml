@@ -17,13 +17,157 @@
     <ContentPage.Content>
         <ScrollView Margin="0,0,0,0">
             <!--Main grid for content-->
-            <Grid
-                RowDefinitions="Auto, Auto"
-                ColumnDefinitions="Auto, Auto">
-                <Label Text="Test">
-                    
-                </Label>
-            </Grid>
+            <CollectionView
+                            x:Name="listAllCategories"
+                            Margin="0,0,0,0"
+                            HorizontalScrollBarVisibility="Never"
+                            VerticalScrollBarVisibility="Never"
+                            ItemsSource="{Binding AllCategories}"
+                            SelectionMode="Single">
+                
+
+                <!--SelectedItem="{Binding CategorySelected}">-->
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView>
+                                        <Label
+                                                Margin="0,36,0,20"
+                                                FontAttributes="Bold"
+                                                FontSize="24"
+                                                HorizontalOptions="Center"
+                                                Text="Favourite"
+                                                TextColor="Green"
+                                                VerticalOptions="End" />
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItemView>
+                                        <Label
+                                                Margin="0,36,0,20"
+                                                FontAttributes="Bold"
+                                                FontSize="24"
+                                                HorizontalOptions="Center"
+                                                Text="Add"
+                                                TextColor="Red"
+                                                VerticalOptions="End" />
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <SwipeView.Content>
+                                <PanCake:PancakeView
+                                    Margin="0,0,0,0"
+                                    Padding="10,5,10,5"
+                                    CornerRadius="0"
+                                    Opacity="1">
+                                        <!--<PanCake:PancakeView.Border>
+                                            <PanCake:Border Color="{StaticResource colorGrayE0}" Thickness="1" />
+                                        </PanCake:PancakeView.Border>-->
+                                    <!--Set background color for selected items to the same color to pretend transparency-->
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup Name="CommonStates">
+                                            <VisualState Name="Normal" />
+                                            <VisualState Name="Selected">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource colorWhiteF3}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <Grid
+                                        ColumnDefinitions="60, *, 1, 70"
+                                        RowDefinitions="auto, auto"
+                                        RowSpacing="0">
+
+                                        <PanCake:PancakeView
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Padding="0"
+                                            BackgroundColor="{StaticResource colorWhite}"
+                                            Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
+                                            CornerRadius="30"
+                                            HorizontalOptions="Center"
+                                            IsClippedToBounds="True"
+                                            WidthRequest="60"
+                                            HeightRequest="60">
+                                            
+                                            <!--Category image-->
+                                            <Image
+                                                Aspect="AspectFill"
+                                                Source="{Binding ImageUrl,TargetNullValue='folders_default'}"/>
+                                        </PanCake:PancakeView>
+
+                                        <!--Favorite icon-->
+                                        <Label 
+                                            Grid.Column="0"
+                                            Margin="0,0,-150,0"
+                                            HorizontalTextAlignment="Start"
+                                            Text="&#xf004;"
+                                            FontSize="16"
+                                            FontFamily="FontAwesome5Regular"
+                                            TextColor="{Binding Favorite, Converter={StaticResource favoriteIconConverter}}"
+                                            IsVisible="{Binding Favorite}">
+                                        </Label>
+                                        
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Margin="5,0,5,0"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding Name}"
+                                            TextColor="{StaticResource colorBlack20}"
+                                            FontFamily="FontPoppinsSemiBold"
+                                            FontSize="18"/>
+
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="5,0,5,0"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding Description}"
+                                            TextColor="{StaticResource colorGray6F}"
+                                            FontFamily="FontPoppinsRegular"
+                                            FontSize="12"
+                                            LineBreakMode="TailTruncation"/>
+
+                                        <PanCake:PancakeView
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            Padding="0"
+                                            BackgroundColor="{StaticResource colorGrayE0}"
+                                            Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}">
+                                        </PanCake:PancakeView>
+
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="3"
+                                            Margin="5,0,5,0"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center"
+                                            Text="{Binding Counters}"
+                                            TextColor="{StaticResource colorOrange}"
+                                            FontFamily="FontPoppinsRegular"
+                                            FontSize="25"/>
+                                    </Grid>
+                                </PanCake:PancakeView>
+                            </SwipeView.Content>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -28,17 +28,15 @@ namespace HowManyTimes.ViewModels
             get { return tapCommandSingle; }
         }
 
-
-        void OnTapped(object s)
+        public void OnTapped(object s)
         {
             taps++;
             Title = taps.ToString();
         }
-        void OnTappedSingle(object s)
+        public void OnTappedSingle(object s)
         {
             taps--;
             Title = taps.ToString();
-
         }
 
         #region Properties
