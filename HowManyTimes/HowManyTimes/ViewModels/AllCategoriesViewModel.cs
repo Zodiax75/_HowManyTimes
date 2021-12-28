@@ -38,9 +38,6 @@ namespace HowManyTimes.ViewModels
                 LogService.Log(LogType.Error, ex.Message);
             }
 
-            tmpList[0].Counters = 1200;
-            tmpList[1].Counters = 10;
-
             // convert them into Observable collection before binding
             AllCategories = new ObservableCollection<Category>(tmpList);
         }
