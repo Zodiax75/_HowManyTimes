@@ -26,6 +26,8 @@
         <Color x:Key="colorBlack20">#202020</Color>
         <Color x:Key="colorLightGreen">#c5fced</Color>
         <Color x:Key="colorGreen">#7ed1b5</Color>
+        <Color x:Key="colorDarkGreen">Darkgreen</Color>
+        <Color x:Key="colorRed">Red</Color>
 
         <!--Fonts-->
         <Style TargetType="Label">

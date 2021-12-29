@@ -128,28 +128,56 @@
                                 <SwipeView.RightItems>
                                     <SwipeItems Mode="Reveal">
                                         <SwipeItemView>
-                                            <Label
-                                                Margin="0,36,0,20"
-                                                FontAttributes="Bold"
-                                                FontSize="24"
-                                                HorizontalOptions="Center"
-                                                Text="Favourite"
-                                                TextColor="Green"
-                                                VerticalOptions="End" />
+                                            <Grid
+                                                ColumnDefinitions="30, *"
+                                                BackgroundColor="{StaticResource colorRed}"
+                                                Padding="10,0,10,0">
+                                                <Label 
+                                                    Grid.Column="0"
+                                                    HorizontalTextAlignment="Center"
+                                                    VerticalTextAlignment="Center"
+                                                    Text="&#xf2ed;"
+                                                    FontSize="18"
+                                                    FontFamily="FontAwesome5Regular"
+                                                    TextColor="{StaticResource colorWhite}">
+                                                </Label>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Center"
+                                                    Text="Delete"
+                                                    TextColor="{StaticResource colorWhite}"/>
+                                            </Grid> 
                                         </SwipeItemView>
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                                 <SwipeView.LeftItems>
                                     <SwipeItems Mode="Reveal">
                                         <SwipeItemView>
-                                            <Label
-                                                Margin="0,36,0,20"
-                                                FontAttributes="Bold"
-                                                FontSize="24"
-                                                HorizontalOptions="Center"
-                                                Text="Add"
-                                                TextColor="Red"
-                                                VerticalOptions="End" />
+                                            <Grid
+                                                ColumnDefinitions="30, *"
+                                                BackgroundColor="{StaticResource colorDarkGreen}"
+                                                Padding="5,0,15,0">
+                                                <Label 
+                                                    Grid.Column="0"
+                                                    HorizontalTextAlignment="Center"
+                                                    VerticalTextAlignment="Center"
+                                                    Text="&#xf004;"
+                                                    FontSize="18"
+                                                    FontFamily="FontAwesome5Regular"
+                                                    TextColor="{StaticResource colorWhite}">
+                                                </Label>
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Center"
+                                                    Text="Favorite"
+                                                    TextColor="{StaticResource colorWhite}"/>
+                                            </Grid>
                                         </SwipeItemView>
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
