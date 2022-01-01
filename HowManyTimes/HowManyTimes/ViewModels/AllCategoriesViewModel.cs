@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace HowManyTimes.ViewModels
 {
-    public class AllCategoriesViewModel : BaseViewModel
+    public class AllCategoriesViewModel : CategoryBaseViewModel
     {
         #region Constructor
         public AllCategoriesViewModel()

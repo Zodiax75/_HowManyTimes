@@ -11,7 +11,7 @@ using HowManyTimes.Validators;
 
 namespace HowManyTimes.ViewModels
 {
-    public class DetailCategoryViewModel : BaseViewModel
+    public class DetailCategoryViewModel : CategoryBaseViewModel
     {
         // NOTE: No OnPropertyChanges calls for setters as FODY is implemented in background!
 
