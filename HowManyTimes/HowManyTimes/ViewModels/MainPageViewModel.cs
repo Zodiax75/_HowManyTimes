@@ -18,7 +18,6 @@ namespace HowManyTimes.ViewModels
         public MainPageViewModel()
         {
             // Bind commands
-            NewCategoryCommand = new Command(OnNewCategoryCommandClicked);
             NewCounterCommand = new Command(OnNewCounterCommandClicked);
             ShowAllCommand = new Command(OnShowAllCommandClicked);
 
@@ -104,14 +103,6 @@ namespace HowManyTimes.ViewModels
                     break;
             }
         }
-
-        /// <summary>
-        /// On New category click function
-        /// </summary>
-        private void OnNewCategoryCommandClicked()
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
-        }
         #endregion
 
         #region Properties
@@ -128,11 +119,6 @@ namespace HowManyTimes.ViewModels
         /// Command to handle New counter click
         /// </summary>
         public ICommand NewCounterCommand { get; set; }
-
-        /// <summary>
-        /// Command to hand New category click
-        /// </summary>
-        public ICommand NewCategoryCommand { get; set; }
 
         /// <summary>
         /// Selected category in the list

@@ -97,7 +97,7 @@
                             CornerRadius="30"
                             HeightRequest="45"
                             WidthRequest="45"
-                            Command="{Binding BackButtonCommand}"
+                            Command="{Binding NewCategoryCommand}"
                             BorderColor="{StaticResource colorGrayF4}"
                             BorderWidth="1">
                     </Button>
@@ -113,7 +113,8 @@
                     HorizontalScrollBarVisibility="Never"
                     VerticalScrollBarVisibility="Never"
                     ItemsSource="{Binding AllCategories}"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    SelectedItem="{Binding CategorySelected}">
 
 
                     <!--SelectedItem="{Binding CategorySelected}">-->
@@ -126,60 +127,24 @@
                         <DataTemplate>
                             <SwipeView>
                                 <SwipeView.RightItems>
-                                    <SwipeItems Mode="Reveal">
-                                        <SwipeItemView>
-                                            <Grid
-                                                ColumnDefinitions="30, *"
-                                                BackgroundColor="{StaticResource colorRed}"
-                                                Padding="10,0,10,0">
-                                                <Label 
-                                                    Grid.Column="0"
-                                                    HorizontalTextAlignment="Center"
-                                                    VerticalTextAlignment="Center"
-                                                    Text="&#xf2ed;"
-                                                    FontSize="18"
-                                                    FontFamily="FontAwesome5Regular"
-                                                    TextColor="{StaticResource colorWhite}">
-                                                </Label>
-                                                <Label
-                                                    Grid.Column="1"
-                                                    FontAttributes="Bold"
-                                                    FontSize="14"
-                                                    HorizontalOptions="Start"
-                                                    VerticalOptions="Center"
-                                                    Text="Delete"
-                                                    TextColor="{StaticResource colorWhite}"/>
-                                            </Grid> 
-                                        </SwipeItemView>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            x:Name="BtnDelete"
+                                            BackgroundColor="{StaticResource colorRed}"
+                                            Command="{Binding Path=BindingContext.DelCmd, Source={x:Reference Name=listAllCategories}}"
+                                            CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}"
+                                            Text="Delete" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                                 <SwipeView.LeftItems>
-                                    <SwipeItems Mode="Reveal">
-                                        <SwipeItemView>
-                                            <Grid
-                                                ColumnDefinitions="30, *"
-                                                BackgroundColor="{StaticResource colorDarkGreen}"
-                                                Padding="5,0,15,0">
-                                                <Label 
-                                                    Grid.Column="0"
-                                                    HorizontalTextAlignment="Center"
-                                                    VerticalTextAlignment="Center"
-                                                    Text="&#xf004;"
-                                                    FontSize="18"
-                                                    FontFamily="FontAwesome5Regular"
-                                                    TextColor="{StaticResource colorWhite}">
-                                                </Label>
-                                                <Label
-                                                    Grid.Column="1"
-                                                    FontAttributes="Bold"
-                                                    FontSize="14"
-                                                    HorizontalOptions="Start"
-                                                    VerticalOptions="Center"
-                                                    Text="Favorite"
-                                                    TextColor="{StaticResource colorWhite}"/>
-                                            </Grid>
-                                        </SwipeItemView>
-                                    </SwipeItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            x:Name="BtnFavorite"
+                                            BackgroundColor="{StaticResource colorDarkGreen}"
+                                            Command="{Binding Path=BindingContext.FavCmd, Source={x:Reference Name=listAllCategories}}"
+                                            CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}"
+                                            Text="Favorite" />
+                                    </SwipeItems>    
                                 </SwipeView.LeftItems>
                                 <SwipeView.Content>
                                     <PanCake:PancakeView

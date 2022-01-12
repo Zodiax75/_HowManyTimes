@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using HowManyTimes.Views;
+using System.ComponentModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -9,11 +10,21 @@ namespace HowManyTimes.ViewModels
         #region Constructor
         public BaseViewModel()
         {
+            // Bind commands
+            NewCategoryCommand = new Command(OnNewCategoryCommandClicked);
             BackButtonCommand = new Command(OnBackButtonCommandClicked);
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// On New category click function
+        /// </summary>
+        private void OnNewCategoryCommandClicked()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
+        }
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -38,7 +49,14 @@ namespace HowManyTimes.ViewModels
 
         #region Properties
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Command to handle back button click
+        /// </summary>
         public ICommand BackButtonCommand { get; set; }
+        /// <summary>
+        /// Command to handle New category click
+        /// </summary>
+        public ICommand NewCategoryCommand { get; set; }
         #endregion
 
         #region Private properties

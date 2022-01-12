@@ -24,8 +24,6 @@ namespace HowManyTimes.ViewModels
             UploadPhotoCommand = new Command(OnUploadPhotoCommandClicked);
             CameraPhotoCommand = new Command(OnCameraPhotoCommandClicked);
             EditButtonCommand = new Command(OnEditButtonCommandClicked);
-            DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
-            FavoriteButtonCommand = new Command(OnFavoriteButtonCommandClicked);
 
             // initialize validators
             categoryValidator = new CategoryDetailValidator();
@@ -84,7 +82,7 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Delete button is clicked
         /// </summary>
-        public async void OnDeleteButtonCommandClicked()
+        public override async void OnDeleteButtonCommandClicked()
         {
             // check if there are some counters connected
             if (SelectedCategory.Counters > 0)
@@ -122,7 +120,7 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Favorite button is clicked
         /// </summary>
-        public void OnFavoriteButtonCommandClicked()
+        public override void OnFavoriteButtonCommandClicked()
         {
             // allow change only in edit mode
             if (EditMode)
@@ -134,6 +132,15 @@ namespace HowManyTimes.ViewModels
                 LogService.Log(LogType.Info, $"Updating favorite for category {SelectedCategory.Name} to {SelectedCategory.Favorite}");
             }
         }
+
+        /// <summary>
+        /// Called when Cancel button is clicked
+        /// </summary>
+        public void OnEditButtonCommandClicked()
+        {
+            EditMode = true;
+        }
+
         /// <summary>
         /// Handles click when upload image button is clicked
         /// </summary>
@@ -265,14 +272,6 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Cancel button is clicked
         /// </summary>
-        public void OnEditButtonCommandClicked()
-        {
-            EditMode = true;
-        }
-
-        /// <summary>
-        /// Called when Cancel button is clicked
-        /// </summary>
         public void OnCancelButtonCommandClicked()
         {
             if(String.IsNullOrEmpty(SelectedCategory.Name))
@@ -318,8 +317,7 @@ namespace HowManyTimes.ViewModels
         public ICommand UploadPhotoCommand { get; set; }
         public ICommand CameraPhotoCommand { get; set; }
         public ICommand EditButtonCommand { get; set; }
-        public ICommand FavoriteButtonCommand { get; set; }
-        public ICommand DeleteButtonCommand { get; set; }
+
 
         /// <summary>
         /// Return true if we are in edit mode (new or existing) and not view mode
