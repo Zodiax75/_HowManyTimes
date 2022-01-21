@@ -22,6 +22,27 @@ namespace HowManyTimes.ViewModels
             FavCmd = new Command(OnFavCmdClicked);
             // Load all categories
             GetCategories();
+
+            // subscribe to Category collection changes
+            MessagingCenter.Subscribe<Category>(this, "AddNew", (category) =>
+            {
+                    CategoryBaseViewModel.AddCategoryItem(AllCategories, category);
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "Update", (category) =>
+            {
+                CategoryBaseViewModel.UpdateCategoryItem(AllCategories, category);
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "UpdateFav", (category) =>
+            {
+                CategoryBaseViewModel.UpdateCategoryItem(AllCategories, category);
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "Delete", (category) =>
+            {
+                CategoryBaseViewModel.DeleteCategoryItem(AllCategories, category);
+            });
         }
         #endregion
 
@@ -32,7 +53,9 @@ namespace HowManyTimes.ViewModels
         public async void OnDeleteButtonCommandClicked1(object o)
         {
             Category cat = (Category)o;
-            await UserDialogs.Instance.AlertAsync($"DEL: {cat.Name}", "Ok");
+            await DeleteCategory(cat);
+
+            CategoryBaseViewModel.DeleteCategoryItem(AllCategories, cat);
         }
 
         /// <summary>
@@ -41,9 +64,42 @@ namespace HowManyTimes.ViewModels
         public async void OnFavCmdClicked(object o)
         {
             Category cat = (Category)o;
-            await UserDialogs.Instance.AlertAsync($"FAV: {cat.Name}", "Ok");
+
+            int tempId = cat.Id;
+
+            // New object should be created because changing just property doesnt fire OnPropertyChanged event!!!!!
+            Category c = new Category
+            {
+                Id = tempId,
+                Name = cat.Name,
+                Description = cat.Description,
+                Favorite = !cat.Favorite,
+                ImageUrl = cat.ImageUrl
+            };
+
+            cat = c;
+
+            try
+            {
+                // update
+                LogService.Log(LogType.Info, $"Updating category {cat.Id}: {cat.Name}");
+
+                await DBService.UpdateData(cat);
+
+                UserDialogs.Instance.Toast($"Category {cat.Name} successfully updated.");
+
+                // notify mainpage that catogory has been added
+                MessagingCenter.Send<Category>(cat, "UpdateFav");
+            }
+            catch (Exception e)
+            {
+                LogService.Log(LogType.Error, e.Message);
+            }
         }
 
+        /// <summary>
+        /// Loads all catageries
+        /// </summary>
         private async void GetCategories()
         {
             List<Category> tmpList = new List<Category>();

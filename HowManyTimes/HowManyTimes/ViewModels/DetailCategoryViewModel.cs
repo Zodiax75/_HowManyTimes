@@ -84,36 +84,10 @@ namespace HowManyTimes.ViewModels
         /// </summary>
         public override async void OnDeleteButtonCommandClicked()
         {
-            // check if there are some counters connected
-            if (SelectedCategory.Counters > 0)
+            if(await DeleteCategory(SelectedCategory))
             {
-                await UserDialogs.Instance.AlertAsync("To delete a category, you must not have any counters active.", "Active counters!", "Ok");
-                return;
-            }
-
-            // delete from DB if existing category (with verification)
-            var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure to delete category {SelectedCategory.Name}?", "Confirm delete", "Yes", "No");
-
-            if (!result)
-                return; // detetion was not confirmed
-
-            LogService.Log(LogType.Info, $"Deleting category {SelectedCategory.Id}: {SelectedCategory.Name}");
-
-            try
-            {
-                await DBService.DeleteData(SelectedCategory);
-
-                // notify mainpage that catogory has been deleted
-                MessagingCenter.Send<Category>(SelectedCategory, "Delete");
-
-                UserDialogs.Instance.Toast($"Category {SelectedCategory.Name} successfully deleted.");
-
                 // return to previous page
                 NavigateBack();
-            }
-            catch (Exception e)
-            {
-                LogService.Log(LogType.Error, e.Message);
             }
         }
 
@@ -256,8 +230,12 @@ namespace HowManyTimes.ViewModels
 
                     UserDialogs.Instance.Toast($"Category {SelectedCategory.Name} successfully updated.");
 
-                    // notify mainpage that catogory has been added
-                    MessagingCenter.Send<Category>(SelectedCategory, "Update");
+                    // notify mainpage that category has been edited
+                    if (favOriginal == CategoryFavorite)
+                        // favorite flag not changes, just update values
+                        MessagingCenter.Send<Category>(SelectedCategory, "Update");
+                    else
+                        MessagingCenter.Send<Category>(SelectedCategory, "UpdateFav");
                 }
             }
             catch (Exception e)
@@ -317,7 +295,6 @@ namespace HowManyTimes.ViewModels
         public ICommand UploadPhotoCommand { get; set; }
         public ICommand CameraPhotoCommand { get; set; }
         public ICommand EditButtonCommand { get; set; }
-
 
         /// <summary>
         /// Return true if we are in edit mode (new or existing) and not view mode

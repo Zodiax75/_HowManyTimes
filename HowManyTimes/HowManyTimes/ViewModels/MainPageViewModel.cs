@@ -2,6 +2,7 @@
 using HowManyTimes.Services;
 using HowManyTimes.Shared;
 using HowManyTimes.Views;
+using HowManyTimes.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,23 +30,39 @@ namespace HowManyTimes.ViewModels
             {
                 // add only if the category is favorite (main page shows only favorite categories ;)
                 if (category.Favorite)
-                    FavoriteCategories.Add(category);
+                    CategoryBaseViewModel.AddCategoryItem(FavoriteCategories, category);
             });
 
             MessagingCenter.Subscribe<Category>(this, "Update", (category) =>
             {
-                // lookup the category and update it
-                Category c = FavoriteCategories.Where(x => x.Id == category.Id).FirstOrDefault();
-                if (c != null)
+                CategoryBaseViewModel.UpdateCategoryItem(FavoriteCategories,category);
+            });
+
+            MessagingCenter.Subscribe<Category>(this, "UpdateFav", (category) =>
+            {
+                var tempc = CategoryBaseViewModel.LookupCategory(FavoriteCategories, category);
+
+                if (tempc != null)
                 {
-                    FavoriteCategories[FavoriteCategories.IndexOf(c)] = category;
+                    // category already exists
+                    if(!category.Favorite)
+                        // favorite flag is false (not favorite) = delete from favorite collection
+                        CategoryBaseViewModel.DeleteCategoryItem(FavoriteCategories, category);
+                        // if favorite flag is true and the category is in the favorite collection, no action needed
+                }
+                else
+                {
+                    // category is not in favorites
+                    if (category.Favorite)
+                        // it is favorite category but is not in collection
+                        CategoryBaseViewModel.AddCategoryItem(FavoriteCategories, category);
+                        // if not favorite, no action needed since it is not in the collection
                 }
             });
 
             MessagingCenter.Subscribe<Category>(this, "Delete", (category) =>
             {
-                Category c = FavoriteCategories.Where(i => i.Id == category.Id).FirstOrDefault();
-                var a = FavoriteCategories.Remove(c);
+                CategoryBaseViewModel.DeleteCategoryItem(FavoriteCategories, category);
             });
         }
 
