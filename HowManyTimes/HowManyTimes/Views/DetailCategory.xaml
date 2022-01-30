@@ -227,7 +227,8 @@
                                 Text="&#xf004;"
                                 FontSize="23"
                                 FontFamily="FontAwesome5Regular"
-                                TextColor="{Binding CategoryFavorite, Converter={StaticResource favoriteIconConverter}}">
+                                TextColor="{Binding CategoryFavorite, Converter={StaticResource favoriteIconConverter}}"
+                                Margin="0,0,10,0">
 
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer  

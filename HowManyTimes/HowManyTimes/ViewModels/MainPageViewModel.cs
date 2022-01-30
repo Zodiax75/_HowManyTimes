@@ -19,11 +19,13 @@ namespace HowManyTimes.ViewModels
         public MainPageViewModel()
         {
             // Bind commands
-            NewCounterCommand = new Command(OnNewCounterCommandClicked);
             ShowAllCommand = new Command(OnShowAllCommandClicked);
 
-            // Laod categiries at the beginning
+            // Laod categories at the beginning
             GetCategories();
+
+            // Load initial counters
+            GetCounters();
 
             // subscribe to Category collection changes
             MessagingCenter.Subscribe<Category>(this, "AddNew", (category) =>
@@ -72,10 +74,35 @@ namespace HowManyTimes.ViewModels
             MessagingCenter.Unsubscribe<Category>(this, "AddNew");
             MessagingCenter.Unsubscribe<Category>(this, "Update");
             MessagingCenter.Unsubscribe<Category>(this, "Delete");
+            MessagingCenter.Unsubscribe<Category>(this, "UpdateFav");
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Loads counters for favorite counters on main page
+        /// </summary>
+        private async void GetCounters()
+        {
+            List<BaseCounter> lstCounters = new List<BaseCounter>();
+
+            try
+            {
+                LogService.Log(LogType.Info, "Loading favorite counters for main page");
+                lstCounters = await DBService.GetCounter(true, 10).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                LogService.Log(LogType.Error, ex.Message);
+            }
+
+            // convert them into Observable collection before binding
+             FavoriteCounters = new ObservableCollection<BaseCounter>(lstCounters);
+        }
+
+        /// <summary>
+        /// Loads categories for favorite categories on main page
+        /// </summary>
         private async void GetCategories()
         {
             List<Category> tmpList = new List<Category>();
@@ -93,14 +120,6 @@ namespace HowManyTimes.ViewModels
 
             // convert them into Observable collection before binding
             FavoriteCategories = new ObservableCollection<Category>(tmpList);
-        }
-
-        /// <summary>
-        /// On New counter click function
-        /// </summary>
-        private void OnNewCounterCommandClicked()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -129,13 +148,39 @@ namespace HowManyTimes.ViewModels
         public ObservableCollection<Category> FavoriteCategories { get; set; }
 
         /// <summary>
+        /// List of favourite counters (limited to 10)
+        /// </summary>
+        public ObservableCollection<BaseCounter> FavoriteCounters { get; set; }
+
+        /// <summary>
         /// Command to handle Show all categories click
         /// </summary>
         public ICommand ShowAllCommand { get; set; }
+
         /// <summary>
-        /// Command to handle New counter click
+        /// Selected counter in the list
         /// </summary>
-        public ICommand NewCounterCommand { get; set; }
+        public BaseCounter CounterSelected
+        {
+            get { return counterSelected; }
+            set
+            {
+                counterSelected = value;
+
+                if (counterSelected != null)
+                {
+                    int cId = counterSelected.Id;
+
+                    // redirect to detail page passing id of the counter to show
+                    LogService.Log(LogType.Info, $"Redirecting to counter {counterSelected.Id}: {counterSelected.Name}");
+
+                    // null selected counter to let it be selected again (due to single selection mode for collection view)
+                    counterSelected = null;
+
+                    Application.Current.MainPage.Navigation.PushAsync(new DetailCounter(cId), true);
+                }
+            }
+        }
 
         /// <summary>
         /// Selected category in the list
@@ -165,6 +210,7 @@ namespace HowManyTimes.ViewModels
 
         #region Private properties
         private Category categorySelected = null;
+        private BaseCounter counterSelected = null;
         #endregion
     }
 }

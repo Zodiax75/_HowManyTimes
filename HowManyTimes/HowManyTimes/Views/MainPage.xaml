@@ -110,16 +110,32 @@
                             </Label>
                         </Grid>
 
-                        <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Margin="20,0,0,0" Orientation="Horizontal">
-                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
-                                <PanCake:PancakeView
+                        <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Margin="0,0,0,0" Orientation="Horizontal">
+                            <CollectionView
+                            x:Name="listFavCounters"
+                            Grid.Row="5"
+                            Grid.ColumnSpan="3"
+                            Margin="20,30,0,0"
+                            HorizontalScrollBarVisibility="Never"
+                            ItemsSource="{Binding FavoriteCounters}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding CounterSelected}">
+
+                                <CollectionView.ItemsLayout>
+                                    <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal" />
+                                </CollectionView.ItemsLayout>
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
+                                            <PanCake:PancakeView
                                             Margin="0,15,15,15"
                                             Padding="0,0,0,25"
                                             BackgroundColor="{StaticResource colorGreen}"
                                             CornerRadius="40"
                                             WidthRequest="85">
-                                    <Grid RowDefinitions="auto, auto, *">
-                                        <PanCake:PancakeView
+                                                <Grid RowDefinitions="auto, auto, *">
+                                                    <PanCake:PancakeView
                                                     Grid.Row="0"
                                                     Margin="12,12,12,0"
                                                     Padding="0"
@@ -130,140 +146,40 @@
                                                     HorizontalOptions="Center"
                                                     IsClippedToBounds="True"
                                                     WidthRequest="60">
-                                            <Image
+                                                        <Image
                                                         Aspect="AspectFit"
                                                         HeightRequest="30"
                                                         HorizontalOptions="CenterAndExpand"
-                                                        Source="avatar"
+                                                        Source="{Binding ImageUrl, TargetNullValue='hash1'}"
                                                         VerticalOptions="Center"
                                                         WidthRequest="30" />
-                                        </PanCake:PancakeView>
+                                                    </PanCake:PancakeView>
 
-                                        <Label
+                                                    <Label
                                                         Grid.Row="1"
                                                         FontSize="12"
                                                         HorizontalOptions="FillAndExpand"
                                                         HorizontalTextAlignment="Center"
-                                                        Text="My mum called me"
+                                                        Text="{Binding Name}"
                                                         TextColor="{StaticResource colorBlack20}"
                                                         VerticalOptions="EndAndExpand" />
 
-                                        <Label
+                                                    <Label
                                                         Grid.Row="2"
                                                         FontSize="20"
                                                         FontAttributes="Bold"
                                                         HorizontalOptions="FillAndExpand"
                                                         HorizontalTextAlignment="Center"
-                                                        Text="12"
+                                                        Text="{Binding Counter}"
                                                         TextColor="{StaticResource colorWhite}"
                                                         VerticalOptions="EndAndExpand" />
 
-                                    </Grid>
-                                </PanCake:PancakeView>
-                            </sh:Shadows>
-
-                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
-                                <PanCake:PancakeView
-                                            Margin="0,15,15,15"
-                                            Padding="0,0,0,25"
-                                            BackgroundColor="{StaticResource colorWhite}"
-                                            CornerRadius="40"
-                                            WidthRequest="85">
-                                    <Grid RowDefinitions="auto, auto, *">
-                                        <PanCake:PancakeView
-                                                    Grid.Row="0"
-                                                    Margin="12,12,12,0"
-                                                    Padding="0"
-                                                    BackgroundColor="{StaticResource colorWhite}"
-                                                    Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
-                                                    CornerRadius="30"
-                                                    HeightRequest="60"
-                                                    HorizontalOptions="Center"
-                                                    IsClippedToBounds="True"
-                                                    WidthRequest="60">
-                                            <Image
-                                                        Aspect="AspectFit"
-                                                        HeightRequest="30"
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        Source="avatar"
-                                                        VerticalOptions="Center"
-                                                        WidthRequest="30" />
-                                        </PanCake:PancakeView>
-
-                                        <Label
-                                                        Grid.Row="1"
-                                                        FontSize="12"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        HorizontalTextAlignment="Center"
-                                                        Text="Got nasty email"
-                                                        TextColor="{StaticResource colorBlack20}"
-                                                        VerticalOptions="EndAndExpand" />
-
-                                        <Label
-                                                        Grid.Row="2"
-                                                        FontSize="20"
-                                                        FontAttributes="Bold"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        HorizontalTextAlignment="Center"
-                                                        Text="16"
-                                                        TextColor="{StaticResource colorBlack20}"
-                                                        VerticalOptions="EndAndExpand" />
-
-                                    </Grid>
-                                </PanCake:PancakeView>
-                            </sh:Shadows>
-
-                            <sh:Shadows CornerRadius="40" Shades="{sh:SingleShade BlurRadius=22, Offset='5,2', Opacity=0.4, Color={StaticResource colorGray6F}}">
-                                <PanCake:PancakeView
-                                            Margin="0,15,15,15"
-                                            Padding="0,0,0,25"
-                                            BackgroundColor="{StaticResource colorWhite}"
-                                            CornerRadius="40"
-                                            WidthRequest="85">
-                                    <Grid RowDefinitions="auto, auto, *">
-                                        <PanCake:PancakeView
-                                                    Grid.Row="0"
-                                                    Margin="12,12,12,0"
-                                                    Padding="0"
-                                                    BackgroundColor="{StaticResource colorWhite}"
-                                                    Border="{PanCake:BorderMarkup Color={StaticResource colorGrayE0}, Thickness='1'}"
-                                                    CornerRadius="30"
-                                                    HeightRequest="60"
-                                                    HorizontalOptions="Center"
-                                                    IsClippedToBounds="True"
-                                                    WidthRequest="60">
-                                            <Image
-                                                        Aspect="AspectFit"
-                                                        HeightRequest="30"
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        Source="avatar"
-                                                        VerticalOptions="Center"
-                                                        WidthRequest="30" />
-                                        </PanCake:PancakeView>
-
-                                        <Label
-                                                        Grid.Row="1"
-                                                        FontSize="12"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        HorizontalTextAlignment="Center"
-                                                        Text="Had a homeoffice"
-                                                        TextColor="{StaticResource colorBlack20}"
-                                                        VerticalOptions="EndAndExpand" />
-
-                                        <Label
-                                                        Grid.Row="2"
-                                                        FontSize="20"
-                                                        FontAttributes="Bold"
-                                                        HorizontalOptions="FillAndExpand"
-                                                        HorizontalTextAlignment="Center"
-                                                        Text="6"
-                                                        TextColor="{StaticResource colorBlack20}"
-                                                        VerticalOptions="EndAndExpand" />
-
-                                    </Grid>
-                                </PanCake:PancakeView>
-                            </sh:Shadows>
-
+                                                </Grid>
+                                            </PanCake:PancakeView>
+                                        </sh:Shadows>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </StackLayout>
 
                         <!--Section of categories-->
@@ -458,14 +374,14 @@
                             TextColor="{StaticResource colorOrange}"
                             VerticalOptions="Center" />
 
-                        <!-- Info -->
+                        <!-- Statistics-->
                         <Label
-                                    x:Name="infoIcon"
+                                    x:Name="statsIcon"
                                     Grid.Row="0"
                                     Grid.Column="4"
                                     FontSize="21"
                                     HorizontalOptions="Center"
-                                    Text="&#xf05a;"
+                                    Text="&#xf201;"
                                     FontFamily="FontAwesome5Regular"
                                     TextColor="{StaticResource colorGray6F}"
                                     VerticalOptions="Center">
@@ -501,7 +417,8 @@
                             Text="&#xf0fe;"
                             FontFamily="FontAwesome5Regular"
                             BorderColor="{StaticResource colorWhite}" BorderWidth="2" FontAttributes="Bold" BackgroundColor="{StaticResource colorGreen}" BorderRadius="35" TextColor="White" HorizontalOptions="Center" WidthRequest="60" HeightRequest="60" Margin="0,0,0,0" VerticalOptions="End"
-                            Clicked="OnNewCounterClicked">
+                            Clicked="OnNewCounterClicked"
+                            Command="{Binding NewCounterCommand}">
                 </Button>
 
 

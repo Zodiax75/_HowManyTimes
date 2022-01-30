@@ -35,6 +35,38 @@ namespace HowManyTimes.Services
         }
 
         /// <summary>
+        /// Returns all counters (pinned one first)
+        /// </summary>
+        /// <param name="FavoritesOnly">True if only pinned and favorite counters will be returned</param>
+        /// <param name="Batchsize">Number of items to return</param>
+        /// <returns>List of counters (all or limited sub)</returns>
+        public static async Task<List<BaseCounter>> GetCounter(bool FavoritesOnly, int? Batchsize = null)
+        {
+            List<BaseCounter> counters;
+
+            if (FavoritesOnly)
+            {
+                // get only favorite ones
+                if (Batchsize != null)
+                    // take only first "batchsize" number of records
+                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                else
+                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).ToListAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                // get all counters
+                if (Batchsize != null)
+                    // take only first "batchsize" number of records
+                    counters = await Database.Table<BaseCounter>().Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                else
+                    counters = await Database.Table<BaseCounter>().ToListAsync().ConfigureAwait(false);
+            }
+
+            return counters;
+        }
+
+        /// <summary>
         /// Returns all categories
         /// </summary>
         /// <param name="FavoritesOnly">True if only favorite categories will be returned</param>

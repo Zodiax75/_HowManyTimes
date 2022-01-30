@@ -17,6 +17,7 @@ namespace HowManyTimes.Models
         public BaseCounter()
         {
             dateCreated = DateTime.Now;
+            totalUpdated = 0;
         }
 
         /// <summary>
@@ -27,7 +28,8 @@ namespace HowManyTimes.Models
         /// <param name="Step">Counter step</param>
         /// <param name="Type">Counter type</param>
         /// <param name="Favorite">Is favorite?</param>
-        public BaseCounter(string Name, string Description, uint Step, CounterType Type, Category CounterCategory, bool Favorite)
+        /// <param name="Pinned">Is pinned?</param>
+        public BaseCounter(string Name, string Description, uint Step, CounterType Type, Category CounterCategory, bool Favorite, bool Pinned)
         {
             BaseCounter baseCounter = this;
             baseCounter.Name = Name;
@@ -37,6 +39,7 @@ namespace HowManyTimes.Models
             baseCounter.dateCreated = DateTime.Now;
             baseCounter.CounterCategory = CounterCategory;
             baseCounter.Favorite = Favorite;
+            baseCounter.Pinned = Pinned;
         }
         #endregion
 
@@ -47,7 +50,7 @@ namespace HowManyTimes.Models
         public void IncreaseCounter()
         {
             internalCounter += this.Step;
-            UpdateModifiedDate();
+            UpdateModifiedValues();
         }
 
         /// <summary>
@@ -56,15 +59,16 @@ namespace HowManyTimes.Models
         public void DecreaseCounter()
         {
             internalCounter -= this.Step;
-            UpdateModifiedDate();
+            UpdateModifiedValues();
         }
 
         /// <summary>
         /// Updates last modified date
         /// </summary>
-        protected void UpdateModifiedDate()
+        protected void UpdateModifiedValues()
         {
             DateModified = DateTime.Now;
+            totalUpdated++;
         }
         #endregion
 
@@ -78,6 +82,12 @@ namespace HowManyTimes.Models
         /// Is counter marked as favorite?
         /// </summary>
         public bool Favorite { get; set; }
+
+        /// <summary>
+        /// Is counter marked as pinned (only one allowed)?
+        /// </summary>
+        public bool Pinned { get; set; }
+
         /// <summary>
         /// Category of the counter
         /// </summary>
@@ -114,17 +124,31 @@ namespace HowManyTimes.Models
         public CounterType Type { get; set; }
 
         /// <summary>
+        /// Image of the counter
+        /// </summary>
+        public string ImageUrl { get; set; }
+
+        /// <summary>
         /// Internal counter
         /// </summary>
         public uint Counter
         {
             get => internalCounter;
         }
+
+        /// <summary>
+        /// How many time was the counter updated
+        /// </summary>
+        public uint TotalUpdated
+        {
+            get => totalUpdated;
+        }
         #endregion
 
         #region Private properties
         protected DateTime dateCreated;
         protected uint internalCounter;
+        protected uint totalUpdated;
         #endregion
     }
 }

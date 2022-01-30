@@ -12,6 +12,7 @@ namespace HowManyTimes.ViewModels
         {
             // Bind commands
             NewCategoryCommand = new Command(OnNewCategoryCommandClicked);
+            NewCounterCommand = new Command(OnNewCounterCommandClicked);
             BackButtonCommand = new Command(OnBackButtonCommandClicked);
         }
         #endregion
@@ -23,6 +24,14 @@ namespace HowManyTimes.ViewModels
         private void OnNewCategoryCommandClicked()
         {
             Application.Current.MainPage.Navigation.PushAsync(new DetailCategory(), true);
+        }
+
+        /// <summary>
+        /// On New counter click function
+        /// </summary>
+        private void OnNewCounterCommandClicked()
+        {
+            Application.Current.MainPage.Navigation.PushAsync(new DetailCounter(), true);
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -57,6 +66,11 @@ namespace HowManyTimes.ViewModels
         /// Command to handle New category click
         /// </summary>
         public ICommand NewCategoryCommand { get; set; }
+        
+        /// <summary>
+        /// Command to handle New counter click
+        /// </summary>
+        public ICommand NewCounterCommand { get; set; }
         #endregion
 
         #region Private properties

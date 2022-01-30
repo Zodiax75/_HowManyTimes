@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HowManyTimes.Views.DetailCounter"
+             xmlns:PanCake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:converter="clr-namespace:HowManyTimes.Services"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
+            <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <ScrollView Margin="0,0,0,0">
+            <!--Main grid for content-->
+            <Grid RowDefinitions="auto, auto,Auto, Auto,20">
+                <!--Main counter picture-->
+                <PanCake:PancakeView
+                        x:Name="counterPictureBox"
+                        Padding="0,0,0,0"
+                        BackgroundGradientEndPoint="0,1"
+                        CornerRadius="0,0,5,5"
+                        IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                        HeightRequest="250">
+                    <Grid 
+                        ColumnDefinitions="60,*,*,60"
+                        RowDefinitions="60,*,*,60">
+                        <Image
+                                x:Name="counterPicture"
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Source="{Binding ImageUrl,TargetNullValue='counters_default'}"
+                                Aspect="AspectFill"
+                                HeightRequest="250">
+                        </Image>
+                        <!-- Arrow back -->
+                        <Button 
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            x:Name="backButton"
+                            FontSize="21"
+                            Text="&#xf104;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="End" 
+                            VerticalOptions="Center"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Command="{Binding BackButtonCommand}"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1">
+                        </Button>
+                    </Grid>
+                </PanCake:PancakeView>
+                <PanCake:PancakeView
+                        x:Name="counterPictureEditBox"
+                        Padding="0,0,0,0"
+                        BackgroundGradientEndPoint="0,1"
+                        CornerRadius="0,0,5,5"
+                        IsVisible="{Binding EditMode}"
+                        HeightRequest="250">
+                    <!--Gradient definition-->
+                    <PanCake:PancakeView.BackgroundGradientStops>
+                        <PanCake:GradientStopCollection>
+                            <PanCake:GradientStop Color="{StaticResource colorGrayF4}" Offset="0.1"/>
+                            <PanCake:GradientStop Color="{StaticResource colorGray6F}" Offset="1"/>
+                        </PanCake:GradientStopCollection>
+                    </PanCake:PancakeView.BackgroundGradientStops>
+
+                    <Grid 
+                        ColumnDefinitions="60,*,*,60"
+                        RowDefinitions="60,*,*,60">
+                        <!--Source="upload_file_default"-->
+                        <Image
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="4"
+                                Source="{Binding ImageUrl, TargetNullValue='upload_file_default'}"
+                                IsVisible="True"
+                                Aspect="AspectFill"
+                                HeightRequest="250">
+                        </Image>
+                        <!-- image selection -->
+                        <Button 
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="2"
+                            x:Name="galleryButton"
+                            FontSize="21"
+                            Text="&#xf03e;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1"
+                            Command="{Binding UploadPhotoCommand}">
+                        </Button>
+                        <!-- image camera -->
+                        <Button 
+                            Grid.Column="2"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="2"
+                            x:Name="cameraButton"
+                            FontSize="21"
+                            Text="&#xf030;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorWhite}" 
+                            TextColor="{StaticResource colorBlack20}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Start"
+                            CornerRadius="10"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            BorderColor="{StaticResource colorGrayF4}"
+                            BorderWidth="1"
+                            Command="{Binding CameraPhotoCommand}">
+                        </Button>
+                    </Grid>
+                </PanCake:PancakeView>
+
+                <!--Main counter information-->
+                <PanCake:PancakeView
+                                x:Name="counterDetails"
+                                Grid.Row="1"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorWhite }"
+                                Margin="10,-50,10,0"
+                                Padding="0,0,0,0"
+                                CornerRadius="40,40,40,40">
+                    <PanCake:PancakeView.Shadow>
+                        <PanCake:DropShadow Color="{StaticResource colorBlack20}" Offset="100,200" />
+                    </PanCake:PancakeView.Shadow>
+
+                    <Grid 
+                        RowDefinitions="Auto,Auto, Auto,Auto, Auto, Auto" 
+                        Padding="40,40,40,40">
+
+                        <!--counter title-->
+                        <Label 
+                            x:Name="labelcounterName"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                            Grid.Row="0"
+                            VerticalTextAlignment="Start"
+                            FontFamily="FontPoppinsSemiBold"
+                            FontSize="Title"
+                            Text="{Binding Name}">
+                        </Label>
+
+                        <Entry
+                            x:Name="editcounterName"
+                            Visual="Material"
+                            IsVisible="{Binding EditMode}"
+                            Grid.Row="0"
+                            Placeholder="Please fill in counter name"
+                            PlaceholderColor="{StaticResource colorGray6F}"
+                            IsTextPredictionEnabled="False"
+                            Text="{Binding counterName}" 
+                            MaxLength="40"
+                            Margin="10,10,10,10">
+                            <Entry.Behaviors>
+                                <xct:TextValidationBehavior 
+                                    RegexPattern="^(?!\s*$).+" 
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    Flags="ValidateOnUnfocusing"/>
+                            </Entry.Behaviors>
+                        </Entry>
+
+                        <!--counter description-->
+                        <Label 
+                            x:Name="labelcounterDesc"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                            Grid.Row="1"
+                            VerticalTextAlignment="Start"
+                            FontFamily="FontPoppinsRegular"
+                            TextColor="{StaticResource colorGray6F}"
+                            FontSize="Body"
+                            Text="{Binding counterDesc}">
+                        </Label>
+
+                        <Editor 
+                            x:Name="editcounterDesc"
+                            Visual="Material"
+                            IsVisible="{Binding EditMode}"
+                            Grid.Row="1"
+                            Placeholder="Please fill in counter description"
+                            PlaceholderColor="{StaticResource colorGray6F}"
+                            IsTextPredictionEnabled="False"
+                            Text="{Binding counterDesc}" 
+                            Margin="10,10,10,0"
+                            MaxLength="100"
+                            HeightRequest="100" />
+
+                        <!--Counter category-->
+                        <Picker
+                                Grid.Row="2"
+                                Title="Please select category"
+                                Visual="Material"
+                                Margin="10,0,10,10">
+                            <Picker.Items>
+                                <x:String>Test</x:String>
+                                <x:String>Test 2</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <!--Counter steps-->
+                        <Grid
+                            Grid.Row="3"
+                            ColumnDefinitions="Auto,Auto,*"
+                            Margin="10,20,10,10">
+                            <Label
+                                Grid.Column="0"
+                                Text="Use steps?"
+                                VerticalOptions="Center">
+                            </Label>
+                            <Switch 
+                                x:Name="stepSwitch"
+                                Grid.Column="1"
+                                ThumbColor="{StaticResource colorGreen}"
+                                IsToggled="true"
+                                Visual="Material"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center"
+                                Toggled="stepSwitch_Toggled">
+                            </Switch>
+                            <Entry
+                                x:Name="editSteps"
+                                Visual="Material"
+                                IsVisible="{Binding EditMode}"
+                                Grid.Column="2"
+                                Placeholder="Steps"
+                                PlaceholderColor="{StaticResource colorGray6F}"
+                                IsTextPredictionEnabled="False"
+                                Text="{Binding counterName}" 
+                                MaxLength="6"
+                                Margin="10,10,10,10">
+                                <!--<Entry.Behaviors>
+                                    <xct:TextValidationBehavior 
+                                        RegexPattern="^(?!\s*$).+" 
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        Flags="ValidateOnUnfocusing"/>
+                                </Entry.Behaviors>-->
+                            </Entry>
+                        </Grid>
+                        <!--Pinned and Favorite icons-->
+                        <Grid Grid.Row="4"
+                              ColumnDefinitions="*, 50, 50"
+                              RowDefinitions="Auto"
+                              Margin="0,10,0,0">
+                            <Label 
+                                Grid.Column="1"
+                                HorizontalTextAlignment="End"
+                                Text="&#xf08d;"
+                                FontSize="23"
+                                FontFamily="FontAwesome5Regular"
+                                TextColor="Blue">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding FavoriteButtonCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <Label 
+                                Grid.Column="2"
+                                HorizontalTextAlignment="End"
+                                Text="&#xf004;"
+                                FontSize="23"
+                                FontFamily="FontAwesome5Regular"
+                                TextColor="{Binding counterFavorite, Converter={StaticResource favoriteIconConverter}}"
+                                Margin="0,0,10,10">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding FavoriteButtonCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                        <!--Updated and number of runs-->
+                        <Grid 
+                            ColumnDefinitions="*,*"
+                            Grid.Row="5"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
+                            <Label
+                                        Grid.Column="0"
+                                        Text="Counter updated: 123"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="Micro">
+                            </Label>
+                            <Label
+                                        Grid.Column="1"
+                                        Text="Last updated: 23.7.2021"
+                                        HorizontalTextAlignment="End"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="Micro">
+                            </Label>
+                        </Grid>
+                        <!--Counter value and actions-->
+                        <Grid
+                            Grid.Row="6"
+                            ColumnDefinitions="*, 50, 50"
+                            Margin="-40,0,-40,-40"
+                            HeightRequest="80"
+                            BackgroundColor="{StaticResource colorGrayE0}">
+                            <!--Counter reset-->
+                            <PanCake:PancakeView
+                                x:Name="counterReset"
+                                Grid.Column="2"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorGray6F}"
+                                HeightRequest="80"
+                                Padding="10,10,20,10"
+                                CornerRadius="0,0,0,0"
+                                Margin="-20,0,0,0">
+                                <Label
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    Text="&#xf12d;"
+                                    FontSize="23"
+                                    FontFamily="FontAwesome5Regular">
+                                </Label>
+                            </PanCake:PancakeView>
+                            <!--Increase value-->
+                            <PanCake:PancakeView
+                                x:Name="counterIncrease"
+                                Grid.Column="1"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorGreen}"
+                                HeightRequest="80"
+                                Padding="10,10,20,10"
+                                CornerRadius="0,20,0,20"
+                                Margin="-20,0,0,0">
+                                <Label
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    Text="&#xf102;"
+                                    FontSize="23"
+                                    FontFamily="FontAwesome5Regular">
+                                </Label>
+                            </PanCake:PancakeView>
+                            <!--Counter value-->
+                            <PanCake:PancakeView
+                                x:Name="counterCounter"
+                                Grid.Column="0"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorGrayE0}"
+                                HeightRequest="80"
+                                Padding="10,10,30,0"
+                                CornerRadius="0,20,20,20"
+                                Margin="0,0,0,0">
+                                <Grid
+                                    RowDefinitions="Auto, *">
+                                    <Label
+                                        Grid.Row="0"
+                                        Text="Total:"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalTextAlignment="Start"
+                                        FontSize="Medium">
+                                    </Label>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Text="100"
+                                        HorizontalTextAlignment="End"
+                                        VerticalTextAlignment="Center"
+                                        FontSize="50">
+                                    </Label>
+                                </Grid>
+                            </PanCake:PancakeView>
+                        </Grid>
+                    </Grid>
+                </PanCake:PancakeView>
+
+                <!--Save / Cancel menu-->
+                <PanCake:PancakeView
+                                x:Name="counterSaveMenu"
+                                Grid.Row="3"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorDarkOrange }"
+                                Margin="10,20,10,0"
+                                Padding="0,0,0,0"
+                                CornerRadius="20,20,20,20"
+                                IsVisible="{Binding EditMode}">
+
+                    <Grid Grid.Row="3"
+                              ColumnDefinitions="*, *"
+                              RowDefinitions="Auto"
+                              Margin="25,25,25,25">
+
+                        <Button 
+                            Grid.Column="0"
+                            x:Name="okSave"
+                            FontSize="21"
+                            Text="&#xf00c;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorBlack20}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Command="{Binding SaveButtonCommand}">
+                        </Button>
+
+                        <Button 
+                            Grid.Column="1"
+                            x:Name="nokCancel"
+                            FontSize="21"
+                            Text="&#xf00d;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorDarkOrange}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Command="{Binding CancelButtonCommand}">
+                        </Button>
+
+                    </Grid>
+                </PanCake:PancakeView>
+
+                <!--Edit menu-->
+                <PanCake:PancakeView
+                                x:Name="counterEditMenu"
+                                Grid.Row="3"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="{StaticResource colorDarkOrange }"
+                                Margin="10,20,10,0"
+                                Padding="0,0,0,0"
+                                CornerRadius="20,20,20,20"
+                                IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
+
+                    <Grid Grid.Row="3"
+                              ColumnDefinitions="*, *, *, *"
+                              RowDefinitions="Auto"
+                              Margin="25,25,25,25">
+
+                        <Button 
+                            Grid.Column="0"
+                            x:Name="btnEdit"
+                            FontSize="21"
+                            Text="&#xf304;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorBlack20}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Command="{Binding EditButtonCommand}">
+                        </Button>
+
+                        <Button 
+                            Grid.Column="1"
+                            x:Name="btnDelete"
+                            FontSize="21"
+                            Text="&#xf2ed;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorDarkOrange}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            Command="{Binding DeleteButtonCommand}">
+                        </Button>
+
+                        <Button 
+                            Grid.Column="2"
+                            x:Name="btnLoad"
+                            FontSize="21"
+                            Text="&#xf019;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorDarkOrange}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            >
+                        </Button>
+
+                        <Button 
+                            Grid.Column="3"
+                            x:Name="btnShare"
+                            FontSize="21"
+                            Text="&#xf14d;"
+                            FontFamily="FontAwesome5Regular"
+                            FontAttributes="Bold" 
+                            BackgroundColor="{StaticResource colorDarkOrange}" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            CornerRadius="45"
+                            HeightRequest="45"
+                            WidthRequest="45"
+                            >
+                        </Button>
+
+                    </Grid>
+                </PanCake:PancakeView>
+
+            </Grid>
+
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

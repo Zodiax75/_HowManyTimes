@@ -3,10 +3,8 @@ using HowManyTimes.Models;
 using HowManyTimes.Services;
 using HowManyTimes.Shared;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -130,7 +128,7 @@ namespace HowManyTimes.ViewModels
         }
         #endregion
 
-            #region Properties
+        #region Properties
         public ICommand FavoriteButtonCommand { get; set; }
         public ICommand DeleteButtonCommand { get; set; }
         #endregion
