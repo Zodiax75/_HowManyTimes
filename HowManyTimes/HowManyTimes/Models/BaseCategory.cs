@@ -21,6 +21,7 @@ namespace HowManyTimes.Models
         /// Is category marked as favorite?
         /// </summary>
         public bool Favorite { get; set; }
+        
         /// <summary>
         /// Name of the category
         /// </summary>

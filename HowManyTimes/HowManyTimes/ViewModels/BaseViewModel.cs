@@ -1,5 +1,7 @@
-﻿using HowManyTimes.Views;
+﻿using Acr.UserDialogs;
+using HowManyTimes.Views;
 using System.ComponentModel;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -45,6 +47,22 @@ namespace HowManyTimes.ViewModels
         public void OnBackButtonCommandClicked()
         {
             NavigateBack();
+        }
+
+        protected async void ShowErrors(FluentValidation.Results.ValidationResult results)
+        {
+            StringBuilder s = new StringBuilder();
+
+            s.AppendLine("Please correct following errors:");
+            s.AppendLine();
+
+            foreach(FluentValidation.Results.ValidationFailure f in results.Errors)
+            {
+                s.Append("  - ");
+                s.AppendLine(f.ErrorMessage);
+            }
+
+            await UserDialogs.Instance.AlertAsync(s.ToString(), "Entry errors!", "Ok");
         }
 
         /// <summary>

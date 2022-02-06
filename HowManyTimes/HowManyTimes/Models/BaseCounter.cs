@@ -18,6 +18,7 @@ namespace HowManyTimes.Models
         {
             dateCreated = DateTime.Now;
             totalUpdated = 0;
+            this.Step = 1;
         }
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace HowManyTimes.Models
         /// <param name="Type">Counter type</param>
         /// <param name="Favorite">Is favorite?</param>
         /// <param name="Pinned">Is pinned?</param>
-        public BaseCounter(string Name, string Description, uint Step, CounterType Type, Category CounterCategory, bool Favorite, bool Pinned)
+        public BaseCounter(string Name, string Description, int Step, CounterType Type, Category CounterCategory, bool Favorite, bool Pinned)
         {
             BaseCounter baseCounter = this;
             baseCounter.Name = Name;
@@ -97,7 +98,7 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Step by which counter will be increased
         /// </summary>
-        public uint Step { get; set; }
+        public int Step { get; set; }
         /// <summary>
         /// Date and time counter was created
         /// </summary>
@@ -131,7 +132,7 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Internal counter
         /// </summary>
-        public uint Counter
+        public int Counter
         {
             get => internalCounter;
         }
@@ -147,7 +148,7 @@ namespace HowManyTimes.Models
 
         #region Private properties
         protected DateTime dateCreated;
-        protected uint internalCounter;
+        protected int internalCounter;
         protected uint totalUpdated;
         #endregion
     }

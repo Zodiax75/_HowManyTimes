@@ -201,7 +201,7 @@ namespace HowManyTimes.ViewModels
             var validationResults = categoryValidator.Validate(c);
             if (!validationResults.IsValid)
             {
-                await UserDialogs.Instance.AlertAsync(validationResults.Errors[0].ErrorMessage, "Entry errors!", "Ok");
+                ShowErrors(validationResults);
                 return;
             }
 

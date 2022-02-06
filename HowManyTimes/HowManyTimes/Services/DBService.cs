@@ -21,7 +21,7 @@ namespace HowManyTimes.Services
         public static async Task InsertData<T>(T Item)
         {
             // insert into db
-            _ = await Database.InsertAsync(Item).ConfigureAwait(false);
+            await Database.InsertWithChildrenAsync(Item).ConfigureAwait(false);
         }
         /// <summary>
         /// Updates specific object in the database
@@ -31,7 +31,7 @@ namespace HowManyTimes.Services
         /// <returns></returns>
         public static async Task UpdateData<T>(T Item)
         {
-            _ = await Database.UpdateAsync(Item).ConfigureAwait(false);
+            await Database.UpdateWithChildrenAsync(Item).ConfigureAwait(false);
         }
 
         /// <summary>

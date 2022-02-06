@@ -27,6 +27,7 @@ namespace HowManyTimes.ViewModels
             // Load initial counters
             GetCounters();
 
+            // MESSAGE CENTER FOR CATEGORIES
             // subscribe to Category collection changes
             MessagingCenter.Subscribe<Category>(this, "AddNew", (category) =>
             {
@@ -65,6 +66,15 @@ namespace HowManyTimes.ViewModels
             MessagingCenter.Subscribe<Category>(this, "Delete", (category) =>
             {
                 CategoryBaseViewModel.DeleteCategoryItem(FavoriteCategories, category);
+            });
+
+
+            // MESSAGE CENTER FOR COUNTERS
+            MessagingCenter.Subscribe<BaseCounter>(this, "AddNewCounter", (counter) =>
+            {
+                // add only if the counter is favorite (main page shows only favorite counters ;)
+                if (counter.Favorite)
+                    CounterBaseViewModel.AddCounterItem(FavoriteCounters, counter);
             });
         }
 

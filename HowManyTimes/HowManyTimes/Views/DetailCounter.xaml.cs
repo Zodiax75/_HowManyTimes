@@ -11,7 +11,7 @@ namespace HowManyTimes.Views
         public DetailCounter(int? counterId = null)
         {
             InitializeComponent();
-
+            
             // null = new counter, id = edit counter
             if (counterId == null)
                 BindingContext = new DetailCounterViewModel(null);

@@ -35,7 +35,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
-                                Source="{Binding ImageUrl,TargetNullValue='counters_default'}"
+                                Source="{Binding SelectedCounter.ImageUrl,TargetNullValue='counters_default'}"
                                 Aspect="AspectFill"
                                 HeightRequest="250">
                         </Image>
@@ -85,7 +85,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
-                                Source="{Binding ImageUrl, TargetNullValue='upload_file_default'}"
+                                Source="{Binding SelectedCounter.ImageUrl, TargetNullValue='upload_file_default'}"
                                 IsVisible="True"
                                 Aspect="AspectFill"
                                 HeightRequest="250">
@@ -160,7 +160,7 @@
                             VerticalTextAlignment="Start"
                             FontFamily="FontPoppinsSemiBold"
                             FontSize="Title"
-                            Text="{Binding Name}">
+                            Text="{Binding SelectedCounter.Name}">
                         </Label>
 
                         <Entry
@@ -171,7 +171,7 @@
                             Placeholder="Please fill in counter name"
                             PlaceholderColor="{StaticResource colorGray6F}"
                             IsTextPredictionEnabled="False"
-                            Text="{Binding counterName}" 
+                            Text="{Binding SelectedCounter.Name}" 
                             MaxLength="40"
                             Margin="10,10,10,10">
                             <Entry.Behaviors>
@@ -191,7 +191,7 @@
                             FontFamily="FontPoppinsRegular"
                             TextColor="{StaticResource colorGray6F}"
                             FontSize="Body"
-                            Text="{Binding counterDesc}">
+                            Text="{Binding SelectedCounter.Description}">
                         </Label>
 
                         <Editor 
@@ -202,21 +202,20 @@
                             Placeholder="Please fill in counter description"
                             PlaceholderColor="{StaticResource colorGray6F}"
                             IsTextPredictionEnabled="False"
-                            Text="{Binding counterDesc}" 
+                            Text="{Binding SelectedCounter.Description}" 
                             Margin="10,10,10,0"
                             MaxLength="100"
                             HeightRequest="100" />
 
                         <!--Counter category-->
                         <Picker
-                                Grid.Row="2"
-                                Title="Please select category"
-                                Visual="Material"
-                                Margin="10,0,10,10">
-                            <Picker.Items>
-                                <x:String>Test</x:String>
-                                <x:String>Test 2</x:String>
-                            </Picker.Items>
+                            Grid.Row="2"
+                            Title="Please select category"
+                            Visual="Material"
+                            Margin="10,0,10,10"
+                            ItemsSource="{Binding CategoriesList}"
+                            ItemDisplayBinding="{Binding Name}"
+                            SelectedItem="{Binding SelectedCategory}">
                         </Picker>
                         <!--Counter steps-->
                         <Grid
@@ -232,7 +231,7 @@
                                 x:Name="stepSwitch"
                                 Grid.Column="1"
                                 ThumbColor="{StaticResource colorGreen}"
-                                IsToggled="true"
+                                IsToggled="{Binding UseSteps}"
                                 Visual="Material"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center"
@@ -241,14 +240,15 @@
                             <Entry
                                 x:Name="editSteps"
                                 Visual="Material"
-                                IsVisible="{Binding EditMode}"
+                                IsVisible="False"
                                 Grid.Column="2"
                                 Placeholder="Steps"
                                 PlaceholderColor="{StaticResource colorGray6F}"
                                 IsTextPredictionEnabled="False"
-                                Text="{Binding counterName}" 
+                                Text="{Binding SelectedCounter.Step}" 
                                 MaxLength="6"
-                                Margin="10,10,10,10">
+                                Margin="10,10,10,10"
+                                Keyboard="Numeric">
                                 <!--<Entry.Behaviors>
                                     <xct:TextValidationBehavior 
                                         RegexPattern="^(?!\s*$).+" 
@@ -375,7 +375,7 @@
                                     <Label
                                         Grid.Row="0"
                                         Grid.RowSpan="2"
-                                        Text="100"
+                                        Text="{Binding SelectedCounter.Counter}"
                                         HorizontalTextAlignment="End"
                                         VerticalTextAlignment="Center"
                                         FontSize="50">
