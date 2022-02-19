@@ -21,6 +21,9 @@ namespace HowManyTimes.ViewModels
         {
             // bind commands to buttons
             SaveButtonCommand = new Command(OnSaveButtonCommandClicked);
+            CancelButtonCommand = new Command(OnCancelButtonCommandClicked);
+            ResetCounterCommand = new Command(OnResetCounterCommandClicked);
+            IncreaseCounterCommand = new Command(OnIncreaseCounterCommandClicked);
 
             // get list of categories
             categories = DBService.GetCategory(false).Result;
@@ -34,7 +37,7 @@ namespace HowManyTimes.ViewModels
         /// <param name="counterId">Id of counter to edit</param>
         public DetailCounterViewModel(int? counterId = null) : this()
         {
-            // load details for category
+            // load details for counter
             if (counterId != null)
             {
                 LogService.Log(LogType.Info, $"Loading counter details for counter Id: {counterId}");
@@ -42,15 +45,10 @@ namespace HowManyTimes.ViewModels
                 try
                 {
                     // load the specified counter
-                    //SelectedCategory = DBService.GetCategory(categoryId.Value).Result;
-                    //LogService.Log(LogType.Info, $"Loaded details for counter {SelectedCategory.Id}: {SelectedCategory.Name}");
+                    SelectedCounter = DBService.GetCounter(counterId.Value).Result;
+                    LogService.Log(LogType.Info, $"Loaded details for counter {SelectedCounter.Id}: {SelectedCounter.Name}");
 
-                    //// load bindings with actual category data
-                    //CategoryName = SelectedCategory.Name;
-                    //CategoryDesc = SelectedCategory.Description;
-                    //CategoryFavorite = SelectedCategory.Favorite;
-                    //CategoryImage = SelectedCategory.ImageUrl;
-
+                    SelectedCategory = SelectedCounter.CounterCategory;
                     EditMode = false;
                 }
                 catch (Exception e)
@@ -60,33 +58,72 @@ namespace HowManyTimes.ViewModels
             }
             else
             {
-                // new category
+                // new counter
                 SelectedCounter = new BaseCounter();
                 LogService.Log(LogType.Info, "New counter details initialized");
 
+                SelectedCategory = null;
                 EditMode = true;
             }
 
-            // store original Favorite for cancel
-            //favOriginal = CategoryFavorite;
+            // store original value
+            origCounter = BaseCounter.CopyCounter(SelectedCounter);
+
+            CatFav = SelectedCounter.Favorite;
+            CatPin = SelectedCounter.Pinned;
+            Count = SelectedCounter.Counter;
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Called when Reset counter button is clicked
+        /// </summary>
+        public void OnResetCounterCommandClicked()
+        {
+            ResetCounter(SelectedCounter);
+            Count = SelectedCounter.Counter;
+        }
+
+        /// <summary>
+        /// Called when Increase counter button is clicked
+        /// </summary>
+        public void OnIncreaseCounterCommandClicked()
+        {
+            SelectedCounter.IncreaseCounter();
+
+            // save counter
+
+            SaveCounterToDatabase(SelectedCounter);
+
+            origCounter = BaseCounter.CopyCounter(SelectedCounter);
+            Count = SelectedCounter.Counter;
+        }
+
+        /// <summary>
+        /// Called when Cancel button is clicked
+        /// </summary>
+        public void OnCancelButtonCommandClicked()
+        {
+            if (SelectedCounter.Equals(origCounter))
+                NavigateBack();
+
+            // edit was cancelled, restore original data to bindings
+            SelectedCounter = BaseCounter.CopyCounter(origCounter);
+
+            EditMode = false;
+        }
+
         /// <summary>
         /// Called when Save button is clicked
         /// </summary>
         public async void OnSaveButtonCommandClicked()
         {
             // New object should be created because changing just property doesnt fire OnPropertyChanged event!!!!!
-            BaseCounter tmpC = new BaseCounter
-            {
-                Name = SelectedCounter.Name,
-                Description = SelectedCounter.Description,
-                Step = SelectedCounter.Step,
-                Pinned = SelectedCounter.Pinned,
-                Favorite = SelectedCounter.Favorite
-            };
+            SelectedCounter.Favorite = CatFav;
+            SelectedCounter.Pinned = CatPin;
+
+            BaseCounter tmpC = BaseCounter.CopyCounter(SelectedCounter);
 
             // if category is selected, assign it
             if (SelectedCategory != null)
@@ -106,57 +143,94 @@ namespace HowManyTimes.ViewModels
 
             SelectedCounter = tmpC;
 
-            SelectedCounter.Favorite = true;
+            SaveCounterToDatabase(SelectedCounter);
 
+            // store new original baseline for cancellation
+            origCounter = BaseCounter.CopyCounter(SelectedCounter);
+
+            EditMode = false;
+        }
+
+        /// <summary>
+        /// Inserts or updates counter in database
+        /// </summary>
+        /// <param name="cnt"></param>
+        public async void SaveCounterToDatabase(BaseCounter cnt)
+        {
             try
             {
                 // insert or update decision
-                if (SelectedCounter.Id == 0)
+                if (cnt.Id == 0)
                 {
                     // insert
-                    LogService.Log(LogType.Info, $"Inserting new counter {SelectedCounter.Name}");
+                    LogService.Log(LogType.Info, $"Inserting new counter {cnt.Name}");
 
-                    await DBService.InsertData(SelectedCounter);
+                    await DBService.InsertData(cnt);
 
                     // update category counter if needed
-                    if(SelectedCounter.CounterCategory != null)
+                    if (cnt.CounterCategory != null)
                     {
-                        SelectedCounter.CounterCategory.Counters++;
+                        cnt.CounterCategory.Counters++;
 
-                        LogService.Log(LogType.Info, $"Updating total counters counter ({SelectedCounter.CounterCategory.Counters}) for category {SelectedCounter.CounterCategory.Name}");
-                        await DBService.UpdateData(SelectedCounter.CounterCategory);
+                        LogService.Log(LogType.Info, $"Updating total counters counter ({cnt.CounterCategory.Counters}) for category {cnt.CounterCategory.Name}");
+                        await DBService.UpdateData(cnt.CounterCategory);
 
-                        MessagingCenter.Send<Category>(SelectedCounter.CounterCategory, "Update");
+                        MessagingCenter.Send<Category>(cnt.CounterCategory, "Update");
                     }
 
-                    UserDialogs.Instance.Toast($"Counter {SelectedCounter.Name} successfully created.");
+                    UserDialogs.Instance.Toast($"Counter {cnt.Name} successfully created.");
                     // notify mainpage that counter has been added
-                    MessagingCenter.Send<BaseCounter>(SelectedCounter, "AddNewCounter");
+                    MessagingCenter.Send<BaseCounter>(cnt, "AddNewCounter");
                 }
                 else
                 {
                     // update
-                    //LogService.Log(LogType.Info, $"Updating category {SelectedCategory.Id}: {SelectedCategory.Name}");
+                    LogService.Log(LogType.Info, $"Updating counter {cnt.Id}: {cnt.Name}");
 
-                    //await DBService.UpdateData(SelectedCategory);
+                    await DBService.UpdateData(cnt);
 
-                    //UserDialogs.Instance.Toast($"Category {SelectedCategory.Name} successfully updated.");
+                    UserDialogs.Instance.Toast($"Counter {cnt.Name} successfully updated.");
 
-                    //// notify mainpage that category has been edited
-                    //if (favOriginal == CategoryFavorite)
-                    //    // favorite flag not changes, just update values
-                    //    MessagingCenter.Send<Category>(SelectedCategory, "Update");
-                    //else
-                    //    MessagingCenter.Send<Category>(SelectedCategory, "UpdateFav");
+                    // notify mainpage that category has been edited
+                    MessagingCenter.Send<BaseCounter>(cnt, "UpdateCounterFav");
                 }
             }
             catch (Exception e)
             {
                 LogService.Log(LogType.Error, e.Message);
             }
+        }
 
-            //favOriginal = CategoryFavorite;
-            EditMode = false;
+        /// <summary>
+        /// Called when Favorite button is clicked
+        /// </summary>
+        public override void OnFavoriteButtonCommandClicked()
+        {
+            // allow change only in edit mode
+            if (EditMode)
+            {
+                // change Favorite and save it to current category
+                SelectedCounter.Favorite = !SelectedCounter.Favorite;
+                CatFav = !CatFav;
+                
+                LogService.Log(LogType.Info, $"Updating favorite for counter {SelectedCounter.Name} to {SelectedCounter.Favorite}");
+            }
+        }
+
+        /// <summary>
+        /// Called when Pinned button is clicked
+        /// </summary>
+        public override void OnPinnedButtonCommandClicked()
+        {
+            // allow change only in edit mode
+            if (EditMode)
+            {
+                // change Favorite and save it to current category
+                SelectedCounter.Pinned= !SelectedCounter.Pinned;
+                CatPin = !CatPin;
+
+                LogService.Log(LogType.Info, $"Updating pinned for counter {SelectedCounter.Name} to {SelectedCounter.Pinned}");
+            }
         }
         #endregion
 
@@ -197,6 +271,10 @@ namespace HowManyTimes.ViewModels
         /// Is usage of steps selected
         /// </summary>
         public bool UseSteps { get; set; }
+
+        public bool CatFav { get; set; }
+        public bool CatPin { get; set; }
+        public int Count { get; set; }
         #endregion
 
         #region Private properties

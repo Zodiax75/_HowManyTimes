@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <converter:FavoriteIconConverter x:Key="favoriteIconConverter" />
             <converter:BoolValueXORConverter x:Key="boolValueXORConverter" />
+            <converter:DisabledColorConverter x:Key="disabledColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -208,6 +209,38 @@
                             HeightRequest="100" />
 
                         <!--Counter category-->
+                        <Grid
+                            Grid.Row="2"
+                            ColumnDefinitions="*,*"
+                            IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
+                            <PanCake:PancakeView
+                                x:Name="counterCategoryNonEdit"
+                                Grid.Column="0"
+                                BackgroundColor="{StaticResource colorDarkOrange }"
+                                HorizontalOptions="Start"
+                                IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                                Margin="0,5,0,0"
+                                Padding="10,0,10,0"
+                                CornerRadius="20,20,20,20">
+                                <Label 
+                                    x:Name="labelcounterCategory"
+                                    IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                                    Grid.Row="2"
+                                    VerticalTextAlignment="Start"
+                                    FontFamily="FontPoppinsRegular"
+                                    TextColor="{StaticResource colorWhite}"
+                                    FontSize="Caption"
+                                    Text="{Binding SelectedCategory.Name}">
+                                </Label>
+                            </PanCake:PancakeView>
+                            <Label
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Center"
+                                Grid.Column="1"
+                                Text="{Binding SelectedCounter.Step, StringFormat='Step: {0}'}"
+                                IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
+                            </Label>
+                        </Grid>
                         <Picker
                             Grid.Row="2"
                             Title="Please select category"
@@ -215,15 +248,18 @@
                             Margin="10,0,10,10"
                             ItemsSource="{Binding CategoriesList}"
                             ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedCategory}">
+                            SelectedItem="{Binding SelectedCategory}"
+                            IsVisible="{Binding EditMode}">
                         </Picker>
                         <!--Counter steps-->
                         <Grid
                             Grid.Row="3"
                             ColumnDefinitions="Auto,Auto,*"
-                            Margin="10,20,10,10">
+                            Margin="10,20,10,10"
+                            IsVisible="{Binding EditMode}">
                             <Label
                                 Grid.Column="0"
+                                IsVisible="{Binding EditMode}"
                                 Text="Use steps?"
                                 VerticalOptions="Center">
                             </Label>
@@ -235,7 +271,8 @@
                                 Visual="Material"
                                 HorizontalOptions="Start"
                                 VerticalOptions="Center"
-                                Toggled="stepSwitch_Toggled">
+                                Toggled="stepSwitch_Toggled"
+                                IsVisible="{Binding EditMode}">
                             </Switch>
                             <Entry
                                 x:Name="editSteps"
@@ -268,11 +305,11 @@
                                 Text="&#xf08d;"
                                 FontSize="23"
                                 FontFamily="FontAwesome5Regular"
-                                TextColor="Blue">
+                                TextColor="{Binding CatPin, Converter={StaticResource favoriteIconConverter}}">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer  
                                         NumberOfTapsRequired="1"
-                                        Command="{Binding FavoriteButtonCommand}" />
+                                        Command="{Binding PinnedButtonCommand}" />
                                 </Label.GestureRecognizers>
                             </Label>
                             <Label 
@@ -281,7 +318,7 @@
                                 Text="&#xf004;"
                                 FontSize="23"
                                 FontFamily="FontAwesome5Regular"
-                                TextColor="{Binding counterFavorite, Converter={StaticResource favoriteIconConverter}}"
+                                TextColor="{Binding CatFav, Converter={StaticResource favoriteIconConverter}}"
                                 Margin="0,0,10,10">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer  
@@ -297,14 +334,14 @@
                             IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
                             <Label
                                         Grid.Column="0"
-                                        Text="Counter updated: 123"
+                                        Text="{Binding SelectedCounter.TotalUpdated, StringFormat='Total value changed: {0}'}"
                                         HorizontalTextAlignment="Start"
                                         VerticalTextAlignment="Center"
                                         FontSize="Micro">
                             </Label>
                             <Label
                                         Grid.Column="1"
-                                        Text="Last updated: 23.7.2021"
+                                        Text="{Binding SelectedCounter.DateModified, StringFormat='Last updated: {0:dd. MM. yyyy}'}"
                                         HorizontalTextAlignment="End"
                                         VerticalTextAlignment="Center"
                                         FontSize="Micro">
@@ -328,11 +365,17 @@
                                 CornerRadius="0,0,0,0"
                                 Margin="-20,0,0,0">
                                 <Label
+                                    x:Name="resetLabel"
                                     HorizontalTextAlignment="End"
                                     VerticalTextAlignment="Center"
                                     Text="&#xf12d;"
                                     FontSize="23"
-                                    FontFamily="FontAwesome5Regular">
+                                    FontFamily="FontAwesome5Regular"
+                                    IsEnabled="{Binding EditMode}"
+                                    TextColor="{StaticResource colorBlack20}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ResetCounterCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
                                 </Label>
                             </PanCake:PancakeView>
                             <!--Increase value-->
@@ -345,12 +388,21 @@
                                 Padding="10,10,20,10"
                                 CornerRadius="0,20,0,20"
                                 Margin="-20,0,0,0">
+                                <!--IsEnabled="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                                BindingContext="{x:Reference increaseLabel1}"
+                                    TextColor="{Binding IsEnabled, Converter={StaticResource disabledColorConverter}}"-->
                                 <Label
+                                    x:Name="increaseLabel"
                                     HorizontalTextAlignment="End"
                                     VerticalTextAlignment="Center"
                                     Text="&#xf102;"
                                     FontSize="23"
-                                    FontFamily="FontAwesome5Regular">
+                                    FontFamily="FontAwesome5Regular"
+                                    IsEnabled="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
+                                    TextColor="{StaticResource colorBlack20}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding IncreaseCounterCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                    </Label.GestureRecognizers>
                                 </Label>
                             </PanCake:PancakeView>
                             <!--Counter value-->
@@ -375,7 +427,7 @@
                                     <Label
                                         Grid.Row="0"
                                         Grid.RowSpan="2"
-                                        Text="{Binding SelectedCounter.Counter}"
+                                        Text="{Binding Count}"
                                         HorizontalTextAlignment="End"
                                         VerticalTextAlignment="Center"
                                         FontSize="50">

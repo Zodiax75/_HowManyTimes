@@ -49,21 +49,33 @@ namespace HowManyTimes.Services
                 // get only favorite ones
                 if (Batchsize != null)
                     // take only first "batchsize" number of records
-                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).Take(int.Parse(Batchsize.ToString())).OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
                 else
-                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().Where(x => x.Favorite).OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
             }
             else
             {
                 // get all counters
                 if (Batchsize != null)
                     // take only first "batchsize" number of records
-                    counters = await Database.Table<BaseCounter>().Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().Take(int.Parse(Batchsize.ToString())).OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
                 else
-                    counters = await Database.Table<BaseCounter>().ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
             }
 
             return counters;
+        }
+
+        /// <summary>
+        /// Returns counter based on id
+        /// </summary>
+        /// <param name="Id">Id of the counter</param>
+        /// <returns>counter object</returns>
+        public static async Task<BaseCounter> GetCounter(int Id)
+        {
+            BaseCounter counter = await Database.GetWithChildrenAsync<BaseCounter>(Id).ConfigureAwait(false);
+
+            return counter;
         }
 
         /// <summary>

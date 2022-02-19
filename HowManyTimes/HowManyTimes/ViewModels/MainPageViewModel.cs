@@ -76,6 +76,37 @@ namespace HowManyTimes.ViewModels
                 if (counter.Favorite)
                     CounterBaseViewModel.AddCounterItem(FavoriteCounters, counter);
             });
+
+            MessagingCenter.Subscribe<BaseCounter>(this, "UpdateCounterFav", (counter) =>
+            {
+                BaseCounter bc = CounterBaseViewModel.LookupCounter(FavoriteCounters, counter);
+
+                if(bc != null)
+                {
+                    // counter already exists
+                    if (!counter.Favorite)
+                        // favorite flag is false (not favorite) = delete from favorite collection
+                        CounterBaseViewModel.DeleteCounterItem(FavoriteCounters, counter);
+                    else
+                        // if favorite flag is true and the counter is in the favorite collection, no action needed
+                        CounterBaseViewModel.UpdateCounterItem(FavoriteCounters, counter);
+                }
+                else
+                {
+                    // counter is not in favorites
+                    if (counter.Favorite)
+                        // it is favorite counter but is not in collection
+                        CounterBaseViewModel.AddCounterItem(FavoriteCounters, counter);
+                    // if not favorite, no action needed since it is not in the collection
+                }
+
+                // add only if the counter is favorite (main page shows only favorite counters ;)
+                if (counter.Favorite)
+                {
+
+                }
+                    
+            });
         }
 
         ~MainPageViewModel()
@@ -85,6 +116,8 @@ namespace HowManyTimes.ViewModels
             MessagingCenter.Unsubscribe<Category>(this, "Update");
             MessagingCenter.Unsubscribe<Category>(this, "Delete");
             MessagingCenter.Unsubscribe<Category>(this, "UpdateFav");
+            MessagingCenter.Unsubscribe<BaseCounter>(this, "AddNewCounter");
+            MessagingCenter.Unsubscribe<BaseCounter>(this, "UpdateCounter");
         }
         #endregion
 

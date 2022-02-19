@@ -18,6 +18,7 @@ namespace HowManyTimes.Models
         {
             dateCreated = DateTime.Now;
             totalUpdated = 0;
+            TotalUpdated = 0;
             this.Step = 1;
         }
 
@@ -30,14 +31,21 @@ namespace HowManyTimes.Models
         /// <param name="Type">Counter type</param>
         /// <param name="Favorite">Is favorite?</param>
         /// <param name="Pinned">Is pinned?</param>
-        public BaseCounter(string Name, string Description, int Step, CounterType Type, Category CounterCategory, bool Favorite, bool Pinned)
+        public BaseCounter(int Id, string Name, string Description, int Counter, int Step, CounterType Type, Category CounterCategory, DateTime DateCreated, DateTime DateModified, string ImageUrl, uint TotalUpdates, bool Favorite, bool Pinned)
         {
             BaseCounter baseCounter = this;
+            baseCounter.Id = Id;
             baseCounter.Name = Name;
             baseCounter.Description = Description;
+            baseCounter.internalCounter = Counter;
+            baseCounter.Counter = Counter;
             baseCounter.Step = Step;
             baseCounter.Type = Type;
-            baseCounter.dateCreated = DateTime.Now;
+            baseCounter.dateCreated = DateCreated;
+            baseCounter.DateModified = DateModified;
+            baseCounter.ImageUrl = ImageUrl;
+            baseCounter.totalUpdated = TotalUpdates;
+            baseCounter.TotalUpdated = TotalUpdates;
             baseCounter.CounterCategory = CounterCategory;
             baseCounter.Favorite = Favorite;
             baseCounter.Pinned = Pinned;
@@ -45,12 +53,19 @@ namespace HowManyTimes.Models
         #endregion
 
         #region Methods
+        public static BaseCounter CopyCounter(BaseCounter c)
+        {
+            BaseCounter a = new BaseCounter(c.Id, c.Name, c.Description, c.Counter, c.Step, c.Type, c.CounterCategory, c.DateCreated, c.DateModified, c.ImageUrl, c.TotalUpdated, c.Favorite, c.Pinned);
+            return a;
+        }
+
         /// <summary>
         /// Increases counter by one step
         /// </summary>
         public void IncreaseCounter()
         {
             internalCounter += this.Step;
+            Counter += this.Step;
             UpdateModifiedValues();
         }
 
@@ -60,7 +75,15 @@ namespace HowManyTimes.Models
         public void DecreaseCounter()
         {
             internalCounter -= this.Step;
+            Counter -= this.Step;
             UpdateModifiedValues();
+        }
+
+        public void ResetCounter()
+        {
+            this.internalCounter = 0;
+            this.Counter = 0;
+            // No  UpdateModifiedValues(); as we do not want to count it as update
         }
 
         /// <summary>
@@ -69,7 +92,32 @@ namespace HowManyTimes.Models
         protected void UpdateModifiedValues()
         {
             DateModified = DateTime.Now;
+            TotalUpdated++;
             totalUpdated++;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var c = obj as BaseCounter;
+
+            if (
+                this.Counter == c.Counter &&
+                this.CounterCategory == c.CounterCategory &&
+                this.DateCreated == c.DateCreated &&
+                this.DateModified == c.DateModified &&
+                this.Description == c.Description &&
+                this.Favorite == c.Favorite &&
+                this.Id == c.Id &&
+                this.ImageUrl == c.ImageUrl &&
+                this.Name == c.Name &&
+                this.Step == c.Step &&
+                this.TotalUpdated == c.TotalUpdated &&
+                this.Type == c.Type
+                )
+                return true;
+            else
+                return false;
+                    
         }
         #endregion
 
@@ -132,18 +180,16 @@ namespace HowManyTimes.Models
         /// <summary>
         /// Internal counter
         /// </summary>
-        public int Counter
-        {
-            get => internalCounter;
-        }
+        public int Counter { get; set; }
+        //public int Counter
+        //{
+        //    get => internalCounter;
+        //}
 
         /// <summary>
         /// How many time was the counter updated
         /// </summary>
-        public uint TotalUpdated
-        {
-            get => totalUpdated;
-        }
+        public uint TotalUpdated { get; set; }
         #endregion
 
         #region Private properties

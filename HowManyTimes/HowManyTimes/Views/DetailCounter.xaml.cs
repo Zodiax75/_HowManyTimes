@@ -39,6 +39,19 @@ namespace HowManyTimes.Views
             else
                 editSteps.IsVisible = false;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (!increaseLabel.IsEnabled)
+                increaseLabel.TextColor = Color.Silver;
+
+            if(!resetLabel.IsEnabled)
+                resetLabel.TextColor = Color.Silver;
+
+            
+        }
         #endregion
 
         #region Properties
