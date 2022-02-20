@@ -2,6 +2,7 @@
 using HowManyTimes.Models;
 using HowManyTimes.Services;
 using HowManyTimes.Shared;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,6 +73,50 @@ namespace HowManyTimes.ViewModels
             LogService.Log(LogType.Info, $"Reseting counter {cnt.Id}: {cnt.Name} to 0");
 
             cnt.ResetCounter();
+        }
+
+        /// <summary>
+        /// Deletes category from database (with validations)
+        /// </summary>
+        /// <param name="c">Category to be deleted</param>
+        protected async Task<bool> DeleteCounter(BaseCounter SelectedCounter)
+        {
+            // delete from DB if existing category (with verification)
+            var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure to delete counter {SelectedCounter.Name}?", "Confirm delete", "Yes", "No");
+
+            if (!result)
+                return false; // detetion was not confirmed
+
+            LogService.Log(LogType.Info, $"Deleting counter {SelectedCounter.Id}: {SelectedCounter.Name}");
+
+            try
+            {
+                await DBService.DeleteData(SelectedCounter);
+
+                // update category counter if part of the category
+                if(SelectedCounter.CounterCategory != null)
+                {
+                    SelectedCounter.CounterCategory.Counters--;
+
+                    _ = DBService.UpdateData(SelectedCounter.CounterCategory);
+                    LogService.Log(LogType.Info, $"Updated number of counters in category {SelectedCounter.CounterCategory.Id}: {SelectedCounter.CounterCategory.Name} to {SelectedCounter.CounterCategory.Counters}");
+
+                    MessagingCenter.Send<Category>(SelectedCounter.CounterCategory, "Update");
+                }
+
+                // notify mainpage that catogory has been deleted
+                MessagingCenter.Send<BaseCounter>(SelectedCounter, "DeleteCounter");
+
+                UserDialogs.Instance.Toast($"Counter {SelectedCounter.Name} successfully deleted.");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogService.Log(LogType.Error, e.Message);
+            }
+
+            return false;
         }
 
         /// <summary>

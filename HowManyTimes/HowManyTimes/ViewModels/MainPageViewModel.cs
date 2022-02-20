@@ -75,6 +75,8 @@ namespace HowManyTimes.ViewModels
                 // add only if the counter is favorite (main page shows only favorite counters ;)
                 if (counter.Favorite)
                     CounterBaseViewModel.AddCounterItem(FavoriteCounters, counter);
+
+                SortFavoriteCounters();
             });
 
             MessagingCenter.Subscribe<BaseCounter>(this, "UpdateCounterFav", (counter) =>
@@ -105,7 +107,13 @@ namespace HowManyTimes.ViewModels
                 {
 
                 }
-                    
+
+                SortFavoriteCounters();
+            });
+
+            MessagingCenter.Subscribe<BaseCounter>(this, "DeleteCounter", (counter) =>
+            {
+                CounterBaseViewModel.DeleteCounterItem(FavoriteCounters, counter);
             });
         }
 
@@ -118,10 +126,18 @@ namespace HowManyTimes.ViewModels
             MessagingCenter.Unsubscribe<Category>(this, "UpdateFav");
             MessagingCenter.Unsubscribe<BaseCounter>(this, "AddNewCounter");
             MessagingCenter.Unsubscribe<BaseCounter>(this, "UpdateCounter");
+            MessagingCenter.Unsubscribe<BaseCounter>(this, "DeleteCounter");
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Sorts favorite counters Pinned => Favorite => rest
+        /// </summary>
+        private void SortFavoriteCounters()
+        {
+            FavoriteCounters = new ObservableCollection<BaseCounter>(FavoriteCounters.OrderByDescending(x => x.Pinned).ThenByDescending(x => x.Favorite));
+        }
         /// <summary>
         /// Loads counters for favorite counters on main page
         /// </summary>

@@ -58,9 +58,9 @@ namespace HowManyTimes.Services
                 // get all counters
                 if (Batchsize != null)
                     // take only first "batchsize" number of records
-                    counters = await Database.Table<BaseCounter>().Take(int.Parse(Batchsize.ToString())).OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().Take(int.Parse(Batchsize.ToString())).OrderByDescending(x => x.Pinned).ThenByDescending(x => x.Favorite).ToListAsync().ConfigureAwait(false);
                 else
-                    counters = await Database.Table<BaseCounter>().OrderByDescending(x => x.Pinned).ToListAsync().ConfigureAwait(false);
+                    counters = await Database.Table<BaseCounter>().OrderByDescending(x => x.Pinned).ThenByDescending(x => x.Favorite).ToListAsync().ConfigureAwait(false);
             }
 
             return counters;

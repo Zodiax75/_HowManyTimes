@@ -50,7 +50,11 @@ namespace HowManyTimes.Views
             if(!resetLabel.IsEnabled)
                 resetLabel.TextColor = Color.Silver;
 
-            
+            // if there is no category for the counter, do not show background plate (isvisible is already bound)
+            if (labelcounterCategory.Text == null)
+                counterCategoryNonEdit.BackgroundColor = Color.Transparent;
+            else
+                counterCategoryNonEdit.BackgroundColor = Color.FromHex("#ed7307");
         }
         #endregion
 

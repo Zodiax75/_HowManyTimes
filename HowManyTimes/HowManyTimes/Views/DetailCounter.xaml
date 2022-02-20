@@ -401,7 +401,11 @@
                                     IsEnabled="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}"
                                     TextColor="{StaticResource colorBlack20}">
                                     <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding IncreaseCounterCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding IncreaseCounterCommand}"
+                                            NumberOfTapsRequired="1"
+                                            CommandParameter="{Binding  Source={x:Reference totalCount}}">
+                                        </TapGestureRecognizer>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </PanCake:PancakeView>
@@ -425,6 +429,7 @@
                                         FontSize="Medium">
                                     </Label>
                                     <Label
+                                        x:Name="totalCount"
                                         Grid.Row="0"
                                         Grid.RowSpan="2"
                                         Text="{Binding Count}"

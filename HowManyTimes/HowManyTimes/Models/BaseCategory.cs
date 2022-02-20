@@ -35,8 +35,8 @@ namespace HowManyTimes.Models
         /// <summary>
         /// ID of the related counter
         /// </summary>
-        [ForeignKey(typeof(BaseCounter))]
-        public int CategoryCounterId { get; set; }
+        //[ForeignKey(typeof(BaseCounter))]
+        //public int CategoryCounterId { get; set; }
 
         /// <summary>
         /// Number of counters within this category

@@ -8,6 +8,7 @@ namespace HowManyTimes.Models
     /// <summary>
     /// Base counter for all counters to inherit from
     /// </summary>
+    [Table("Counters)")]
     public class BaseCounter
     {
         #region Constructors
@@ -17,6 +18,7 @@ namespace HowManyTimes.Models
         public BaseCounter()
         {
             dateCreated = DateTime.Now;
+            DateModified = DateTime.Now;
             totalUpdated = 0;
             TotalUpdated = 0;
             this.Step = 1;
@@ -137,10 +139,13 @@ namespace HowManyTimes.Models
         /// </summary>
         public bool Pinned { get; set; }
 
+        [ForeignKey(typeof(Category))]
+        public int CategoryId { get; set; }
+
         /// <summary>
         /// Category of the counter
         /// </summary>
-        [OneToOne("CategoryCounterId")]
+        [OneToOne(CascadeOperations = CascadeOperation.CascadeRead)]
         public Category CounterCategory { get; set; }
 
         /// <summary>

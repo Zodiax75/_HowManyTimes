@@ -23,7 +23,24 @@ namespace HowManyTimes.ViewModels
             SaveButtonCommand = new Command(OnSaveButtonCommandClicked);
             CancelButtonCommand = new Command(OnCancelButtonCommandClicked);
             ResetCounterCommand = new Command(OnResetCounterCommandClicked);
-            IncreaseCounterCommand = new Command(OnIncreaseCounterCommandClicked);
+            DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
+            IncreaseCounterCommand = new Command(async (o) =>
+            {
+                Label l = (Label)o;
+
+                var _scale = l.Scale;
+                await l.ScaleTo(_scale * 0.2, 250);
+
+                SelectedCounter.IncreaseCounter();
+
+                // save counter
+                SaveCounterToDatabase(SelectedCounter);
+
+                origCounter = BaseCounter.CopyCounter(SelectedCounter);
+                Count = SelectedCounter.Counter;
+                                
+                await l.ScaleTo(_scale, 250);
+            });
 
             // get list of categories
             categories = DBService.GetCategory(false).Result;
@@ -86,18 +103,15 @@ namespace HowManyTimes.ViewModels
         }
 
         /// <summary>
-        /// Called when Increase counter button is clicked
+        /// Called when Delete button is clicked
         /// </summary>
-        public void OnIncreaseCounterCommandClicked()
+        public async void OnDeleteButtonCommandClicked()
         {
-            SelectedCounter.IncreaseCounter();
-
-            // save counter
-
-            SaveCounterToDatabase(SelectedCounter);
-
-            origCounter = BaseCounter.CopyCounter(SelectedCounter);
-            Count = SelectedCounter.Counter;
+            if (await DeleteCounter(SelectedCounter))
+            {
+                // return to previous page
+                NavigateBack();
+            }
         }
 
         /// <summary>
