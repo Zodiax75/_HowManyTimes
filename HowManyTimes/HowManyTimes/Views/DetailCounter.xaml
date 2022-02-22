@@ -248,7 +248,8 @@
                             Margin="10,0,10,10"
                             ItemsSource="{Binding CategoriesList}"
                             ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedCategory}"
+                            SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                            SelectedIndex="{Binding SelectedIndex}"
                             IsVisible="{Binding EditMode}">
                         </Picker>
                         <!--Counter steps-->
@@ -582,9 +583,14 @@
 
                     </Grid>
                 </PanCake:PancakeView>
-
+                <Label
+                            x:Name="labelSupport"
+                            IsVisible="{Binding EditMode}"
+                            TextColor="Transparent"
+                            Text="labelSupport"
+                            PropertyChanged="Label_PropertyChanged">
+                </Label>
             </Grid>
-
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

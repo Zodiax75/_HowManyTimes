@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
 
+//TODO: Udelat vymaz kategorie, pokud ji mam prirazenu v rámci editace counteru a pak pri ulozeni ponizit counter, to same k nastaveni Steps prepinace
+
 namespace HowManyTimes.ViewModels
 {
     internal class DetailCounterViewModel : CounterBaseViewModel
@@ -24,6 +26,7 @@ namespace HowManyTimes.ViewModels
             CancelButtonCommand = new Command(OnCancelButtonCommandClicked);
             ResetCounterCommand = new Command(OnResetCounterCommandClicked);
             DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
+            EditButtonCommand = new Command(OnEditButtonCommandClicked);
             IncreaseCounterCommand = new Command(async (o) =>
             {
                 Label l = (Label)o;
@@ -66,6 +69,10 @@ namespace HowManyTimes.ViewModels
                     LogService.Log(LogType.Info, $"Loaded details for counter {SelectedCounter.Id}: {SelectedCounter.Name}");
 
                     SelectedCategory = SelectedCounter.CounterCategory;
+
+                    // set the category
+                    SetCategoryAndSteps();
+
                     EditMode = false;
                 }
                 catch (Exception e)
@@ -80,6 +87,7 @@ namespace HowManyTimes.ViewModels
                 LogService.Log(LogType.Info, "New counter details initialized");
 
                 SelectedCategory = null;
+                SelectedIndex = -1;
                 EditMode = true;
             }
 
@@ -93,6 +101,28 @@ namespace HowManyTimes.ViewModels
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Called when Edit counter button is clicked
+        /// </summary>
+        public void OnEditButtonCommandClicked()
+        {
+            EditMode = true;
+
+            // set the category
+            SetCategoryAndSteps();
+        }
+
+        private void SetCategoryAndSteps()
+        {
+            // set the category
+            if (SelectedCounter.CounterCategory != null)
+                SelectedIndex = CategoriesList.FindIndex(c => c.Id == SelectedCounter.CounterCategory.Id);
+            else
+                SelectedIndex = -1;
+
+            // set steps and switch
+        }
+
         /// <summary>
         /// Called when Reset counter button is clicked
         /// </summary>
@@ -131,7 +161,7 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Save button is clicked
         /// </summary>
-        public async void OnSaveButtonCommandClicked()
+        public void OnSaveButtonCommandClicked()
         {
             // New object should be created because changing just property doesnt fire OnPropertyChanged event!!!!!
             SelectedCounter.Favorite = CatFav;
@@ -144,6 +174,10 @@ namespace HowManyTimes.ViewModels
             {
                 tmpC.CounterCategory = SelectedCategory;
             }
+            else
+            {
+                tmpC.CounterCategory=new Category();
+            }
 
             // validate the input
             CounterDetailValidator counterValidator = new CounterDetailValidator(UseSteps);
@@ -155,7 +189,8 @@ namespace HowManyTimes.ViewModels
                 return;
             }
 
-            SelectedCounter = tmpC;
+            SelectedCounter = BaseCounter.CopyCounter(tmpC);
+            
 
             SaveCounterToDatabase(SelectedCounter);
 
@@ -289,6 +324,7 @@ namespace HowManyTimes.ViewModels
         public bool CatFav { get; set; }
         public bool CatPin { get; set; }
         public int Count { get; set; }
+        public int SelectedIndex { get; set; }
         #endregion
 
         #region Private properties

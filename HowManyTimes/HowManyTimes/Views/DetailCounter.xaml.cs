@@ -44,17 +44,10 @@ namespace HowManyTimes.Views
         {
             base.OnAppearing();
 
-            if (!increaseLabel.IsEnabled)
-                increaseLabel.TextColor = Color.Silver;
+            // show switch on if the counter has initially steps set to >1
+            if(editSteps.Text != "1")
+                stepSwitch.IsToggled = true;
 
-            if(!resetLabel.IsEnabled)
-                resetLabel.TextColor = Color.Silver;
-
-            // if there is no category for the counter, do not show background plate (isvisible is already bound)
-            if (labelcounterCategory.Text == null)
-                counterCategoryNonEdit.BackgroundColor = Color.Transparent;
-            else
-                counterCategoryNonEdit.BackgroundColor = Color.FromHex("#ed7307");
         }
         #endregion
 
@@ -65,5 +58,28 @@ namespace HowManyTimes.Views
         #region Private properties
 
         #endregion
+        private void Label_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            bool a =false;
+
+            if(BindingContext != null)
+                a = ((DetailCounterViewModel)BindingContext).EditMode;
+
+            if(!a)
+                increaseLabel.TextColor = Color.Black;
+            else
+                increaseLabel.TextColor = Color.Silver;
+
+            if (!a)
+                resetLabel.TextColor = Color.Silver;
+            else
+                resetLabel.TextColor = Color.Black;
+
+            // if there is no category for the counter, do not show background plate (isvisible is already bound)
+            if (labelcounterCategory.Text == null)
+                counterCategoryNonEdit.BackgroundColor = Color.Transparent;
+            else
+                counterCategoryNonEdit.BackgroundColor = Color.FromHex("#ed7307");
+        }
     }
 }
