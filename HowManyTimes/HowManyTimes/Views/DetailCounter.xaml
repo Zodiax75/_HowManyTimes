@@ -40,7 +40,7 @@
                                 Aspect="AspectFill"
                                 HeightRequest="250">
                         </Image>
-                        <!-- Arrow back -->
+                         <!--Arrow back--> 
                         <Button 
                             Grid.Column="0"
                             Grid.Row="0"
@@ -62,6 +62,8 @@
                         </Button>
                     </Grid>
                 </PanCake:PancakeView>
+
+                <!--Edit header image section-->
                 <PanCake:PancakeView
                         x:Name="counterPictureEditBox"
                         Padding="0,0,0,0"
@@ -80,18 +82,17 @@
                     <Grid 
                         ColumnDefinitions="60,*,*,60"
                         RowDefinitions="60,*,*,60">
-                        <!--Source="upload_file_default"-->
                         <Image
                                 Grid.Row="0"
                                 Grid.RowSpan="4"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="4"
-                                Source="{Binding SelectedCounter.ImageUrl, TargetNullValue='upload_file_default'}"
+                                Source="{Binding CounterImage, TargetNullValue='upload_file_default'}"
                                 IsVisible="True"
                                 Aspect="AspectFill"
                                 HeightRequest="250">
                         </Image>
-                        <!-- image selection -->
+                         <!--image selection--> 
                         <Button 
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
@@ -112,7 +113,7 @@
                             BorderWidth="1"
                             Command="{Binding UploadPhotoCommand}">
                         </Button>
-                        <!-- image camera -->
+                         <!--image camera--> 
                         <Button 
                             Grid.Column="2"
                             Grid.ColumnSpan="2"
@@ -152,7 +153,6 @@
                     <Grid 
                         RowDefinitions="Auto,Auto, Auto,Auto, Auto, Auto" 
                         Padding="40,40,40,40">
-
                         <!--counter title-->
                         <Label 
                             x:Name="labelcounterName"
@@ -241,17 +241,38 @@
                                 IsVisible="{Binding EditMode, Converter={StaticResource boolValueXORConverter}}">
                             </Label>
                         </Grid>
-                        <Picker
+                        <Grid
                             Grid.Row="2"
-                            Title="Please select category"
-                            Visual="Material"
-                            Margin="10,0,10,10"
-                            ItemsSource="{Binding CategoriesList}"
-                            ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
-                            SelectedIndex="{Binding SelectedIndex}"
-                            IsVisible="{Binding EditMode}">
-                        </Picker>
+                            ColumnDefinitions="*,50">
+                            <Picker
+                                x:Name="pickCategory"
+                                Grid.Column="0"
+                                Title="Please select category"
+                                Visual="Material"
+                                Margin="10,0,10,10"
+                                ItemsSource="{Binding CategoriesList}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                                SelectedIndex="{Binding SelectedIndex}"
+                                IsVisible="{Binding EditMode}"
+                                 SelectedIndexChanged="pickCategory_SelectedIndexChanged">
+                            </Picker>
+                            <Label 
+                                x:Name="labelDelCat"
+                                Grid.Column="1"
+                                IsVisible="{Binding EditMode}"
+                                Text="&#xf057;"
+                                VerticalTextAlignment="Center"
+                                FontSize="23"
+                                FontFamily="FontAwesome5Regular"
+                                TextColor="DarkRed">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer  
+                                        NumberOfTapsRequired="1"
+                                        Command="{Binding DeleteCategoryButtonCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
                         <!--Counter steps-->
                         <Grid
                             Grid.Row="3"

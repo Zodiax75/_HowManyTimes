@@ -7,9 +7,8 @@ using HowManyTimes.Validators;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
-
-//TODO: Udelat vymaz kategorie, pokud ji mam prirazenu v rámci editace counteru a pak pri ulozeni ponizit counter, to same k nastaveni Steps prepinace
 
 namespace HowManyTimes.ViewModels
 {
@@ -22,11 +21,14 @@ namespace HowManyTimes.ViewModels
         public DetailCounterViewModel()
         {
             // bind commands to buttons
+            UploadPhotoCommand = new Command(OnUploadPhotoCommandClicked);
+            CameraPhotoCommand = new Command(OnCameraPhotoCommandClicked);
             SaveButtonCommand = new Command(OnSaveButtonCommandClicked);
             CancelButtonCommand = new Command(OnCancelButtonCommandClicked);
             ResetCounterCommand = new Command(OnResetCounterCommandClicked);
             DeleteButtonCommand = new Command(OnDeleteButtonCommandClicked);
             EditButtonCommand = new Command(OnEditButtonCommandClicked);
+            DeleteCategoryButtonCommand = new Command(OnDeleteCategoryButtonCommandClicked);
             IncreaseCounterCommand = new Command(async (o) =>
             {
                 Label l = (Label)o;
@@ -97,6 +99,7 @@ namespace HowManyTimes.ViewModels
             CatFav = SelectedCounter.Favorite;
             CatPin = SelectedCounter.Pinned;
             Count = SelectedCounter.Counter;
+            CounterImage = SelectedCounter.ImageUrl;
         }
         #endregion
 
@@ -112,6 +115,17 @@ namespace HowManyTimes.ViewModels
             SetCategoryAndSteps();
         }
 
+        /// <summary>
+        /// Called when Clear category button is clicked
+        /// </summary>
+        public void OnDeleteCategoryButtonCommandClicked()
+        {
+            SelectedIndex = -1;
+            SelectedCategory = null;
+            SelectedCounter.CounterCategory = null;
+        }
+
+
         private void SetCategoryAndSteps()
         {
             // set the category
@@ -126,9 +140,9 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Reset counter button is clicked
         /// </summary>
-        public void OnResetCounterCommandClicked()
+        public async void OnResetCounterCommandClicked()
         {
-            ResetCounter(SelectedCounter);
+            _ = await ResetCounter(SelectedCounter);
             Count = SelectedCounter.Counter;
         }
 
@@ -154,6 +168,12 @@ namespace HowManyTimes.ViewModels
 
             // edit was cancelled, restore original data to bindings
             SelectedCounter = BaseCounter.CopyCounter(origCounter);
+
+            // restore original values
+            CatFav = SelectedCounter.Favorite;
+            CatPin = SelectedCounter.Pinned;
+            Count = SelectedCounter.Counter;
+            CounterImage = SelectedCounter.ImageUrl;
 
             EditMode = false;
         }
@@ -238,6 +258,9 @@ namespace HowManyTimes.ViewModels
 
                     await DBService.UpdateData(cnt);
 
+                    // update category total counter
+
+
                     UserDialogs.Instance.Toast($"Counter {cnt.Name} successfully updated.");
 
                     // notify mainpage that category has been edited
@@ -281,6 +304,80 @@ namespace HowManyTimes.ViewModels
                 LogService.Log(LogType.Info, $"Updating pinned for counter {SelectedCounter.Name} to {SelectedCounter.Pinned}");
             }
         }
+
+        /// <summary>
+        /// Handles click when upload image button is clicked
+        /// </summary>
+        public async void OnUploadPhotoCommandClicked()
+        {
+            var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
+            { Title = "Please select a photo" }
+            );
+
+            if (result is null)
+            {
+                // no photo selected
+                CounterImage = null;
+                SelectedCounter.ImageUrl = null;
+
+                LogService.Log(LogType.Info, "No photo selected");
+                UserDialogs.Instance.Toast("No photo selected for this category");
+            }
+            else
+            {
+                try
+                {
+                    CounterImage = result.FullPath;
+                    SelectedCounter.ImageUrl= result.FullPath;
+                }
+                catch (Exception e)
+                {
+                    LogService.Log(LogType.Error, e.Message);
+                    CounterImage = null;
+                    SelectedCounter.ImageUrl = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles click when open camera button is clicked
+        /// </summary>
+        public async void OnCameraPhotoCommandClicked()
+        {
+            if (!MediaPicker.IsCaptureSupported)
+            {
+                // photo capturing not supported
+                CounterImage = null;
+                SelectedCounter.ImageUrl = null;
+                LogService.Log(LogType.Error, "No camera available");
+                UserDialogs.Instance.Toast("No camera available!");
+            }
+
+            var result = await MediaPicker.CapturePhotoAsync();
+
+            if (result is null)
+            {
+                // no photo selected
+                CounterImage= null;
+                SelectedCounter.ImageUrl=null;
+                LogService.Log(LogType.Info, "No photo selected");
+                UserDialogs.Instance.Toast("No photo selected for this category");
+            }
+            else
+            {
+                try
+                {
+                    CounterImage = result.FullPath;
+                    SelectedCounter.ImageUrl = result.FullPath;
+                }
+                catch (Exception e)
+                {
+                    LogService.Log(LogType.Error, e.Message);
+                    CounterImage = null;
+                    SelectedCounter.ImageUrl = null;
+                }
+            }
+        }
         #endregion
 
         #region Properties
@@ -301,6 +398,7 @@ namespace HowManyTimes.ViewModels
         public ICommand UploadPhotoCommand { get; set; }
         public ICommand CameraPhotoCommand { get; set; }
         public ICommand EditButtonCommand { get; set; }
+        public ICommand DeleteCategoryButtonCommand { get; set; }
 
         /// <summary>
         /// Return true if we are in edit mode (new or existing) and not view mode
@@ -325,6 +423,7 @@ namespace HowManyTimes.ViewModels
         public bool CatPin { get; set; }
         public int Count { get; set; }
         public int SelectedIndex { get; set; }
+        public string CounterImage { get; set; }
         #endregion
 
         #region Private properties

@@ -63,16 +63,18 @@ namespace HowManyTimes.ViewModels
                 _ = col.Remove(tempc);
         }
 
-        public async void ResetCounter(BaseCounter cnt)
+        public async Task<bool> ResetCounter(BaseCounter cnt)
         {
             var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure to reset counter {cnt.Name}?", "Confirm reset", "Yes", "No");
 
             if (!result)
-                return; // reset was not confirmed
+                return(false); // reset was not confirmed
 
             LogService.Log(LogType.Info, $"Reseting counter {cnt.Id}: {cnt.Name} to 0");
 
             cnt.ResetCounter();
+            
+            return (true);
         }
 
         /// <summary>

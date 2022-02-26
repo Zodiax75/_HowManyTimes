@@ -83,8 +83,8 @@ namespace HowManyTimes.Models
 
         public void ResetCounter()
         {
-            this.internalCounter = 0;
-            this.Counter = 0;
+            internalCounter = 0;
+            Counter = 0;
             // No  UpdateModifiedValues(); as we do not want to count it as update
         }
 

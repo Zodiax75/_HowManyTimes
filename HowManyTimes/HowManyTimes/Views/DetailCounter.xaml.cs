@@ -80,6 +80,26 @@ namespace HowManyTimes.Views
                 counterCategoryNonEdit.BackgroundColor = Color.Transparent;
             else
                 counterCategoryNonEdit.BackgroundColor = Color.FromHex("#ed7307");
+
+            // if no category is selected, get rid of clear category icon
+            if (a && pickCategory.SelectedIndex != -1)
+                labelDelCat.IsVisible = true;
+            else
+                labelDelCat.IsVisible = false;
+        }
+
+        private void pickCategory_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            bool a = false;
+
+            if (BindingContext != null)
+                a = ((DetailCounterViewModel)BindingContext).EditMode;
+
+            // if no category is selected, get rid of clear category icon
+            if (a && pickCategory.SelectedIndex != -1)
+                labelDelCat.IsVisible = true;
+            else
+                labelDelCat.IsVisible = false;
         }
     }
 }
