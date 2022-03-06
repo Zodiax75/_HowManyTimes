@@ -84,7 +84,7 @@ namespace HowManyTimes.Services
         /// <param name="FavoritesOnly">True if only favorite categories will be returned</param>
         /// <param name="Batchsize">Number of items to return</param>
         /// <returns>List of categories (all or limited sub)</returns>
-        public static async Task<List<Category>> GetCategory(bool FavoritesOnly, int? Batchsize = null)
+        public static async Task<List<Category>> GetCategory(bool FavoritesOnly, int? Batchsize = null, string SearchText = null)
         {
             List<Category> categories;
 
@@ -101,10 +101,20 @@ namespace HowManyTimes.Services
             {
                 // get all categories
                 if (Batchsize != null)
+                {
                     // take only first "batchsize" number of records
-                    categories = await Database.Table<Category>().Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                    if (SearchText == null)
+                        categories = await Database.Table<Category>().Take(int.Parse(Batchsize.ToString())).ToListAsync().ConfigureAwait(false);
+                    else
+                        categories = await Database.Table<Category>().Where(x => x.Name.Contains(SearchText)).ToListAsync().ConfigureAwait(false);
+                }
                 else
-                    categories = await Database.Table<Category>().ToListAsync().ConfigureAwait(false);
+                {
+                    if (SearchText == null)
+                        categories = await Database.Table<Category>().ToListAsync().ConfigureAwait(false);
+                    else
+                        categories = await Database.Table<Category>().Where(x => x.Name.Contains(SearchText)).ToListAsync();
+                }
             }
 
             return categories;

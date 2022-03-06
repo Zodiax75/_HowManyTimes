@@ -6,6 +6,7 @@ using HowManyTimes.Shared;
 using HowManyTimes.Validators;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -43,7 +44,6 @@ namespace HowManyTimes.ViewModels
 
                 origCounter = BaseCounter.CopyCounter(SelectedCounter);
                 Count = SelectedCounter.Counter;
-                                
                 await l.ScaleTo(_scale, 250);
             });
 
@@ -125,7 +125,6 @@ namespace HowManyTimes.ViewModels
             SelectedCounter.CounterCategory = null;
         }
 
-
         private void SetCategoryAndSteps()
         {
             // set the category
@@ -181,7 +180,7 @@ namespace HowManyTimes.ViewModels
         /// <summary>
         /// Called when Save button is clicked
         /// </summary>
-        public void OnSaveButtonCommandClicked()
+        public async void OnSaveButtonCommandClicked()
         {
             // New object should be created because changing just property doesnt fire OnPropertyChanged event!!!!!
             SelectedCounter.Favorite = CatFav;
@@ -210,9 +209,7 @@ namespace HowManyTimes.ViewModels
             }
 
             SelectedCounter = BaseCounter.CopyCounter(tmpC);
-            
-
-            SaveCounterToDatabase(SelectedCounter);
+            await SaveCounterToDatabase(SelectedCounter);
 
             // store new original baseline for cancellation
             origCounter = BaseCounter.CopyCounter(SelectedCounter);
@@ -224,7 +221,7 @@ namespace HowManyTimes.ViewModels
         /// Inserts or updates counter in database
         /// </summary>
         /// <param name="cnt"></param>
-        public async void SaveCounterToDatabase(BaseCounter cnt)
+        public async Task<bool> SaveCounterToDatabase(BaseCounter cnt)
         {
             try
             {
@@ -239,12 +236,7 @@ namespace HowManyTimes.ViewModels
                     // update category counter if needed
                     if (cnt.CounterCategory != null)
                     {
-                        cnt.CounterCategory.Counters++;
-
-                        LogService.Log(LogType.Info, $"Updating total counters counter ({cnt.CounterCategory.Counters}) for category {cnt.CounterCategory.Name}");
-                        await DBService.UpdateData(cnt.CounterCategory);
-
-                        MessagingCenter.Send<Category>(cnt.CounterCategory, "Update");
+                        await UpdateCategoryCounters(cnt.CounterCategory, true);
                     }
 
                     UserDialogs.Instance.Toast($"Counter {cnt.Name} successfully created.");
@@ -259,17 +251,69 @@ namespace HowManyTimes.ViewModels
                     await DBService.UpdateData(cnt);
 
                     // update category total counter
+                    // 1) no category => new assigned
+                    // 2) category => no category
+                    // 3) category => changed category
+                    if(origCounter.CounterCategory == null && cnt.CounterCategory != null)
+                    {
+                        // no category => new assigned
+                        await UpdateCategoryCounters(cnt.CounterCategory, true);
+                    }
+                    else if(origCounter.CounterCategory != null && cnt.CounterCategory.Name == null)
+                    {
+                        // was category and is deleted
+                        // new empty category is created, have to check for name == null as the object is not null
+                        await UpdateCategoryCounters(origCounter.CounterCategory, false);
+                    }
+                    else if(origCounter.CounterCategory.Id != cnt.CounterCategory.Id)
+                    {
+                        // original category changed to another one
+                        await UpdateCategoryCounters(origCounter.CounterCategory, false);
+                        await UpdateCategoryCounters(cnt.CounterCategory, true);
+                    }
 
+                    var a = 0;
+                    
 
                     UserDialogs.Instance.Toast($"Counter {cnt.Name} successfully updated.");
 
                     // notify mainpage that category has been edited
                     MessagingCenter.Send<BaseCounter>(cnt, "UpdateCounterFav");
                 }
+                return (true);
             }
             catch (Exception e)
             {
                 LogService.Log(LogType.Error, e.Message);
+                return (false);
+            }
+        }
+
+        /// <summary>
+        /// Updates counters total for the category
+        /// </summary>
+        /// <param name="cat">category</param>
+        /// <param name="Increase">true to increase counter, false to decrease</param>
+        /// <returns></returns>
+        public async Task<bool> UpdateCategoryCounters(Category cat, bool Increase)
+        {
+            try
+            {
+                if(Increase)
+                    cat.Counters++;
+                else
+                    cat.Counters--;
+
+                LogService.Log(LogType.Info, $"Updating total counters counter ({cat.Counters}) for category {cat.Name}");
+                await DBService.UpdateData(cat);
+
+                MessagingCenter.Send<Category>(cat, "Update");
+                return (true);
+            }
+            catch(Exception e)
+            {
+                LogService.Log(LogType.Error, e.Message);
+                return (false);
             }
         }
 
@@ -284,7 +328,6 @@ namespace HowManyTimes.ViewModels
                 // change Favorite and save it to current category
                 SelectedCounter.Favorite = !SelectedCounter.Favorite;
                 CatFav = !CatFav;
-                
                 LogService.Log(LogType.Info, $"Updating favorite for counter {SelectedCounter.Name} to {SelectedCounter.Favorite}");
             }
         }

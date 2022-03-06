@@ -20,6 +20,11 @@ namespace HowManyTimes.ViewModels
         {
             DelCmd = new Command(OnDeleteButtonCommandClicked1);
             FavCmd = new Command(OnFavCmdClicked);
+            SearchCommand = new Command(OnSearchCommand);
+            ClearSearchCommand = new Command(OnClearSearchCommand);
+
+            SearchText = null;
+
             // Load all categories
             GetCategories();
 
@@ -47,6 +52,23 @@ namespace HowManyTimes.ViewModels
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Called when search is activated
+        /// </summary>
+        public void OnSearchCommand()
+        {
+            GetCategories();
+        }
+
+        /// <summary>
+        /// Called when clear search is activated
+        /// </summary>
+        public void OnClearSearchCommand()
+        {
+            SearchText = null;
+            GetCategories();
+        }
+
         /// <summary>
         /// Called when Delete button is clicked
         /// </summary>
@@ -108,7 +130,7 @@ namespace HowManyTimes.ViewModels
             try
             {
                 LogService.Log(LogType.Info, "Loading all categories for all categories page");
-                tmpList = await DBService.GetCategory(false);
+                tmpList = await DBService.GetCategory(false,null,SearchText);
             }
             catch (Exception ex)
             {
@@ -156,6 +178,10 @@ namespace HowManyTimes.ViewModels
         private Category categorySelected = null;
         public Command DelCmd { get; set; }
         public Command FavCmd { get; set; }
+        public Command SearchCommand { get; set; }
+        public Command ClearSearchCommand { get; set; }
+
+        public string SearchText { get; set; }
         #endregion
     }
 }
